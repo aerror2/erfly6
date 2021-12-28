@@ -27,6 +27,13 @@ You can get help from https://www.rcgroups.com/forums/showthread.php?3961635-ER9
 
 Here is the manual for flashing firmware from Kotello : https://github.com/aerror2/erfly6/blob/main/ER9XFlySky%20I6En.pdf
 
+POTOCAOL SUPPORT CURRENTLY:
+1. PPM
+2. AFDHS
+3. AFDHS2A
+4. CROSSFIRE FOR ELRS TX 2.0
+
+
 Here is original readme:
 
 
