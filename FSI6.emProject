@@ -1,0 +1,292 @@
+<!DOCTYPE CrossStudio_Project_File>
+<solution Name="ERFly6" target="8" version="2">
+  <project Name="FSI6">
+    <configuration
+      Name="Common"
+      Placement="Flash"
+      Target="MKL16Z64xxx4"
+      arm_architecture="v6M"
+      arm_core_type="Cortex-M0+"
+      arm_endian="Little"
+      arm_fpu_type="None"
+      arm_interwork="No"
+      arm_linker_heap_size="256"
+      arm_linker_process_stack_size="0"
+      arm_linker_stack_size="256"
+      arm_linker_variant="SEGGER"
+      arm_simulator_memory_simulation_parameter="ROM;0x00000000;0x00010000;RAM;0x1FFFF800;0x00002000"
+      arm_target_debug_interface_type="ADIv5"
+      arm_target_device_name="MKL16Z64xxx4"
+      arm_target_interface_type="SWD"
+      c_preprocessor_definitions="MKL16Z64xxx4;__Kinetis_KL_FAMILY;__KL1x_SUBFAMILY;ARM_MATH_CM0PLUS;FLASH_PLACEMENT=1"
+      c_user_include_directories="$(ProjectDir)/CMSIS_4/CMSIS/Include;$(ProjectDir)/Kinetis_KL/CMSIS/Device/Include"
+      debug_register_definition_file="$(ProjectDir)/MKL16Z4_Registers.xml"
+      debug_target_connection="J-Link"
+      gcc_entry_point="Reset_Handler"
+      link_linker_script_file="$(ProjectDir)/I6/SEGGER_Flash.icf"
+      link_map_file="Full"
+      linker_log_file="Yes"
+      linker_memory_map_file="$(ProjectDir)/MKL16Z64xxx4_MemoryMap.xml"
+      linker_output_format="hex"
+      linker_section_placement_file="$(ProjectDir)/flash_placement.xml"
+      linker_supply_memory_segments="No"
+      macros="DeviceHeaderFile=$(PackagesDir)/Kinetis_KL/CMSIS/Device/Include/MKL16Z4.h;DeviceLibraryIdentifier=M0l;DeviceSystemFile=$(PackagesDir)/Kinetis_KL/CMSIS/Device/Source/system_MKL16Z4.c;DeviceVectorsFile=$(PackagesDir)/Kinetis_KL/Source/MKL16Z4_Vectors.s;DeviceFamily=Kinetis_KL;DeviceSubFamily=KL1x;Target=MKL16Z64xxx4;Placement=Flash"
+      package_dependencies="Kinetis_KL"
+      project_directory=""
+      project_type="Executable"
+      target_reset_script="Reset();"
+      target_trace_initialize_script="EnableTrace(&quot;$(TraceInterfaceType)&quot;)" />
+    <folder Name="CMSIS Files">
+      <file file_name="Kinetis_KL/CMSIS/Device/Include/MKL16Z4.h" />
+      <file file_name="Kinetis_KL/CMSIS/Device/Source/system_MKL16Z4.c">
+        <configuration
+          Name="Common"
+          default_code_section=".init"
+          default_const_section=".init_rodata" />
+      </file>
+    </folder>
+    <folder Name="Script Files">
+      <file file_name="Kinetis_KL/Scripts/Kinetis_KL_Target.js">
+        <configuration Name="Common" file_type="Reset Script" />
+      </file>
+    </folder>
+    <folder Name="Source Files">
+      <file file_name="Sources/hal.h" />
+      <file file_name="Sources/lcd.h" />
+      <file file_name="Sources/lcd.cpp" />
+      <file file_name="Sources/main.h" />
+      <file file_name="Sources/I6/BoardI6.cpp" />
+      <file file_name="Sources/I6/BoardI6.h" />
+      <file file_name="Sources/er9x.cpp" />
+      <file file_name="Sources/er9x.h" />
+      <file file_name="Sources/A7105_SPI.cpp" />
+      <file file_name="Sources/AFHDS2A_a7105.cpp" />
+      <file file_name="Sources/audio.cpp" />
+      <file file_name="Sources/audio.h" />
+      <file file_name="Sources/drivers.cpp" />
+      <file file_name="Sources/en.h" />
+      <file file_name="Sources/file.cpp" />
+      <file file_name="Sources/file.h" />
+      <file file_name="Sources/font.lbm" />
+      <file file_name="Sources/iface_a7105.h" />
+      <file file_name="Sources/language.h" />
+      <file file_name="Sources/menus.cpp" />
+      <file file_name="Sources/menus.h" />
+      <file file_name="Sources/myeeprom.h" />
+      <file file_name="Sources/pulses.cpp" />
+      <file file_name="Sources/pulses.h" />
+      <file file_name="Sources/s9xsplash.lbm" />
+      <file file_name="Sources/stamp.cpp" />
+      <file file_name="Sources/templates.cpp" />
+      <file file_name="Sources/templates.h" />
+      <file file_name="Sources/voice.h" />
+      <file file_name="Sources/main.cpp" />
+      <configuration Name="Release" gcc_debugging_level="None" />
+      <file file_name="Sources/Vario.h" />
+      <file file_name="Sources/Vario.cpp" />
+      <file file_name="Sources/AFHDS.cpp" />
+      <folder Name="LoRa">
+        <file file_name="Sources/LoRa/common.cpp" />
+        <file file_name="Sources/LoRa/common.h" />
+        <file file_name="Sources/LoRa/OTA.cpp" />
+        <file file_name="Sources/LoRa/OTA.h" />
+        <file file_name="Sources/LoRa/SX127x.cpp" />
+        <file file_name="Sources/LoRa/SX127x.h" />
+        <file file_name="Sources/LoRa/SX127xDriver.h" />
+        <file file_name="Sources/LoRa/SX127xHal.cpp" />
+        <file file_name="Sources/LoRa/SX127xHal.h" />
+        <file file_name="Sources/LoRa/SX127xRegs.h" />
+        <file file_name="Sources/LoRa/targets.h" />
+        <file file_name="Sources/LoRa/CRSF.h" />
+        <file file_name="Sources/LoRa/crsf_protocol.h" />
+        <file file_name="Sources/LoRa/ELRS.cpp" />
+        <file file_name="Sources/LoRa/ELRS.h" />
+        <file file_name="Sources/LoRa/config.cpp" />
+        <file file_name="Sources/LoRa/config.h" />
+        <file file_name="Sources/LoRa/FHSS.cpp" />
+        <file file_name="Sources/LoRa/FHSS.h" />
+        <file file_name="Sources/LoRa/random.cpp" />
+        <file file_name="Sources/LoRa/random.h" />
+        <file file_name="Sources/LoRa/POWERMGNT.cpp" />
+        <file file_name="Sources/LoRa/POWERMGNT.h" />
+        <file file_name="Sources/LoRa/telemetry_protocol.h" />
+        <file file_name="Sources/LoRa/LQCALC.h" />
+        <file file_name="Sources/LoRa/stubborn_receiver.cpp" />
+        <file file_name="Sources/LoRa/stubborn_receiver.h" />
+        <file file_name="Sources/LoRa/stubborn_sender.cpp" />
+        <file file_name="Sources/LoRa/stubborn_sender.h" />
+        <file file_name="Sources/LoRa/crc.cpp" />
+        <file file_name="Sources/LoRa/crc.h" />
+        <file file_name="Sources/LoRa/CRSF.cpp" />
+      </folder>
+      <folder Name="crossfire">
+        <file file_name="Sources/crossfire/crossfire.cpp" />
+        <file file_name="Sources/crossfire/crossfire.h" />
+        <file file_name="Sources/crossfire/elrsV2.cpp" />
+        <file file_name="Sources/crossfire/crc_crsf.cpp" />
+        <file file_name="Sources/crossfire/crc_crsf.h" />
+      </folder>
+      <file file_name="Sources/pers.cpp" />
+    </folder>
+    <folder Name="System Files">
+      <file file_name="Kinetis_KL/Source/Kinetis_KL_Startup.s" />
+      <file file_name="Kinetis_KL/Source/MKL16Z4_Vectors.s" />
+      <file file_name="Sources/I6/SEGGER_THUMB_Startup.s" />
+      <file file_name="Sources/I6/SEGGER_Flash.icf" />
+      <file file_name="Sources/I6/MKL16Z4_Registers.xml" />
+    </folder>
+    <configuration
+      Name="Debug"
+      SEGGER2Proj="No"
+      arm_assembler_variant="gcc"
+      arm_compiler_variant="SEGGER"
+      arm_library_optimization="Small"
+      arm_linker_emit_relocations="Yes"
+      arm_linker_heap_size="0"
+      arm_linker_variant="SEGGER"
+      debug_register_definition_file="Sources/I6/MKL16Z4_Registers.xml"
+      emCompress2Proj="No"
+      emWin2LogicalColor=""
+      emWin2Proj="No"
+      emWinLibMode=""
+      gcc_cplusplus_language_standard="gnu++98"
+      gcc_optimization_level="Level 2 for size"
+      gcc_strip_symbols="No"
+      link_inline="Yes"
+      link_linker_script_file="$(ProjectDir)/Sources/I6/SEGGER_Flash.icf"
+      link_map_file="Standard"
+      link_use_linker_script_file="Yes"
+      linker_keep_symbols="_vectors;_start"
+      linker_log_file="Yes"
+      linker_memory_map_file="$(ProjectDir)/Sources/I6/MKL16Z64xxx4_MemoryMap.xml"
+      linker_output_format="hex" />
+    <configuration
+      Name="Release"
+      arm_compiler_variant="SEGGER"
+      arm_library_optimization="Small"
+      arm_linker_variant="SEGGER"
+      gcc_optimization_level="Level 2 for size"
+      link_inline="Yes"
+      link_linker_script_file="$(ProjectDir)/Sources/I6/SEGGER_Flash.icf"
+      link_map_file="Standard"
+      linker_memory_map_file="$(ProjectDir)/Sources/I6/MKL16Z64xxx4_MemoryMap.xml" />
+  </project>
+  <configuration
+    Name="Debug"
+    arm_linker_variant="SEGGER"
+    c_preprocessor_definitions="DEBUG"
+    gcc_debugging_level="Level 3"
+    gcc_optimization_level="None" />
+  <configuration
+    Name="Release"
+    c_preprocessor_definitions="NDEBUG"
+    gcc_debugging_level="Level 2"
+    gcc_omit_frame_pointer="Yes"
+    gcc_optimization_level="Level 2 balanced" />
+  <project Name="FSI6X">
+    <configuration
+      CMSIS_CORE="Yes"
+      LIBRARY_IO_TYPE="RTT"
+      Name="Common"
+      Target="STM32F072VB"
+      arm_architecture="v6M"
+      arm_compiler_variant="SEGGER"
+      arm_core_type="Cortex-M0"
+      arm_endian="Little"
+      arm_fpu_type="None"
+      arm_linker_heap_size="0"
+      arm_linker_process_stack_size="0"
+      arm_linker_stack_size="2048"
+      arm_linker_variant="SEGGER"
+      arm_rtl_variant="SEGGER"
+      arm_simulator_memory_simulation_parameter="ROM;0x08000000;0x00020000;RAM;0x20000000;0x00004000"
+      arm_target_debug_interface_type="ADIv5"
+      arm_target_device_name="STM32F072VB"
+      arm_target_interface_type="SWD"
+      c_preprocessor_definitions="STM32F072xB;__STM32F0xx_FAMILY;__STM32F072_SUBFAMILY;ARM_MATH_CM0"
+      c_user_include_directories="$(ProjectDir)/STM32F0xx/CMSIS/Device/Include"
+      debug_register_definition_file="$(ProjectDir)/STM32F0x2_Registers.xml"
+      debug_stack_pointer_start="__stack_end__"
+      debug_target_connection="J-Link"
+      gcc_entry_point="Reset_Handler"
+      link_linker_script_file="$(ProjectDir)/STM32F0xx_Flash.icf"
+      linker_memory_map_file="$(ProjectDir)/STM32F072VB_MemoryMap.xml"
+      linker_output_format="hex"
+      macros="DeviceHeaderFile=$(PackagesDir)/STM32F0xx/CMSIS/Device/Include/stm32f0xx.h;DeviceLibraryIdentifier=M0l;DeviceSystemFile=$(PackagesDir)/STM32F0xx/CMSIS/Device/Source/system_stm32f0xx.c;DeviceVectorsFile=$(PackagesDir)/STM32F0xx/Source/STM32F072x_Vectors.s;DeviceFamily=STM32F0xx;DeviceSubFamily=STM32F072;Target=STM32F072VB"
+      project_directory=""
+      project_type="Executable"
+      target_reset_script="Reset();"
+      target_trace_initialize_script="EnableTrace(&quot;$(TraceInterfaceType)&quot;)" />
+    <folder Name="CMSIS Files">
+      <file file_name="STM32F0xx/CMSIS/Device/Include/stm32f0xx.h" />
+      <file file_name="STM32F0xx/CMSIS/Device/Source/system_stm32f0xx.c">
+        <configuration
+          Name="Common"
+          default_code_section=".init"
+          default_const_section=".init_rodata" />
+      </file>
+    </folder>
+    <folder Name="Script Files">
+      <file file_name="STM32F0xx/Scripts/STM32F0xx_Target.js">
+        <configuration Name="Common" file_type="Reset Script" />
+      </file>
+    </folder>
+    <folder Name="Source Files">
+      <file file_name="Sources/hal.h" />
+      <file file_name="Sources/lcd.cpp" />
+      <file file_name="Sources/lcd.h" />
+      <file file_name="Sources/main.h" />
+      <file file_name="Sources/I6X/BoardI6X.cpp" />
+      <file file_name="Sources/I6X/BoardI6X.h" />
+      <file file_name="Sources/main.cpp" />
+      <file file_name="Sources/A7105_SPI.cpp" />
+      <file file_name="Sources/AFHDS2A_a7105.cpp" />
+      <file file_name="Sources/audio.cpp" />
+      <file file_name="Sources/audio.h" />
+      <file file_name="Sources/drivers.cpp" />
+      <file file_name="Sources/en.h" />
+      <file file_name="Sources/er9x.cpp" />
+      <file file_name="Sources/er9x.h" />
+      <file file_name="Sources/file.cpp" />
+      <file file_name="Sources/file.h" />
+      <file file_name="Sources/iface_a7105.h" />
+      <file file_name="Sources/language.h" />
+      <file file_name="Sources/menus.cpp" />
+      <file file_name="Sources/menus.h" />
+      <file file_name="Sources/myeeprom.h" />
+      <file file_name="Sources/pers.cpp" />
+      <file file_name="Sources/pulses.cpp" />
+      <file file_name="Sources/pulses.h" />
+      <file file_name="Sources/splashmarker.h" />
+      <file file_name="Sources/stamp.cpp" />
+      <file file_name="Sources/templates.cpp" />
+      <file file_name="Sources/templates.h" />
+      <file file_name="Sources/voice.h" />
+      <file file_name="Sources/Vario.h" />
+      <file file_name="Sources/Vario.cpp" />
+      <file file_name="Sources/AFHDS.cpp" />
+    </folder>
+    <folder Name="System Files">
+      <file file_name="STM32F0xx/Source/STM32F0xx_Startup.s" />
+      <file file_name="STM32F0xx/Source/STM32F072x_Vectors.s">
+        <configuration Name="Common" file_type="Assembly" />
+      </file>
+      <file file_name="Sources/I6X/SEGGER_THUMB_Startup.s" />
+    </folder>
+    <configuration
+      Name="Debug"
+      arm_library_optimization="Small"
+      debug_register_definition_file="$(ProjectDir)/Sources/I6X/STM32F0x2_Registers.xml"
+      gcc_optimization_level="Level 2 for size"
+      link_inline="Yes"
+      link_linker_script_file="$(ProjectDir)/Sources/I6X/STM32F0xx_Flash.icf"
+      linker_memory_map_file="$(ProjectDir)/Sources/I6X/STM32F072VB_MemoryMap.xml" />
+    <configuration
+      Name="Release"
+      debug_register_definition_file="$(ProjectDir)/Sources/I6X/STM32F0x2_Registers.xml"
+      gcc_debugging_level="None"
+      gcc_optimization_level="Level 2 for size"
+      link_linker_script_file="$(ProjectDir)/Sources/I6X/STM32F0xx_Flash.icf"
+      linker_memory_map_file="$(ProjectDir)/Sources/I6X/STM32F072VB_MemoryMap.xml" />
+  </project>
+</solution>

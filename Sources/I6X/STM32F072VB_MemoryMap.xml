@@ -1,0 +1,5 @@
+<!DOCTYPE Board_Memory_Definition_File>
+<root name="STM32F072VB">
+  <MemorySegment name="FLASH1" start="0x08000000" size="0x00020000" access="ReadOnly" />
+  <MemorySegment name="RAM1" start="0x20000000" size="0x00004000" access="Read/Write" />
+</root>

@@ -1,0 +1,40 @@
+#ifndef H_OTA
+#define H_OTA
+
+#include "targets.h"
+
+//#include <functional>
+#include "CRSF.h"
+
+
+// expresslrs packet header types
+// 00 -> standard channel data packet
+// 01 -> MSP data packet
+// 11 -> TLM packet
+// 10 -> sync packet
+#define RC_DATA_PACKET 0b00
+#define MSP_DATA_PACKET 0b01
+#define TLM_PACKET 0b11
+#define SYNC_PACKET 0b10
+
+// Mask used to XOR the ModelId into the SYNC packet for ModelMatch
+#define MODELMATCH_MASK 0x3f
+
+enum OtaSwitchMode_e { sm1Bit, smHybrid, smHybridWide };
+void OtaSetSwitchMode(OtaSwitchMode_e mode);
+extern OtaSwitchMode_e OtaSwitchModeCurrent;
+
+#if defined(TARGET_TX) || defined(UNIT_TEST)
+typedef  void (*PackChannelData_t )(volatile uint8_t* Buffer, CRSF *crsf, bool TelemetryStatus, uint8_t nonce, uint8_t tlmDenom) ;
+extern PackChannelData_t PackChannelData;
+#if defined(UNIT_TEST)
+void OtaSetHybrid8NextSwitchIndex(uint8_t idx);
+#endif
+#endif
+
+#if defined(TARGET_RX) || defined(UNIT_TEST)
+typedef std::function<bool (volatile uint8_t* Buffer, CRSF *crsf, uint8_t nonce, uint8_t tlmDenom)> UnpackChannelData_t;
+extern UnpackChannelData_t UnpackChannelData;
+#endif
+
+#endif // H_OTA

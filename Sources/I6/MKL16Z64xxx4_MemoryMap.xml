@@ -1,0 +1,5 @@
+<!DOCTYPE Board_Memory_Definition_File>
+<root name="MKL16Z64xxx4">
+  <MemorySegment name="FLASH" start="0x00000000" size="0x00010000" access="ReadOnly" />
+  <MemorySegment name="RAM" start="0x1FFFF800" size="0x00002000" access="Read/Write" />
+</root>
