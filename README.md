@@ -25,6 +25,7 @@ Thanks to all the contributors of ElRS project also. :)
 
 You can get help from https://www.rcgroups.com/forums/showthread.php?3961635-ER9X-for-FS-I6-and-FS-I6X-(ERFly6)
 
+Here is the manual for flashing firmware from Kotello : https://github.com/aerror2/erfly6/blob/main/ER9XFlySky%20I6En.pdf
 
 Here is original readme:
 
