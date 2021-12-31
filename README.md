@@ -33,6 +33,7 @@ POTOCOL SUPPORTED CURRENTLY:
 3. AFDHS2A
 4. CROSSFIRE FOR ELRS TX 2.0
 
+Give me a star , if it is useful for you.
 
 Here is original readme:
 
