@@ -1,5 +1,5 @@
 
-##H ere is a project mainly writting for flysky I6 to add two features for it:
+## Here is a project mainly writting for flysky I6 to add two features for it:
 
 1. crossfire for ELRS TX for FSI6
 2. SPI for 127X for implement ELRS TX embeded for FSI6
@@ -51,7 +51,7 @@ RF module A7105 only wit AFDHS 2A protocol. AFDHS protocol now not support.
 Trainer mode (PPM in and PPM out) supported.
 
 
-## Self-made 2.4G ELRS TX tuner, built in Fuss i6
+## Self-made 2.4G ELRS TX , built in Fuss i6
 
 
 Difficulty: easy
