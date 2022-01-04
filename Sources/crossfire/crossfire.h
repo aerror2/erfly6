@@ -48,9 +48,7 @@ enum TelemetryProtocol
   TELEM_PROTO_FLYSKY_IBUS,
 };
 
-#define CROSSFIRE_CHANNELS_COUNT        16
-#define CROSSFIRE_BAUDRATE       400000
-#define CROSSFIRE_PERIOD         4000 /* us; 250 Hz */
+
 
 #define TELEMETRY_RX_PACKET_SIZE       128
 
@@ -63,7 +61,7 @@ extern uint8_t outputTelemetryBufferSize;
 extern uint8_t outputTelemetryBufferTrigger;
 extern uint8_t telemetryProtocol;
 extern uint32_t telemetryErrors;
-extern model_config_t g_crsf_config;
+
 
 int setTelemetryValue(TelemetryProtocol protocol, uint16_t id, uint8_t subId, uint8_t instance, int32_t value, uint32_t unit, uint32_t prec);
 
@@ -211,6 +209,18 @@ typedef  uint8_t event_t;
 #define MAX_REFRESH_RATE     50000 /* us */
 
 #define CROSSFIRE_FRAME_MAXLEN 64
+
+
+#define CROSSFIRE_CHANNELS_COUNT        16
+#ifdef  HIGH_UART 
+#define CROSSFIRE_BAUDRATE       400000
+#define CROSSFIRE_PERIOD         4 /* us; 250 Hz */
+#else
+#define CROSSFIRE_BAUDRATE       115200
+#define CROSSFIRE_PERIOD         8  /* us; 62 Hz */
+#endif
+
+
 #if 0
 // Module pulse synchronization
 struct ModuleSyncStatus
@@ -264,7 +274,7 @@ void crossfireTelemetryPing();
 void crsf_init();
 void crsf_shutdown();
 void crsf_action();
-uint32_t crsf_current_period();
+//uint32_t crsf_current_period();
 void resetElrsMenuVariables();
 
 #endif // _CROSSFIRE_H_

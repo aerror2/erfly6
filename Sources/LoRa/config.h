@@ -27,7 +27,9 @@ typedef struct {
     uint8_t     modelMatch:1;
     uint8_t     dynamicPower:1;
     uint8_t     boostChannel:3;
+#ifdef ERFLY_BOARDI6
     uint8_t     sync_ok:1;
+#endif
 } model_config_t;
 
 typedef struct {

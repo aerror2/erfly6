@@ -11090,7 +11090,11 @@ void menuProcProtocol(uint8_t event) {
       rangeBindAction(y, PXX_BIND);
     }
     break;
-  case PROTO_CRSF:
+#ifdef PROTO_ELRS1
+  case PROTO_ELRS1:
+#endif
+   case PROTO_ELRS2:
+
 
     crossfileMenu(mstate2,  event,  sub,   subN,  y );
  

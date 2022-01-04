@@ -53,6 +53,10 @@ extern char TX_name[];
 #define INP_G_RF_POW   1
 #define INP_G_RuddDR   0
 
+
+
+
+
 #define READBIT(A, B) ((A >> (B & 7)) & 1)
 #define SETBIT(T, B, V) (T = V ? T | (1<<B) : T & ~(1<<B))
 
@@ -121,6 +125,9 @@ void LCD_DATA(uint8_t Data);
 #define LCD_RST_1 rst_1()
 #define LCD_RST_0 rst_0()
 
+#define USE_IE_UART_TX 0
+#define USE_DMA_UART  0
+
 /******************************************************************************/
 /*                           Radio control                                    */
 /******************************************************************************/
@@ -143,7 +150,6 @@ void ActionAFHDS();
 #define A7105_CSN_ON a7105_csn_on()  
 #define A7105_CSN_OFF a7105_csn_off()
 
-
 void lora_csn_on();
 void lora_csn_off();
 void lora_tx_switch(int s);
@@ -156,11 +162,16 @@ void lora_attach_gio_isr(LORA_GIO_ISR_FUNC isr);
 void lora_detach_gio_isr();
 
 
+
 typedef   int (*crsf_read_cb_t)(uint8_t x);
 void setup_crsf_serial_port(uint32_t baud,crsf_read_cb_t read_cb);
 void crsf_send_data(uint8_t *buf, uint32_t len);
 //void crsf_wait_and_read();
 void shutdown_crsf_serial_port();
+
+ #if USE_IE_UART_TX ||USE_DMA_UART
+int  crsf_is_sending();
+#endif
 
 
 /*----------------------------------------------------------------------------*/

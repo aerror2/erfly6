@@ -4509,7 +4509,7 @@ void mainSequence()
         //}
   //      getADC[g_eeGeneral.filterInput]();
 //    if ( g_eeGeneral.filterInput == 1)
-//    {
+  //    {
 //        getADC_filt() ;
 //    }
 //    else if ( g_eeGeneral.filterInput == 2)

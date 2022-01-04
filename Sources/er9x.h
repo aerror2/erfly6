@@ -708,8 +708,8 @@ uint8_t IS_EXPO_THROTTLE( uint8_t x ) ;
 #define PROTO_PPM        0
 #define PROTO_AFHDS2A    1
 #define PROTO_AFHDS      2
-#define PROTO_CRSF       3
-
+#define PROTO_ELRS2      3
+//#define PROTO_ELRS1      4
 
 /*
 #define PROTO_PXX        1
@@ -730,8 +730,12 @@ uint8_t IS_EXPO_THROTTLE( uint8_t x ) ;
 //#define PROTO_PPMSIM     4
  #ifdef SBUS_PROTOCOL
 //#define PROTO_SBUS       5
+#ifdef PROTO_ELRS1
+#define PROT_MAX         4
+#else
 
-#define PROT_MAX         3
+ #define PROT_MAX         3
+#endif
 
  #else
 #define PROT_MAX         4
@@ -752,7 +756,7 @@ uint8_t IS_EXPO_THROTTLE( uint8_t x ) ;
  #endif // SBUS_PROTOCOL
 #endif // MULTI_PROTOCOL
 
-#define PROT_STR "\011PPM      AFHDS2A  AFHDS    CROSSFIRE"
+#define PROT_STR "\007PPM    AFHDS2AAFHDS  ELRS2  ELRS1  "
 
 
 //#define PROT_STR_LEN     6

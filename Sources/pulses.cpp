@@ -167,8 +167,10 @@ void setupPulses() {
       initAFHDS();
       EnablePRTTim();
       break;
-
-    case PROTO_CRSF:
+#ifdef PROTO_ELRS1
+    case PROTO_ELRS1:
+#endif
+     case PROTO_ELRS2:
         A7105_Sleep();
         DisablePPMOut();
         crsf_init();

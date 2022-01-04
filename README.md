@@ -33,7 +33,6 @@ POTOCOL SUPPORTED CURRENTLY:
 3. AFDHS2A
 4. CROSSFIRE FOR ELRS TX 2.0
 
-Give me a star , if it is useful for you.
 
 Here is original readme:
 
@@ -50,3 +49,114 @@ If build successful flash firmware.
 
 RF module A7105 only wit AFDHS 2A protocol. AFDHS protocol now not support.
 Trainer mode (PPM in and PPM out) supported.
+
+
+Self-made 2.4G ELRS TX tuner, built in Fuss i6
+
+
+Production: easy
+
+I. Hardware:
+
+1. LoRa radio frequency module, sx1280: E28-2G4M27S
+
+2. MCU Wifi module: ESP-WROOM32
+
+3. Several silicone flexible cords of various colors
+
+4.1k resistor
+
+5. Fusi FS I6 remote control
+
+6. One JLink, for flashing firmware
+
+7. One 2.4G antenna
+
+II.software:
+
+1. EpressLRS Configurator  https://github.com/ExpressLRS/ExpressLRS-Configurator
+
+2. The FS i6 firmware I wrote, ERFLY6,  GitHub-aerror2/erfly6: ER9X for I6 and I6X of Flysky
+
+3. JLink-FLash,  J-Link Flash Download
+
+III. TX circuit diagram:
+
+
+
+IV. TX and FSI6 Transmitter wiring:
+
+The completed TX only needs to connect 3 wires to the remote control, a signal wire (SPORT), a 3.3V power supply, and a ground wire, as shown in the figure below
+
+
+
+V. Production steps:
+
+1. By "III. TX Circuit Diagram" to connect E28-2G4M27S and ESP-WROOM32 with wires.
+
+2. By "IV. TX and remote control wiring" to connect the three wires and fix them on the bottom plate with hot melt glue.
+
+3. Use the USB cable to connect ESP-WROOM32 to the computer, use EpressLRS Configurator to flash the ELRS 2.0 firmware, hardware selection: DIY 2400 ESP32- E28, then fill in your binding password, then click Build & FLASH, watch Log, and go to flash During the firmware, you need to hold down the Boot0 button on the ESP-WROOM32 development board, or it will fail.
+
+ 
+
+4. Flash the FSi6 firmware According  to  erfly6/ER9XFlySky I6En.pdf ,  The  FSI6 firmware is at https://github.com/aerror2/erfly6/blob/main/Output/Release/Exe/FSI6.hex
+
+5. Complete
+
+There are still some issues, such as heat dissipation issues, battery capacity issues, and switching tuner issues that have not been dealt with.
+
+
+
+
+
+Self-made 2.4 ELRS receiver, no need to board, easy to make
+
+
+Difficulty: medium, mainly because the device is too small, solding requires patience
+
+I. Hardware
+
+1. LoRa RF module, sx1280: E28-2G4M12S
+
+2. MCU Wifi module: ESP-01F
+
+3. Several silicone flexible cords of various colors
+
+4.1k resistor
+
+5. TTL to serial port CH341 (CH340 or FTDI can be any one.)
+
+6. DC-DC3.3v step-down module
+
+7. One LED light.
+
+II. software:
+
+1. EpressLRS Configurator https://github.com/ExpressLRS/ExpressLRS-Configurator
+
+III. RX circuit diagram
+
+
+
+IV.  Steps
+
+1. First, connect the RST and BOOT (IO0) of the esp-01f to two wires. RST is used for grounding and restarting. BOOT must be grounded , When you flash the ELRS firmware, .
+
+2. Connect the TX, RX, VCC, GND of ESP-01F to the RX, TX, 3.3V and GND of CH341, and connect to the computer. If there is no CH341 driver, install the driver. 
+
+3. Use EpressLRS Configurator to flash the firmware, Device selection: DIY 2400 RX ESP8285 SX1280, remember to ground the boot line when flashing, and then "Build And flash", if it is not successful, you can connect RST to ground , it will restart the ESP-01F.
+
+
+
+ After flashing, the wiring of ESP-01F and CH341 can be disconnected.
+
+4. Connect E28-2G4M12S and ESP-01F with wires by "III. RX circuit diagram" , add resistors to connect the LED lights, 2G4M12S does not have TCX0EN, just don't need to connect it.
+
+5. Connect VCC and GND to the 3.3V output of the DC-DC module. The step-down module requires ripple less than 20mv
+
+6. The line is connected as shown in the figure:
+
+
+
+ 7. Leave GND, VCC, TX, RX, and stack the three modules with tape. The weight control is not bad, only 5G:

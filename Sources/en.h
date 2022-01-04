@@ -547,7 +547,14 @@
 #endif
 
 
-
+#define STR_CRSF_TYPE "Pkt. Rate\037TLM Ratio\037Power\037RfFreq\037Bind\037Enable Wifi"
+#define STR_CRSF_POWER "\00610mW  25mW  50mW  100mW 250mW 500mW 1000mW2000mW"
+#define STR_CRSf_TLM   "\005OFF  1:1281:64 1:32 1:16 1:8  1:4  1:2  "
+#define STR_CRSF_RATE_127x  "\00525Hz 50Hz 100Hz200Hz"
+#define STR_CRSF_RATE_128x  "\00550Hz 150Hz250Hz500Hz"
+#define STR_CRSF_RFFREQ     "\006915 AU915 FCC868 EU433 AU433 EU2.4G  "
+#define STR_CRST_FIELD_ID "ID"
+#define STR_CRSF_COMMAND_SENT "Lua Command Sent"
 #define ZSTR_RSSI                      "RSSI"
 #define ZSTR_RAS                       "SWR"
 #define ZSTR_A1                        "A1"
