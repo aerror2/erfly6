@@ -1,5 +1,5 @@
 
-Here is a project mainly writting for flysky I6 to add two features for it:
+##H ere is a project mainly writting for flysky I6 to add two features for it:
 
 1. crossfire for ELRS TX for FSI6
 2. SPI for 127X for implement ELRS TX embeded for FSI6
@@ -27,14 +27,14 @@ You can get help from https://www.rcgroups.com/forums/showthread.php?3961635-ER9
 
 Here is the manual for flashing firmware from Kotello : https://github.com/aerror2/erfly6/blob/main/ER9XFlySky%20I6En.pdf
 
-POTOCOL SUPPORTED CURRENTLY:
+## POTOCOL SUPPORTED CURRENTLY:
 1. PPM
 2. AFDHS
 3. AFDHS2A
 4. CROSSFIRE FOR ELRS TX 2.0
 
 
-Here is original readme:
+## Here is original readme:
 
 
 ErFly6 - new (good forgeted old) project porting er9X for family of radio FlySky FS-i6, FS-i6x.
@@ -51,12 +51,12 @@ RF module A7105 only wit AFDHS 2A protocol. AFDHS protocol now not support.
 Trainer mode (PPM in and PPM out) supported.
 
 
-Self-made 2.4G ELRS TX tuner, built in Fuss i6
+## Self-made 2.4G ELRS TX tuner, built in Fuss i6
 
 
-Production: easy
+Difficulty: easy
 
-I. Hardware:
+###  I. Hardware:
 
 1. LoRa radio frequency module, sx1280: E28-2G4M27S
 
@@ -80,17 +80,17 @@ II.software:
 
 3. JLink-FLash,  J-Link Flash Download
 
-III. TX circuit diagram:
+###  III. TX circuit diagram:
 
 <img src="https://github.com/aerror2/erfly6/blob/main/docimg/tx_schm.png" >
 
-IV. TX and FSI6 Transmitter wiring:
+###  IV. TX and FSI6 Transmitter wiring:
 <img src="https://github.com/aerror2/erfly6/blob/main/docimg/tx_wiring.jpeg" >
 The completed TX only needs to connect 3 wires to the remote control, a signal wire (SPORT), a 3.3V power supply, and a ground wire, as shown in the figure below
 
 
 
-V. Build steps:
+### V. Build steps:
 
 1. By "III. TX Circuit Diagram" to connect E28-2G4M27S and ESP-WROOM32 with wires.
 
@@ -110,12 +110,12 @@ There are still some issues, such as heat dissipation issues, battery capacity i
 
 
 
-Self-made 2.4 ELRS receiver, no need to board, easy to make
+## Self-made 2.4 ELRS receiver, no need to board, easy to make
 
 
 Difficulty: medium, mainly because the device is too small, solding requires patience
 
-I. Hardware
+###  I. Hardware
 
 1. LoRa RF module, sx1280: E28-2G4M12S
 
@@ -131,15 +131,15 @@ I. Hardware
 
 7. One LED light.
 
-II. software:
+### II. software:
 
 1. EpressLRS Configurator https://github.com/ExpressLRS/ExpressLRS-Configurator
 
-III. RX circuit diagram
+### III. RX circuit diagram
 
 <img src="https://github.com/aerror2/erfly6/blob/main/docimg/rx_schm.png">
 
-IV.  Build Steps
+### IV.  Build Steps
 
 1. First, connect the RST and BOOT (IO0) of the esp-01f to two wires. RST is used for grounding and restarting. BOOT must be grounded , When you flash the ELRS firmware, .
 
