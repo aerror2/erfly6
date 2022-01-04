@@ -82,15 +82,15 @@ II.software:
 
 III. TX circuit diagram:
 
-
+<img src="https://github.com/aerror2/erfly6/blob/main/docimg/tx_schm.png" >
 
 IV. TX and FSI6 Transmitter wiring:
-
+<img src="https://github.com/aerror2/erfly6/blob/main/docimg/tx_wiring.jpeg" >
 The completed TX only needs to connect 3 wires to the remote control, a signal wire (SPORT), a 3.3V power supply, and a ground wire, as shown in the figure below
 
 
 
-V. Production steps:
+V. Build steps:
 
 1. By "III. TX Circuit Diagram" to connect E28-2G4M27S and ESP-WROOM32 with wires.
 
@@ -98,12 +98,12 @@ V. Production steps:
 
 3. Use the USB cable to connect ESP-WROOM32 to the computer, use EpressLRS Configurator to flash the ELRS 2.0 firmware, hardware selection: DIY 2400 ESP32- E28, then fill in your binding password, then click Build & FLASH, watch Log, and go to flash During the firmware, you need to hold down the Boot0 button on the ESP-WROOM32 development board, or it will fail.
 
- 
+ <img src="https://github.com/aerror2/erfly6/blob/main/docimg/tx_elrs.jpeg" >
 
 4. Flash the FSi6 firmware According  to  erfly6/ER9XFlySky I6En.pdf ,  The  FSI6 firmware is at https://github.com/aerror2/erfly6/blob/main/Output/Release/Exe/FSI6.hex
 
 5. Complete
-
+<img src="https://github.com/aerror2/erfly6/blob/main/docimg/tx_built.jpeg">
 There are still some issues, such as heat dissipation issues, battery capacity issues, and switching tuner issues that have not been dealt with.
 
 
@@ -137,9 +137,9 @@ II. software:
 
 III. RX circuit diagram
 
+<img src="https://github.com/aerror2/erfly6/blob/main/docimg/rx_schm.png">
 
-
-IV.  Steps
+IV.  Build Steps
 
 1. First, connect the RST and BOOT (IO0) of the esp-01f to two wires. RST is used for grounding and restarting. BOOT must be grounded , When you flash the ELRS firmware, .
 
@@ -147,16 +147,22 @@ IV.  Steps
 
 3. Use EpressLRS Configurator to flash the firmware, Device selection: DIY 2400 RX ESP8285 SX1280, remember to ground the boot line when flashing, and then "Build And flash", if it is not successful, you can connect RST to ground , it will restart the ESP-01F.
 
-
-
+<img src="https://github.com/aerror2/erfly6/blob/main/docimg/rx_elrs.jpeg">
  After flashing, the wiring of ESP-01F and CH341 can be disconnected.
 
 4. Connect E28-2G4M12S and ESP-01F with wires by "III. RX circuit diagram" , add resistors to connect the LED lights, 2G4M12S does not have TCX0EN, just don't need to connect it.
 
 5. Connect VCC and GND to the 3.3V output of the DC-DC module. The step-down module requires ripple less than 20mv
 
+
 6. The line is connected as shown in the figure:
 
 
+<img src="https://github.com/aerror2/erfly6/blob/main/docimg/rx_built.jpeg">
 
  7. Leave GND, VCC, TX, RX, and stack the three modules with tape. The weight control is not bad, only 5G:
+
+<img src="https://github.com/aerror2/erfly6/blob/main/docimg/rx_weith.jpeg">
+
+
+
