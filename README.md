@@ -33,6 +33,17 @@ Here is the manual for flashing firmware from Kotello : https://github.com/aerro
 3. AFDHS2A
 4. CROSSFIRE FOR ELRS TX 2.0
 
+## How to connect the ELRS TX 
+   It is very simple to  connect ELRS TX, there is no hardware modification. Just:
+   1. connect the SPORT and  GROUND WIRE to your ELRX TX, like the picture below. 
+   2. Choose ELRS2 in the Menu :  MODEL SETUP -> PROTOCOL 
+   
+
+<img src="https://github.com/aerror2/erfly6/blob/main/docimg/tx_sport.jpeg">
+   
+	
+   It is support  ELRS v2.0 mainly, v1.1 is tested but not maintain yet.
+   
 
 ## Here is original readme:
 
@@ -49,6 +60,7 @@ If build successful flash firmware.
 
 RF module A7105 only wit AFDHS 2A protocol. AFDHS protocol now not support.
 Trainer mode (PPM in and PPM out) supported.
+
 
 
 ## Self-made 2.4G ELRS TX , built in Flysky FSI6
