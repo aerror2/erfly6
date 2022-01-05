@@ -55,7 +55,7 @@ uint8_t statusComplete = 0;
 //char elrs_deviceName[21];
 char fields_count=0;
 char allParamsLoaded=0;
-//bool itemmodified = false;
+bool itemmodified = false;
 
 
 #ifdef PROTO_ELRS1
@@ -481,13 +481,15 @@ void crossfileMenu(MState2 &mstate2,uint8_t  event, uint8_t sub,  uint8_t subN, 
           {
             
 
-              if(!allParamsLoaded )
+              if(!allParamsLoaded || itemmodified )
               { 
                 if(fieldTimeout < g_tmr10ms )
                 {
                        fieldTimeout = g_tmr10ms +5;
                        crossfireTelemetryPush4(0x2C, curfieldId, curFieldChunk); 
-                    //   itemmodified = false;
+                    
+                       if(itemmodified)
+                           itemmodified = false;
                 }
                 
                 
@@ -530,10 +532,10 @@ void crossfileMenu(MState2 &mstate2,uint8_t  event, uint8_t sub,  uint8_t subN, 
                               field->value  = modvalue;
                               fieldTextSelectionSave(field);
 
-                             //fieldTimeout = g_tmr10ms +10;
-                             // curfieldId  = field->id; 
-                             // curFieldChunk = 0;
-                             // itemmodified = true;
+                             fieldTimeout = g_tmr10ms +100;
+                             curfieldId  = field->id; 
+                             curFieldChunk = 0;
+                             itemmodified = true;
                           }
                         }
                         else 

@@ -256,6 +256,13 @@ void HW_Init(void) {
   PTC->PDDR |= GPIO_PDDR_PDD(0x10);
   PTC->PDOR |= GPIO_PDOR_PDO(0x10);
   PORTC->PCR[4] = (uint32_t)(PORT_PCR_MUX(0x01));
+
+  /*-----------------------RADIO_LORA_SCN_Init-----------------------------------------*/
+  PTD->PDDR |= GPIO_PDDR_PDD(0x4);   //PTD2 DIRECTION OUTPUT
+  PTD->PDOR  &= (uint32_t) ~(uint32_t)(GPIO_PDOR_PDO(0x04));
+  PORTD->PCR[2] = (uint32_t)(PORT_PCR_MUX(0x1)); //MODE PULL
+  FPTD->PSOR = LORA_SCN_PORT_MASK;
+
   /*------------------------------RADIO_RF0_Init----------------------------------*/
   PTC->PDDR |= GPIO_PDDR_PDD(0x80);
   PTC->PDOR |= GPIO_PDOR_PDO(0x80);
@@ -269,6 +276,8 @@ void HW_Init(void) {
   PTE->PDOR &= (uint32_t) ~(uint32_t)(GPIO_PDOR_PDO(0x03));
   PORTE->PCR[0] = (uint32_t)(PORT_PCR_MUX(0x01));
   PORTE->PCR[1] = (uint32_t)(PORT_PCR_MUX(0x01));
+
+
   /*-----------------------RADIO_GIO1_Init--------------------------------------*/
   /* PORTD_PCR3: ISF=0,MUX=1 */
   PORTD->PCR[3] = (uint32_t)(PORT_PCR_MUX(0x01));
@@ -811,8 +820,10 @@ void SPI0_IRQHandler(void) {
   void TPM0_IRQHandler(void) {
     if (TPM0->SC & TPM_SC_TOF_MASK) {
       TPM0->SC |= TPM_SC_TOF_MASK;
-      if(PausePulses)
+
+      if (PausePulses) {
         return;
+      }
       switch (g_model.protocol) {
       case PROTO_AFHDS2A:
         SETBIT(RadioState, CALLER, TIM_CALL);
@@ -850,11 +861,12 @@ void SPI0_IRQHandler(void) {
   
 void lora_csn_on()
 {
+FPTD->PSOR = LORA_SCN_PORT_MASK;
 
 }
 void lora_csn_off()
 {
-
+FPTD->PCOR = LORA_SCN_PORT_MASK;
 }
 
 
@@ -1232,6 +1244,7 @@ void setup_crsf_serial_port(uint32_t baud,crsf_read_cb_t read_cb)
 
   if(g_crsf_read_callback==0)
   {
+        switch_elrs_tx(1);
         g_crsf_read_callback = read_cb;
       //uart_single_init(bdrate,DEFAULT_SYSTEM_CLOCK,bdrate);//Set single wire mode.
       SIM->SCGC4 |= SIM_SCGC4_UART2_MASK;// Enable the clock to the selected UART
@@ -1402,6 +1415,7 @@ void shutdown_crsf_serial_port()
 {
   if(  g_crsf_read_callback != NULL)
   {
+     switch_elrs_tx(0);
      g_crsf_read_callback = NULL;
      UART2->C2 &= ~(UART_C2_RE_MASK|UART_C2_RIE_MASK|UART_C2_TE_MASK|UART_C2_TIE_MASK);
      UART2->C3 &=~(UART_C3_ORIE_MASK);
@@ -1416,6 +1430,18 @@ int  crsf_is_sending()
 {
     if(UART2->C3 & UART_C3_TXDIR_MASK)
         return 1;
-    return 0;
+    return 0;Logic level 1
 }
 #endif
+
+
+
+void switch_elrs_tx(int val)
+{
+
+if(val)
+  FPTD->PSOR = LORA_SCN_PORT_MASK;
+else
+  FPTD->PCOR = LORA_SCN_PORT_MASK;
+
+}

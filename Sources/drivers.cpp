@@ -1105,7 +1105,7 @@ void serialVoiceInit() {
 }
 
 void startSerialVoice() {
-	PausePulses = 1;
+	//PausePulses = 1;
 	Backup_RestoreRunning = 1;
 
 #ifndef SERIAL_VOICE_ONLY

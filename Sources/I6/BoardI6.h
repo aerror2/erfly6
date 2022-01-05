@@ -72,6 +72,8 @@ extern "C" {
 #define PORT_INTERRUPT_ON_FALLING        0xA0000U /**< Interrupt enabled on falling edge */
 #define PORT_INTERRUPT_ON_RISING_FALLING 0xB0000U /**< Interrupt enabled on rising and falling edges */
 #define PORT_INTERRUPT_ON_ONE            0xC0000U /**< Interrupt enabled on high level */
+#define LORA_SCN_PORT_MASK    0x04U 
+
 
 extern uint16_t tim;
 void PIT_IRQHandler(void);

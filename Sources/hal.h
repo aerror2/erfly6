@@ -224,6 +224,8 @@ void SetPRTTimPeriod(uint8_t prot);
 uint32_t GetChipID(void);
 void sei(void);
 void cli(void);
+
+void   switch_elrs_tx(int val);
 #ifdef __cplusplus
 }  /* extern "C" */
 #endif 

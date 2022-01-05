@@ -136,7 +136,8 @@ void setupPulses() {
   if (PausePulses) {
     required_protocol = PROTO_NONE;
   }
-
+    BIND_DONE;
+    PausePulses = 1;
   if (Current_protocol != required_protocol) {
     Current_protocol = required_protocol;
     // switch mode here
@@ -154,16 +155,13 @@ void setupPulses() {
     case PROTO_AFHDS2A:
       DisablePPMOut();
        crsf_shutdown();
-      BIND_DONE;
-      PausePulses = 1;
+    
       initAFHDS2A();
       EnablePRTTim();
       break;
     case PROTO_AFHDS:
       DisablePPMOut();
        crsf_shutdown();
-      BIND_DONE;
-      PausePulses = 1;
       initAFHDS();
       EnablePRTTim();
       break;
@@ -177,12 +175,16 @@ void setupPulses() {
         EnablePRTTim();
         break;
     }
+
+
   }
   switch (required_protocol) {
   case PROTO_PPM:
     setupPulsesPPM(PROTO_PPM); // Don't enable interrupts through here
     break;
   }
+
+  PausePulses = 0;
 }
 uint16_t B3_comp_value ;
 
