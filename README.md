@@ -39,7 +39,7 @@ Here is the manual for flashing firmware from Kotello : https://github.com/aerro
    2. Choose ELRS2 in the Menu :  MODEL SETUP -> PROTOCOL 
    
 
-<img src="https://github.com/aerror2/erfly6/blob/main/docimg/tx_sport.jpeg">
+<img src="https://github.com/aerror2/erfly6/blob/main/docimg/tx_sport.jpg">
    
 	
    It is support  ELRS v2.0 mainly, v1.1 is tested but not maintain yet.
