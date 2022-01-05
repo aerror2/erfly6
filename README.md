@@ -62,6 +62,9 @@ RF module A7105 only wit AFDHS 2A protocol. AFDHS protocol now not support.
 Trainer mode (PPM in and PPM out) supported.
 
 
+##If you want to make a DIY TX module that embedded into the case of FSI6, you can follow the guides below:
+
+
 
 ## Self-made 2.4G ELRS TX , built in Flysky FSI6
 
