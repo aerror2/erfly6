@@ -1,16 +1,18 @@
 <!DOCTYPE CrossStudio_Session_File>
 <session>
  <Bookmarks>
-  <BookmarkItem objectName="" line="6535" column="0" path="E:/AVIA/ERFly6/Sources/menus.cpp" number="1" extra="lcd_putsAttIdx( x, y, Str_Switches, index, /*getSwitch00(index+1) ? INVERS :*/ 0) ;" color="5"/>
   <BookmarkItem objectName="" line="7571" column="0" path="E:/AVIA/ERFly6/Sources/menus.cpp" number="2" extra="switchDisplay( 2*FW-2, a ) ;" color="5"/>
+  <BookmarkItem objectName="" line="6535" column="0" path="E:/AVIA/ERFly6/Sources/menus.cpp" number="1" extra="lcd_putsAttIdx( x, y, Str_Switches, index, /*getSwitch00(index+1) ? INVERS :*/ 0) ;" color="5"/>
  </Bookmarks>
  <Breakpoints groups="Breakpoints" active_group="Breakpoints">
   <BreakpointListItem trigger="" line="1144" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="Sources/I6/BoardI6.cpp" useHWbreakpoint="false"/>
   <BreakpointListItem trigger="" line="1192" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="Sources/I6/BoardI6.cpp" useHWbreakpoint="false"/>
+  <BreakpointListItem trigger="" line="274" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="Sources/crossfire/crossfire.cpp" useHWbreakpoint="false"/>
+  <BreakpointListItem trigger="" line="391" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="2" filename="Sources/crossfire/crossfire.cpp" useHWbreakpoint="false"/>
   <BreakpointListItem trigger="" line="282" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="Sources/LoRa/ELRS.cpp" useHWbreakpoint="false"/>
   <BreakpointListItem trigger="" line="3482" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="Sources/er9x.cpp" useHWbreakpoint="false"/>
   <BreakpointListItem trigger="" line="3774" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="Sources/er9x.cpp" useHWbreakpoint="false"/>
-  <BreakpointListItem trigger="" line="1140" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="Sources/er9x.h" useHWbreakpoint="false"/>
+  <BreakpointListItem trigger="" line="1141" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="Sources/er9x.h" useHWbreakpoint="false"/>
   <BreakpointListItem trigger="" line="166" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="Sources/hal.h" useHWbreakpoint="false"/>
   <BreakpointListItem trigger="" line="17" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="Sources/main.cpp" useHWbreakpoint="false"/>
   <BreakpointListItem trigger="" line="19" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="Sources/main.cpp" useHWbreakpoint="false"/>
@@ -18,6 +20,7 @@
   <BreakpointListItem trigger="" line="53" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="Sources/main.cpp" useHWbreakpoint="false"/>
   <BreakpointListItem trigger="" line="6" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="Sources/LoRa/OTA.h" useHWbreakpoint="false"/>
   <BreakpointListItem trigger="" line="1" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="Sources/s9xsplash.lbm" useHWbreakpoint="false"/>
+  <Exceptions set="HardFault"/>
  </Breakpoints>
  <ExecutionProfileWindow/>
  <FrameBufferWindow>
@@ -45,6 +48,7 @@
   <ProjectSessionItem path="ERFly6;FSI6;CMSIS Files"/>
   <ProjectSessionItem path="ERFly6;FSI6;Source Files"/>
   <ProjectSessionItem path="ERFly6;FSI6;Source Files;crossfire"/>
+  <ProjectSessionItem path="ERFly6;FSI6;Source Files;LoRa"/>
   <ProjectSessionItem path="ERFly6;FSI6;System Files"/>
  </Project>
  <Register1>
@@ -88,11 +92,26 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/crossfire/crossfire.h" selected="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="53" y="1246" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/I6/BoardI6.cpp" selected="0" top="1206" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/crossfire/crc_crsf.h" selected="0" top="30" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="2" y="9" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/crossfire/crossfire.cpp" selected="1" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/crossfire/elrsV2.cpp" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="8" y="5" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/AFHDS.cpp" selected="0" top="6" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="23" y="145" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/AFHDS2A_a7105.cpp" selected="0" top="121" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/A7105_SPI.cpp" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="22" y="110" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/crossfire/elrsV2.cpp" selected="0" top="37" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="11" y="835" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/I6/BoardI6.cpp" selected="0" top="799" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="4" y="147" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/pulses.cpp" selected="0" top="147" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="8" y="1206" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/er9x.h" selected="0" top="1153" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="14" y="7532" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/menus.cpp" selected="1" top="7514" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/crossfire/crossfire.h" selected="0" top="141" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="8" y="120" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/en.h" selected="0" top="108" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="12" y="750" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/lcd.cpp" selected="0" top="724" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="16" y="117" useTextEdit="1" openedFrom="E:/src/repo/ERFly6/Sources/menus.cpp" useBinaryEdit="0" left="0" path="Sources/er9x.cpp" selected="0" top="109" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="14" y="65" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/pers.cpp" selected="0" top="38" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="20" y="223" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/myeeprom.h" selected="0" top="187" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/LoRa/SX127x.h" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/LoRa/SX127x.cpp" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/LoRa/ELRS.cpp" selected="0" top="9" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="59" y="418" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/crossfire/crossfire.cpp" selected="0" top="391" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="26" y="9" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/main.cpp" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="62" y="101" useTextEdit="1" openedFrom="E:/src/repo/ERFly6/Sources/crossfire/crossfire.cpp" useBinaryEdit="0" left="0" path="Sources/iface_a7105.h" selected="0" top="75" codecName="Default"/>
  </Files>
- <ARMCrossStudioWindow activeProject="FSI6" fileDialogDefaultFilter="*" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="E:/AVIA/ERFly6/I6/SEGGER_THUMB_Startup.s&#xa;E:/AVIA/ERFly6/Sources/I6/SEGGER_THUMB_Startup.s" fileDialogInitialDirectory="/Volumes/p1t2/receiver/repo/ERFly6/Sources/crossfire" debugSearchPath="" autoConnectCapabilities="3199"/>
+ <ARMCrossStudioWindow activeProject="FSI6" fileDialogDefaultFilter="*" autoConnectTarget="J-Link" buildConfiguration="Release" sessionSettings="" debugSearchFileMap="E:/AVIA/ERFly6/I6/SEGGER_THUMB_Startup.s&#xa;E:/AVIA/ERFly6/Sources/I6/SEGGER_THUMB_Startup.s" fileDialogInitialDirectory="/Volumes/p1t2/receiver/repo/ERFly6/Sources/crossfire" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>

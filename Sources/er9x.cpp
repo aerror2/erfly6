@@ -3815,8 +3815,9 @@ static void perMain()
             audioVoiceDefevent(AU_TX_BATTERY_LOW, V_BATTERY_LOW);
 #ifndef MINIMISE_CODE
             if (g_eeGeneral.flashBeep)
-#endif
+
 							g_LightOffCounter = FLASH_DURATION;
+ #endif
         }
     }
     break;

@@ -102,51 +102,51 @@ inline void telemetryOutputSetTrigger(uint8_t byte)
 
 
 
-enum TelemetryUnit {
-  UNIT_RAW,
-  UNIT_VOLTS,
-  UNIT_AMPS,
-  UNIT_MILLIAMPS,
-  UNIT_KTS,
-  UNIT_METERS_PER_SECOND,
-  UNIT_FEET_PER_SECOND,
-  UNIT_KMH,
-  UNIT_MPH,
-  UNIT_METERS,
-  UNIT_FEET,
-  UNIT_CELSIUS,
-  UNIT_FAHRENHEIT,
-  UNIT_PERCENT,
-  UNIT_MAH,
-  UNIT_WATTS,
-  UNIT_MILLIWATTS,
-  UNIT_DB,
-  UNIT_RPMS,
-  UNIT_G,
-  UNIT_DEGREE,
-  UNIT_RADIANS,
-  UNIT_MILLILITERS,
-  UNIT_FLOZ,  
-  UNIT_HERTZ,
-  UNIT_DBM,
-  UNIT_HOURS,
-  UNIT_MINUTES,
-  UNIT_SECONDS,
-  // FrSky format used for these fields, could be another format in the future
-  UNIT_FIRST_VIRTUAL,
-  UNIT_CELLS = UNIT_FIRST_VIRTUAL,
-  UNIT_DATETIME,
-  UNIT_GPS,
-  UNIT_BITFIELD,
-  UNIT_TEXT,
-  // Internal units (not stored in sensor unit)
-  UNIT_GPS_LONGITUDE,
-  UNIT_GPS_LATITUDE,
-  UNIT_DATETIME_YEAR,
-  UNIT_DATETIME_DAY_MONTH,
-  UNIT_DATETIME_HOUR_MIN,
-  UNIT_DATETIME_SEC
-};
+//enum TelemetryUnit {
+//  UNIT_RAW,
+//  UNIT_VOLTS,
+//  UNIT_AMPS,
+//  UNIT_MILLIAMPS,
+//  UNIT_KTS,
+//  UNIT_METERS_PER_SECOND,
+//  UNIT_FEET_PER_SECOND,
+//  UNIT_KMH,
+//  UNIT_MPH,
+//  UNIT_METERS,
+//  UNIT_FEET,
+//  UNIT_CELSIUS,
+//  UNIT_FAHRENHEIT,
+//  UNIT_PERCENT,
+//  UNIT_MAH,
+//  UNIT_WATTS,
+//  UNIT_MILLIWATTS,
+//  UNIT_DB,
+//  UNIT_RPMS,
+//  UNIT_G,
+//  UNIT_DEGREE,
+//  UNIT_RADIANS,
+//  UNIT_MILLILITERS,
+//  UNIT_FLOZ,  
+//  UNIT_HERTZ,
+//  UNIT_DBM,
+//  UNIT_HOURS,
+//  UNIT_MINUTES,
+//  UNIT_SECONDS,
+//  // FrSky format used for these fields, could be another format in the future
+//  UNIT_FIRST_VIRTUAL,
+//  UNIT_CELLS = UNIT_FIRST_VIRTUAL,
+//  UNIT_DATETIME,
+//  UNIT_GPS,
+//  UNIT_BITFIELD,
+//  UNIT_TEXT,
+//  // Internal units (not stored in sensor unit)
+//  UNIT_GPS_LONGITUDE,
+//  UNIT_GPS_LATITUDE,
+//  UNIT_DATETIME_YEAR,
+//  UNIT_DATETIME_DAY_MONTH,
+//  UNIT_DATETIME_HOUR_MIN,
+//  UNIT_DATETIME_SEC
+//};
 
 enum CrossfireSensorIndexes {
   RX_RSSI1_INDEX,
@@ -188,13 +188,13 @@ enum CrossfireFrames{
   CRSF_FRAME_MODELID_SENT
 };
 
-struct CrossfireSensor {
-  const uint8_t id;
-  const uint8_t subId;
-  const char * name;
-  const TelemetryUnit unit;
-  const uint8_t precision;
-};
+//struct CrossfireSensor {
+//  const uint8_t id;
+//  const uint8_t subId;
+//  const char * name;
+//  const TelemetryUnit unit;
+//  const uint8_t precision;
+//};
 
 
 
@@ -263,7 +263,7 @@ extern CrossfirePulsesData g_crossfire;
 void runCrossfireTelemetryCallback(uint8_t command, uint8_t* data, uint8_t length);
 
 int processCrossfireTelemetryData(uint8_t data);
-void crossfireSetDefault(int index, uint8_t id, uint8_t subId);
+//void crossfireSetDefault(int index, uint8_t id, uint8_t subId);
 bool isCrossfireOutputBufferAvailable();
 uint8_t createCrossfireModelIDFrame(uint8_t * frame);
 bool crossfireTelemetryPush(uint8_t command, uint8_t *data, uint8_t length);

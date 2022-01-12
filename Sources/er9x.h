@@ -13,6 +13,7 @@
 //*****************************************************************************
 #include "hal.h"
 
+
 #define REMOVE_FROM_64FRSKY
 #define FAILSAFE
 #define NO_TEMPLATES

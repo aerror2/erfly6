@@ -22,7 +22,7 @@
 #include "../er9x.h"
 #include <string.h>
 #include "../en.h"
-
+#include "../iface_a7105.h"
 
 
 uint8_t outputTelemetryBuffer[TELEMETRY_OUTPUT_FIFO_SIZE] ;
@@ -63,60 +63,60 @@ int32_t g_elrs_lag;
 //  16,
 //};
 
-const CrossfireSensor crossfireSensors[] = {
-    {LINK_ID, 0, ZSTR_RX_RSSI1, UNIT_DB, 0},
-    {LINK_ID, 1, ZSTR_RX_RSSI2, UNIT_DB, 0},
-    {LINK_ID, 2, ZSTR_RX_QUALITY, UNIT_PERCENT, 0},
-    {LINK_ID, 3, ZSTR_RX_SNR, UNIT_DB, 0},
-    {LINK_ID, 4, ZSTR_ANTENNA, UNIT_RAW, 0},
-    {LINK_ID, 5, ZSTR_RF_MODE, UNIT_RAW, 0},
-    {LINK_ID, 6, ZSTR_TX_POWER, UNIT_MILLIWATTS, 0},
-    {LINK_ID, 7, ZSTR_TX_RSSI, UNIT_DB, 0},
-    {LINK_ID, 8, ZSTR_TX_QUALITY, UNIT_PERCENT, 0},
-    {LINK_ID, 9, ZSTR_TX_SNR, UNIT_DB, 0},
-    {LINK_RX_ID, 0, ZSTR_RX_RSSI_PERC, UNIT_PERCENT, 0},
-    {LINK_RX_ID, 1, ZSTR_RX_RF_POWER, UNIT_DBM, 0},
-    {LINK_TX_ID, 0, ZSTR_TX_RSSI_PERC, UNIT_PERCENT, 0},
-    {LINK_TX_ID, 1, ZSTR_TX_RF_POWER, UNIT_DBM, 0},
-    {LINK_TX_ID, 2, ZSTR_TX_FPS, UNIT_HERTZ, 0},
-    {BATTERY_ID, 0, ZSTR_BATT, UNIT_VOLTS, 1},
-    {BATTERY_ID, 1, ZSTR_CURR, UNIT_AMPS, 1},
-    {BATTERY_ID, 2, ZSTR_CAPACITY, UNIT_MAH, 0},
-    {BATTERY_ID, 3, ZSTR_BATT_PERCENT, UNIT_PERCENT, 0},
-    {GPS_ID, 0, ZSTR_GPS, UNIT_GPS_LATITUDE, 0},
-    {GPS_ID, 0, ZSTR_GPS, UNIT_GPS_LONGITUDE, 0},
-    {GPS_ID, 2, ZSTR_GSPD, UNIT_KMH, 1},
-    {GPS_ID, 3, ZSTR_HDG, UNIT_DEGREE, 3},
-    {GPS_ID, 4, ZSTR_ALT, UNIT_METERS, 0},
-    {GPS_ID, 5, ZSTR_SATELLITES, UNIT_RAW, 0},
-    {ATTITUDE_ID, 0, ZSTR_PITCH, UNIT_RADIANS, 3},
-    {ATTITUDE_ID, 1, ZSTR_ROLL, UNIT_RADIANS, 3},
-    {ATTITUDE_ID, 2, ZSTR_YAW, UNIT_RADIANS, 3},
-    {FLIGHT_MODE_ID, 0, ZSTR_FLIGHT_MODE, UNIT_TEXT, 0},
-    {CF_VARIO_ID, 0, ZSTR_VSPD, UNIT_METERS_PER_SECOND, 2},
-    {0, 0, "UNKNOWN", UNIT_RAW, 0},
-};
+//const CrossfireSensor crossfireSensors[] = {
+//    {LINK_ID, 0, ZSTR_RX_RSSI1, UNIT_DB, 0},
+//    {LINK_ID, 1, ZSTR_RX_RSSI2, UNIT_DB, 0},
+//    {LINK_ID, 2, ZSTR_RX_QUALITY, UNIT_PERCENT, 0},
+//    {LINK_ID, 3, ZSTR_RX_SNR, UNIT_DB, 0},
+//    {LINK_ID, 4, ZSTR_ANTENNA, UNIT_RAW, 0},
+//    {LINK_ID, 5, ZSTR_RF_MODE, UNIT_RAW, 0},
+//    {LINK_ID, 6, ZSTR_TX_POWER, UNIT_MILLIWATTS, 0},
+//    {LINK_ID, 7, ZSTR_TX_RSSI, UNIT_DB, 0},
+//    {LINK_ID, 8, ZSTR_TX_QUALITY, UNIT_PERCENT, 0},
+//    {LINK_ID, 9, ZSTR_TX_SNR, UNIT_DB, 0},
+//    {LINK_RX_ID, 0, ZSTR_RX_RSSI_PERC, UNIT_PERCENT, 0},
+//    {LINK_RX_ID, 1, ZSTR_RX_RF_POWER, UNIT_DBM, 0},
+//    {LINK_TX_ID, 0, ZSTR_TX_RSSI_PERC, UNIT_PERCENT, 0},
+//    {LINK_TX_ID, 1, ZSTR_TX_RF_POWER, UNIT_DBM, 0},
+//    {LINK_TX_ID, 2, ZSTR_TX_FPS, UNIT_HERTZ, 0},
+//    {BATTERY_ID, 0, ZSTR_BATT, UNIT_VOLTS, 1},
+//    {BATTERY_ID, 1, ZSTR_CURR, UNIT_AMPS, 1},
+//    {BATTERY_ID, 2, ZSTR_CAPACITY, UNIT_MAH, 0},
+//    {BATTERY_ID, 3, ZSTR_BATT_PERCENT, UNIT_PERCENT, 0},
+//    {GPS_ID, 0, ZSTR_GPS, UNIT_GPS_LATITUDE, 0},
+//    {GPS_ID, 0, ZSTR_GPS, UNIT_GPS_LONGITUDE, 0},
+//    {GPS_ID, 2, ZSTR_GSPD, UNIT_KMH, 1},
+//    {GPS_ID, 3, ZSTR_HDG, UNIT_DEGREE, 3},
+//    {GPS_ID, 4, ZSTR_ALT, UNIT_METERS, 0},
+//    {GPS_ID, 5, ZSTR_SATELLITES, UNIT_RAW, 0},
+//    {ATTITUDE_ID, 0, ZSTR_PITCH, UNIT_RADIANS, 3},
+//    {ATTITUDE_ID, 1, ZSTR_ROLL, UNIT_RADIANS, 3},
+//    {ATTITUDE_ID, 2, ZSTR_YAW, UNIT_RADIANS, 3},
+//    {FLIGHT_MODE_ID, 0, ZSTR_FLIGHT_MODE, UNIT_TEXT, 0},
+//    {CF_VARIO_ID, 0, ZSTR_VSPD, UNIT_METERS_PER_SECOND, 2},
+//    {0, 0, "UNKNOWN", UNIT_RAW, 0},
+//};
 
-const CrossfireSensor &getCrossfireSensor(uint8_t id, uint8_t subId) {
-  if (id == LINK_ID)
-    return crossfireSensors[RX_RSSI1_INDEX + subId];
-  else if (id == LINK_RX_ID)
-    return crossfireSensors[RX_RSSI_PERC_INDEX + subId];
-  else if (id == LINK_TX_ID)
-    return crossfireSensors[TX_RSSI_PERC_INDEX + subId];
-  else if (id == BATTERY_ID)
-    return crossfireSensors[BATT_VOLTAGE_INDEX + subId];
-  else if (id == GPS_ID)
-    return crossfireSensors[GPS_LATITUDE_INDEX + subId];
-  else if (id == CF_VARIO_ID)
-    return crossfireSensors[VERTICAL_SPEED_INDEX];
-  else if (id == ATTITUDE_ID)
-    return crossfireSensors[ATTITUDE_PITCH_INDEX + subId];
-  else if (id == FLIGHT_MODE_ID)
-    return crossfireSensors[FLIGHT_MODE_INDEX];
-  else
-    return crossfireSensors[UNKNOWN_INDEX];
-}
+//const CrossfireSensor &getCrossfireSensor(uint8_t id, uint8_t subId) {
+//  if (id == LINK_ID)
+//    return crossfireSensors[RX_RSSI1_INDEX + subId];
+//  else if (id == LINK_RX_ID)
+//    return crossfireSensors[RX_RSSI_PERC_INDEX + subId];
+//  else if (id == LINK_TX_ID)
+//    return crossfireSensors[TX_RSSI_PERC_INDEX + subId];
+//  else if (id == BATTERY_ID)
+//    return crossfireSensors[BATT_VOLTAGE_INDEX + subId];
+//  else if (id == GPS_ID)
+//    return crossfireSensors[GPS_LATITUDE_INDEX + subId];
+//  else if (id == CF_VARIO_ID)
+//    return crossfireSensors[VERTICAL_SPEED_INDEX];
+//  else if (id == ATTITUDE_ID)
+//    return crossfireSensors[ATTITUDE_PITCH_INDEX + subId];
+//  else if (id == FLIGHT_MODE_ID)
+//    return crossfireSensors[FLIGHT_MODE_INDEX];
+//  else
+//    return crossfireSensors[UNKNOWN_INDEX];
+//}
 
 
 
@@ -250,22 +250,61 @@ uint16_t ModuleSyncStatus::getAdjustedRefreshRate()
 #endif 
 
 
-int setTelemetryValue(TelemetryProtocol protocol, uint16_t id, uint8_t subId, uint8_t instance, int32_t value, uint32_t unit, uint32_t prec)
-{
-    //TODO
-    return 0;
-}
+//int setTelemetryValue(TelemetryProtocol protocol, uint16_t id, uint8_t subId, uint8_t instance, int32_t value, uint32_t unit, uint32_t prec)
+//{
+//    //TODO
+//    return 0;
+//}
 
-int setTelemetryText(TelemetryProtocol protocol, uint16_t id, uint8_t subId, uint8_t instance, const char* text) {
-  //TODO
-  return 0;
-}
+//int setTelemetryText(TelemetryProtocol protocol, uint16_t id, uint8_t subId, uint8_t instance, const char* text) {
+//  //TODO
+//  return 0;
+//}
 
-
+ static  uint8_t idx_to_afhds2a [] ={
+FST_IDX_ERR, //RX_RSSI1_INDEX,
+FST_IDX_NOISE,// RX_RSSI2_INDEX,
+FST_IDX_RSSI, // RX_QUALITY_INDEX,
+FST_IDX_SNR, // RX_SNR_INDEX,
+ 0xff,// RX_ANTENNA_INDEX,
+FST_IDX_S86, // RF_MODE_INDEX,
+FST_IDX_S87, // TX_POWER_INDEX,
+FST_IDX_TSSI, // TX_RSSI_INDEX,
+FST_IDX_S88, // TX_QUALITY_INDEX,
+FST_IDX_S89,// TX_SNR_INDEX,
+ 0xff,// RX_RSSI_PERC_INDEX,
+FST_IDX_TX_V, // RX_RF_POWER_INDEX,
+ 0xff,// TX_RSSI_PERC_INDEX,
+FST_IDX_S8a, // TX_RF_POWER_INDEX,
+ FST_IDX_S85,// TX_FPS_INDEX,
+ FST_IDX_INTV,// BATT_VOLTAGE_INDEX,
+ FST_IDX_BAT_CURR,// BATT_CURRENT_INDEX,
+ FST_IDX_THRCAP,// BATT_CAPACITY_INDEX,
+ FST_IDX_FUEL,// BATT_REMAINING_INDEX,
+ FST_IDX_GPS_LAT,// GPS_LATITUDE_INDEX,
+ FST_IDX_GPS_LON,// GPS_LONGITUDE_INDEX,
+ FST_IDX_GROUND_SPEED,// GPS_GROUND_SPEED_INDEX,
+ FST_IDX_CMP_HEAD,// GPS_HEADING_INDEX,
+ FST_IDX_GPS_ALT,// GPS_ALTITUDE_INDEX,
+ FST_IDX_GPS_STATUS,// GPS_SATELLITES_INDEX,
+ FST_IDX_PITCH,// ATTITUDE_PITCH_INDEX,
+ FST_IDX_ROLL, // ATTITUDE_ROLL_INDEX,
+ FST_IDX_YAW,// ATTITUDE_YAW_INDEX,
+ FST_IDX_FLIGHT_MODE,// FLIGHT_MODE_INDEX,
+ FST_IDX_VERTICAL_SPEED,// VERTICAL_SPEED_INDEX,
+ // UNKNOWN_INDEX,
+ };
 
 void processCrossfireTelemetryValue(uint8_t index, int32_t value) {
-  const CrossfireSensor &sensor = crossfireSensors[index];
-  setTelemetryValue(TELEM_PROTO_CROSSFIRE, sensor.id, 0, sensor.subId, value, sensor.unit, sensor.precision);
+  int tidx = 0;
+   if(index < UNKNOWN_INDEX && (tidx =idx_to_afhds2a[index]) !=0xff)
+   {
+        AFHDS2A_tel_data[tidx] = value;
+       AFHDS2A_tel_status |= 1<<tidx;
+   }
+  //const CrossfireSensor &sensor = crossfireSensors[index];
+  //setTelemetryValue(TELEM_PROTO_CROSSFIRE, sensor.id, 0, sensor.subId, value, sensor.unit, sensor.precision);
+
 }
 
 bool checkCrossfireTelemetryFrameCRC() {
@@ -301,14 +340,14 @@ void processCrossfireTelemetryFrame() {
     return;
   }
 
-  uint8_t id = telemetryRxBuffer[2];
+          uint8_t id = telemetryRxBuffer[2];
   int32_t value;
   switch (id) {
-#if 0
+#if 1
     case CF_VARIO_ID:
       if (getCrossfireTelemetryValue(3, value,2))
-        processCrossfireTelemetryValue(VERTICAL_SPEED_INDEX, value);
-      break;
+          processCrossfireTelemetryValue(VERTICAL_SPEED_INDEX, value);
+     break;
 
     case GPS_ID:
       if (getCrossfireTelemetryValue(3, value,4))
@@ -333,17 +372,17 @@ void processCrossfireTelemetryFrame() {
             value = ((unsigned)value < DIM(power_values) ? power_values[value] : 0);
           }
           processCrossfireTelemetryValue(i, value);
-          if (i == RX_QUALITY_INDEX) {
-          #if 0  //TODO
-            if (value) {
-              telemetryData.rssi.set(value);
-              telemetryStreaming = TELEMETRY_TIMEOUT10ms;
-            } else {
-              telemetryData.rssi.reset();
-              telemetryStreaming = 0;
-            }
-           #endif 
-          }
+          //if (i == RX_QUALITY_INDEX) {
+
+          //  if (value) {
+          //   //  telemetryData.rssi.set(value);
+          //   //  telemetryStreaming = TELEMETRY_TIMEOUT10ms;
+          //  } else {
+          //   // telemetryData.rssi.reset();
+          //  //  telemetryStreaming = 0;
+          //  }
+     
+          //}
         }
       }
       break;
@@ -366,13 +405,13 @@ void processCrossfireTelemetryFrame() {
 
     case BATTERY_ID:
       if (getCrossfireTelemetryValue(3, value,2))
-        processCrossfireTelemetryValue(BATT_VOLTAGE_INDEX, value);
+        processCrossfireTelemetryValue(BATT_VOLTAGE_INDEX, value*10);
       if (getCrossfireTelemetryValue(5, value,2))
-        processCrossfireTelemetryValue(BATT_CURRENT_INDEX, value);
+        processCrossfireTelemetryValue(BATT_CURRENT_INDEX, value*10);
       if (getCrossfireTelemetryValue(7, value,3))
-        processCrossfireTelemetryValue(BATT_CAPACITY_INDEX, value);
+        processCrossfireTelemetryValue(BATT_CAPACITY_INDEX, value*10);
       if (getCrossfireTelemetryValue(10, value,1))
-        processCrossfireTelemetryValue(BATT_REMAINING_INDEX, value);
+        processCrossfireTelemetryValue(BATT_REMAINING_INDEX, value*10);
       break;
 
     case ATTITUDE_ID:
@@ -385,11 +424,13 @@ void processCrossfireTelemetryFrame() {
       break;
 
     case FLIGHT_MODE_ID: {
+    #if 0   //TODO
       const CrossfireSensor &sensor = crossfireSensors[FLIGHT_MODE_INDEX];
       int textLength = min<int>(16, telemetryRxBuffer[1]);
       telemetryRxBuffer[textLength] = '\0';
       setTelemetryText(TELEM_PROTO_CROSSFIRE, sensor.id, 0, sensor.subId, (const char *)telemetryRxBuffer + 3);
-      break;
+   #endif
+     break;
     }
  #endif
 
@@ -452,29 +493,29 @@ int processCrossfireTelemetryData(uint8_t data) {
   return 0;
 }
 
-void crossfireSetDefault(int index, uint8_t id, uint8_t subId) {
+//void crossfireSetDefault(int index, uint8_t id, uint8_t subId) {
 
-#if 0
+//#if 0
 
-  TelemetrySensor &telemetrySensor = g_model.telemetrySensors[index];
+//  TelemetrySensor &telemetrySensor = g_model.telemetrySensors[index];
 
-  telemetrySensor.id = id;
-  telemetrySensor.instance = subId;
+//  telemetrySensor.id = id;
+//  telemetrySensor.instance = subId;
 
-  const CrossfireSensor &sensor = getCrossfireSensor(id, subId);
-  TelemetryUnit unit = sensor.unit;
-  if (unit == UNIT_GPS_LATITUDE || unit == UNIT_GPS_LONGITUDE)
-    unit = UNIT_GPS;
-  uint8_t prec = min<uint8_t>(2, sensor.precision);
-  telemetrySensor.init(sensor.name, unit, prec);
-  if (id == LINK_ID) {
-    telemetrySensor.logs = true;
-  }
+//  const CrossfireSensor &sensor = getCrossfireSensor(id, subId);
+//  TelemetryUnit unit = sensor.unit;
+//  if (unit == UNIT_GPS_LATITUDE || unit == UNIT_GPS_LONGITUDE)
+//    unit = UNIT_GPS;
+//  uint8_t prec = min<uint8_t>(2, sensor.precision);
+//  telemetrySensor.init(sensor.name, unit, prec);
+//  if (id == LINK_ID) {
+//    telemetrySensor.logs = true;
+//  }
 
-  storageDirty(EE_MODEL);
-#endif
+//  storageDirty(EE_MODEL);
+//#endif
 
-}
+//}
 
 /**
  * Skip luaInputTelemetryFifo and luaCrossfireTelemetryPop() to save RAM and provide synchronous API instead

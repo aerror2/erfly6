@@ -194,79 +194,90 @@ void parseParameterInfoMessage(uint8_t* data, uint8_t length)
     if (field->type ==9   ) {
        
        int len=strlen((char*)&fieldData[offset]);
-       if(field->valuesLength ==0)
+       if(!allParamsLoaded)
        {
-         field->valuesOffset = reusableBufferOffset;
-          reusableBuffer[reusableBufferOffset++]=COL2_CHAR_LEN;
+         if(field->valuesLength ==0)
+         {
+           field->valuesOffset = reusableBufferOffset;
+            reusableBuffer[reusableBufferOffset++]=COL2_CHAR_LEN;
 
-         int lastStart = 0;
+           int lastStart = 0;
 
-          for(int i=0;i<len;i++)
-          { 
+            for(int i=0;i<len;i++)
+            { 
 
-            if(fieldData[offset+i]==';'||i==len-1)
-            {
-                int flen = i-lastStart;
-                if(len-1==i) flen +=1;
-                if(flen>COL2_CHAR_LEN)
-                {
-                  flen = COL2_CHAR_LEN;
-                }
-                memcpy(&reusableBuffer[reusableBufferOffset], &fieldData[offset+lastStart], flen);
-                reusableBufferOffset+=flen;
-                for(int  j=flen;j<COL2_CHAR_LEN;j++)
-                {
-                    reusableBuffer[reusableBufferOffset++] = ' ';
-                }
-                lastStart =  i+1;
-                field->valueMax++;
+              if(fieldData[offset+i]==';'||i==len-1)
+              {
+                  int flen = i-lastStart;
+                  if(len-1==i) flen +=1;
+                  if(flen>COL2_CHAR_LEN)
+                  {
+                    flen = COL2_CHAR_LEN;
+                  }
+                  memcpy(&reusableBuffer[reusableBufferOffset], &fieldData[offset+lastStart], flen);
+                  reusableBufferOffset+=flen;
+                  for(int  j=flen;j<COL2_CHAR_LEN;j++)
+                  {
+                      reusableBuffer[reusableBufferOffset++] = ' ';
+                  }
+                  lastStart =  i+1;
+                  field->valueMax++;
+              }
             }
+            reusableBuffer[reusableBufferOffset++]=0;
+            field->valuesLength = reusableBufferOffset-field->valuesOffset;
           }
-          reusableBuffer[reusableBufferOffset++]=0;
-          field->valuesLength = reusableBufferOffset-field->valuesOffset;
         }
         offset += len + 1;
         field->value = fieldData[offset];
-
-        curNumSelection ++;
+        if(!allParamsLoaded)
+           curNumSelection ++;
     }
     else  if (field->type ==13   )
     {
         field->value = fieldData[offset++];
+    
+        if(!allParamsLoaded)
+        {
+           //fieldTimeout = data[offset++];
+           offset++;
 
-         //fieldTimeout = data[offset++];
-         offset++;
- 
-         int len=strlen((char*)&fieldData[offset]);
-         if(field->valuesLength ==0)
-         {
-          int flen = len;
-               if(flen>COL2_CHAR_LEN)
-                 flen = COL2_CHAR_LEN;
-              field->valuesOffset = reusableBufferOffset;
-              memcpy(&reusableBuffer[reusableBufferOffset], &fieldData[offset], flen);
-              reusableBufferOffset+=flen;
-              field->valuesLength = flen;
-         }
-         else
-         {
-             memcpy(&reusableBuffer[field->valuesOffset], &fieldData[offset], field->valuesLength);
+           int len=strlen((char*)&fieldData[offset]);
 
-         }
-         offset += len + 1;
-        
+           if(field->valuesLength ==0)
+           {
+            int flen = len;
+                 if(flen>COL2_CHAR_LEN)
+                   flen = COL2_CHAR_LEN;
+                field->valuesOffset = reusableBufferOffset;
+                memcpy(&reusableBuffer[reusableBufferOffset], &fieldData[offset], flen);
+                reusableBufferOffset+=flen;
+                field->valuesLength = flen;
+           }
+           else
+           {
+               memcpy(&reusableBuffer[field->valuesOffset], &fieldData[offset], field->valuesLength);
 
-        curNumSelection ++;
+           }
+           offset += len + 1;
+           curNumSelection ++;
+       }
 
     }
+    
+    if(!itemmodified)
+    {
+      curfieldId ++; //1 + (curfieldId % fields_count);
+      if (curfieldId > fields_count) {
 
-    curfieldId ++; //1 + (curfieldId % fields_count);
-    if (curfieldId > fields_count) {
-
-      allParamsLoaded = 1;
-      curfieldId = 1;
-    } 
-  
+        allParamsLoaded = 1;
+        curfieldId = 1;
+      } 
+    }
+    else
+    {
+        itemmodified = false;
+    }
 
     statusComplete = 1;
     fieldDataLen = 0; 
@@ -488,8 +499,6 @@ void crossfileMenu(MState2 &mstate2,uint8_t  event, uint8_t sub,  uint8_t subN, 
                        fieldTimeout = g_tmr10ms +5;
                        crossfireTelemetryPush4(0x2C, curfieldId, curFieldChunk); 
                     
-                       if(itemmodified)
-                           itemmodified = false;
                 }
                 
                 

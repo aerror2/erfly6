@@ -120,11 +120,11 @@
         <file file_name="Sources/LoRa/CRSF.cpp" />
       </folder>
       <folder Name="crossfire">
-        <file file_name="Sources/crossfire/crossfire.cpp" />
         <file file_name="Sources/crossfire/crossfire.h" />
         <file file_name="Sources/crossfire/elrsV2.cpp" />
         <file file_name="Sources/crossfire/crc_crsf.cpp" />
         <file file_name="Sources/crossfire/crc_crsf.h" />
+        <file file_name="Sources/crossfire/crossfire.cpp" />
       </folder>
       <file file_name="Sources/pers.cpp" />
     </folder>
