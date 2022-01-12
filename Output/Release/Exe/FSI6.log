@@ -6902,6 +6902,7 @@
           input section .rodata.ModelPopList from menus.o, size 53, align 1
           input section .rodata..L.str.120 from menus.o, size 53, align 1
           input section .rodata..L.str.124 from menus.o, size 52, align 1
+          input section .rodata.Stamps from stamp.o, size 50, align 1
           input section .rodata.AFHDS_A7105_regs from BoardI6.o, size 50, align 1
           input section .rodata.AFHDS2A_A7105_regs from BoardI6.o, size 50, align 1
           input section .rodata..L.str.67 from menus.o, size 46, align 1
@@ -6911,7 +6912,6 @@
           input section .rodata..L.str.13 from er9x.o, size 43, align 1
           input section .rodata..L.str.109 from menus.o, size 43, align 1
           input section .rodata.UnitsString from menus.o, size 42, align 1
-          input section .rodata.Stamps from stamp.o, size 42, align 1
           input section .rodata.Str_Gv_Source from menus.o, size 41, align 1
           input section .rodata..L.str.87 from menus.o, size 41, align 1
           input section .rodata..L.str.63 from menus.o, size 40, align 1
@@ -7773,235 +7773,235 @@
       Allocate [0x0000f229 to 0x0000f25d] to section .rodata.ModelPopList from menus.o
       Allocate [0x0000f25e to 0x0000f292] to section .rodata..L.str.120 from menus.o
       Allocate [0x0000f293 to 0x0000f2c6] to section .rodata..L.str.124 from menus.o
-      Allocate [0x0000f2c7 to 0x0000f2f8] to section .rodata.AFHDS_A7105_regs from BoardI6.o
-      Allocate [0x0000f2f9 to 0x0000f32a] to section .rodata.AFHDS2A_A7105_regs from BoardI6.o
-      Allocate [0x0000f32b to 0x0000f358] to section .rodata..L.str.67 from menus.o
-      Allocate [0x0000f359 to 0x0000f386] to section .rodata..L.str.64 from menus.o
-      Allocate [0x0000f387 to 0x0000f3b4] to section .rodata..L.str.18 from menus.o
-      Allocate [0x0000f3b5 to 0x0000f3df] to section .rodata..L.str.132 from menus.o
-      Allocate [0x0000f3e0 to 0x0000f40a] to section .rodata..L.str.13 from er9x.o
-      Allocate [0x0000f40b to 0x0000f435] to section .rodata..L.str.109 from menus.o
-      Allocate [0x0000f436 to 0x0000f45f] to section .rodata.UnitsString from menus.o
-      Allocate [0x0000f460 to 0x0000f489] to section .rodata.Stamps from stamp.o
-      Allocate [0x0000f48a to 0x0000f4b2] to section .rodata.Str_Gv_Source from menus.o
-      Allocate [0x0000f4b3 to 0x0000f4db] to section .rodata..L.str.87 from menus.o
-      Allocate [0x0000f4dc to 0x0000f503] to section .rodata..L.str.63 from menus.o
-      Allocate [0x0000f504 to 0x0000f52a] to section .rodata.MixPopList from menus.o
-      Allocate [0x0000f52b to 0x0000f550] to section .rodata..L.str.115 from menus.o
-      Allocate [0x0000f551 to 0x0000f575] to section .rodata..L.str.88 from menus.o
-      Allocate [0x0000f576 to 0x0000f59a] to section .rodata..L.str.6 from er9x.o
-      Allocate [0x0000f59b to 0x0000f5bf] to section .rodata..L.str.118 from menus.o
-      Allocate [0x0000f5c0 to 0x0000f5e1] to section .rodata..L.str.125 from menus.o
-      Allocate [0x0000f5e2 to 0x0000f602] to section .rodata..L.str.5 from er9x.o
-      Allocate [0x0000f603 to 0x0000f622] to section .rodata.AFHDS_tx_channels from AFHDS.o
-      Allocate [0x0000f623 to 0x0000f642] to section .rodata..L.str.91 from menus.o
-      Allocate [0x0000f643 to 0x0000f662] to section .rodata..L.str.74 from menus.o
-      Allocate [0x0000f663 to 0x0000f682] to section .rodata..L.str.130 from menus.o
-      Allocate [0x0000f683 to 0x0000f6a0] to section .rodata.SW_3_IDX from menus.o
-      Allocate [0x0000f6a1 to 0x0000f6be] to section .rodata.idx_to_afhds2a from crossfire.o
-      Allocate [0x0000f6bf to 0x0000f6dc] to section .rodata..L.str.29 from menus.o
-      Allocate [0x0000f6dd to 0x0000f6fa] to section .rodata..L.str.110 from menus.o
-      Allocate [0x0000f6fb to 0x0000f716] to section .rodata..L.str.7 from menus.o
-      Allocate [0x0000f717 to 0x0000f732] to section .rodata..L.str.17 from menus.o
-      Allocate [0x0000f733 to 0x0000f74e] to section .rodata..L.str.121 from menus.o
-      Allocate [0x0000f74f to 0x0000f769] to section .rodata..L.str.102 from menus.o
-      Allocate [0x0000f76a to 0x0000f783] to section .rodata..L.str.70 from menus.o
-      Allocate [0x0000f784 to 0x0000f79c] to section .rodata..L.str.19 from menus.o
-      Allocate [0x0000f79d to 0x0000f7b4] to section .rodata.bchout_ar from er9x.o
-      Allocate [0x0000f7b5 to 0x0000f7cc] to section .rodata..L.str.133 from menus.o
-      Allocate [0x0000f7cd to 0x0000f7e4] to section .rodata..L.str.128 from menus.o
-      Allocate [0x0000f7e5 to 0x0000f7fb] to section .rodata..L.str.45 from menus.o
-      Allocate [0x0000f7fc to 0x0000f811] to section .rodata.Str_On_Off_Both from menus.o
-      Allocate [0x0000f812 to 0x0000f827] to section .rodata..L.str.94 from menus.o
-      Allocate [0x0000f828 to 0x0000f83d] to section .rodata..L.str.92 from menus.o
-      Allocate [0x0000f83e to 0x0000f853] to section .rodata..L.str.2 from er9x.o
-      Allocate [0x0000f854 to 0x0000f868] to section .rodata..L.str.2 from pers.o
-      Allocate [0x0000f869 to 0x0000f87c] to section .rodata..L.str.60 from menus.o
-      Allocate [0x0000f87d to 0x0000f890] to section .rodata..L.str.6 from menus.o
-      Allocate [0x0000f891 to 0x0000f8a4] to section .rodata..L.str.117 from menus.o
-      Allocate [0x0000f8a5 to 0x0000f8b7] to section .rodata..L.str.55 from menus.o
-      Allocate [0x0000f8b8 to 0x0000f8ca] to section .rodata..L.str.44 from menus.o
-      Allocate [0x0000f8cb to 0x0000f8dd] to section .rodata..L.str.3 from pers.o
-      Allocate [0x0000f8de to 0x0000f8ef] to section .rodata.modi12x3 from er9x.o
-      Allocate [0x0000f8f0 to 0x0000f901] to section .rodata..L.str.85 from menus.o
-      Allocate [0x0000f902 to 0x0000f913] to section .rodata..L.str.5 from pers.o
-      Allocate [0x0000f914 to 0x0000f925] to section .rodata..L.str.27 from menus.o
-      Allocate [0x0000f926 to 0x0000f937] to section .rodata..L.str.25 from menus.o
-      Allocate [0x0000f938 to 0x0000f948] to section .rodata.menuWhenDone from menus.o
-      Allocate [0x0000f949 to 0x0000f959] to section .rodata..L.str.83 from menus.o
-      Allocate [0x0000f95a to 0x0000f96a] to section .rodata..L.str.66 from menus.o
-      Allocate [0x0000f96b to 0x0000f97b] to section .rodata..L.str.57 from menus.o
-      Allocate [0x0000f97c to 0x0000f98c] to section .rodata..L.str.54 from menus.o
-      Allocate [0x0000f98d to 0x0000f99d] to section .rodata..L.str.50 from menus.o
-      Allocate [0x0000f99e to 0x0000f9ae] to section .rodata..L.str.20 from menus.o
-      Allocate [0x0000f9af to 0x0000f9bf] to section .rodata..L.str.2 from elrsV2.o
-      Allocate [0x0000f9c0 to 0x0000f9d0] to section .rodata..L.str.136 from menus.o
-      Allocate [0x0000f9d1 to 0x0000f9e1] to section .rodata..L.str.134 from menus.o
-      Allocate [0x0000f9e2 to 0x0000f9f2] to section .rodata..L.str.119 from menus.o
-      Allocate [0x0000f9f3 to 0x0000fa02] to section .rodata.stickScramble from er9x.o
-      Allocate [0x0000fa03 to 0x0000fa12] to section .rodata.Str_EEPROM_Overflow from pers.o
-      Allocate [0x0000fa13 to 0x0000fa22] to section .rodata..L.str.90 from menus.o
-      Allocate [0x0000fa23 to 0x0000fa32] to section .rodata..L.str.78 from menus.o
-      Allocate [0x0000fa33 to 0x0000fa42] to section .rodata..L.str.4 from pers.o
-      Allocate [0x0000fa43 to 0x0000fa52] to section .rodata..L.str.23 from menus.o
-      Allocate [0x0000fa53 to 0x0000fa62] to section .rodata..L.str.138 from menus.o
-      Allocate [0x0000fa63 to 0x0000fa72] to section .rodata..L.str.137 from menus.o
-      Allocate [0x0000fa73 to 0x0000fa82] to section .rodata..L.str.123 from menus.o
-      Allocate [0x0000fa83 to 0x0000fa92] to section .rodata..L.str.12 from er9x.o
-      Allocate [0x0000fa93 to 0x0000faa1] to section .rodata.Str_Beep_Countdown from menus.o
-      Allocate [0x0000faa2 to 0x0000fab0] to section .rodata.csTypeTable from er9x.o
-      Allocate [0x0000fab1 to 0x0000fabf] to section .rodata..L.str.6 from pers.o
-      Allocate [0x0000fac0 to 0x0000face] to section .rodata..L.str.5 from menus.o
-      Allocate [0x0000facf to 0x0000fadd] to section .rodata..L.str.14 from menus.o
-      Allocate [0x0000fade to 0x0000faec] to section .rodata..L.str.131 from menus.o
-      Allocate [0x0000faed to 0x0000fafb] to section .rodata..L.str.112 from menus.o
-      Allocate [0x0000fafc to 0x0000fb0a] to section .rodata..L.str.11 from er9x.o
-      Allocate [0x0000fb0b to 0x0000fb19] to section .rodata..L.str.106 from menus.o
-      Allocate [0x0000fb1a to 0x0000fb27] to section .rodata..L.str.9 from menus.o
-      Allocate [0x0000fb28 to 0x0000fb35] to section .rodata..L.str.84 from menus.o
-      Allocate [0x0000fb36 to 0x0000fb43] to section .rodata..L.str.69 from menus.o
-      Allocate [0x0000fb44 to 0x0000fb51] to section .rodata..L.str.3 from er9x.o
-      Allocate [0x0000fb52 to 0x0000fb5f] to section .rodata..L.str.116 from menus.o
-      Allocate [0x0000fb60 to 0x0000fb6d] to section .rodata..L.str.103 from menus.o
-      Allocate [0x0000fb6e to 0x0000fb7a] to section .rodata..L.str.79 from menus.o
-      Allocate [0x0000fb7b to 0x0000fb87] to section .rodata..L.str.7 from er9x.o
-      Allocate [0x0000fb88 to 0x0000fb94] to section .rodata..L.str.24 from menus.o
-      Allocate [0x0000fb95 to 0x0000fba1] to section .rodata..L.str from er9x.o
-      Allocate [0x0000fba2 to 0x0000fbad] to section .rodata.Lcdinit from lcd.o
-      Allocate [0x0000fbae to 0x0000fbb9] to section .rodata.Str_minute_Beep from menus.o
-      Allocate [0x0000fbba to 0x0000fbc5] to section .rodata.Str_Calibration from menus.o
-      Allocate [0x0000fbc6 to 0x0000fbd1] to section .rodata.Str_AudioHaptic from menus.o
-      Allocate [0x0000fbd2 to 0x0000fbdd] to section .rodata..L.str.93 from menus.o
-      Allocate [0x0000fbde to 0x0000fbe9] to section .rodata..L.str.86 from menus.o
-      Allocate [0x0000fbea to 0x0000fbf5] to section .rodata..L.str.72 from menus.o
-      Allocate [0x0000fbf6 to 0x0000fc01] to section .rodata..L.str.38 from menus.o
-      Allocate [0x0000fc02 to 0x0000fc0d] to section .rodata..L.str.21 from menus.o
-      Allocate [0x0000fc0e to 0x0000fc19] to section .rodata..L.str.129 from menus.o
-      Allocate [0x0000fc1a to 0x0000fc24] to section .rodata.Str_heli_setup from menus.o
-      Allocate [0x0000fc25 to 0x0000fc2f] to section .rodata.Str_Cswitches from menus.o
-      Allocate [0x0000fc30 to 0x0000fc3a] to section .rodata.Str_Globals from menus.o
-      Allocate [0x0000fc3b to 0x0000fc45] to section .rodata.Str_Safety from menus.o
-      Allocate [0x0000fc46 to 0x0000fc50] to section .rodata..L.str.95 from menus.o
-      Allocate [0x0000fc51 to 0x0000fc5b] to section .rodata..L.str.9 from er9x.o
-      Allocate [0x0000fc5c to 0x0000fc66] to section .rodata..L.str.80 from menus.o
-      Allocate [0x0000fc67 to 0x0000fc71] to section .rodata..L.str.56 from menus.o
-      Allocate [0x0000fc72 to 0x0000fc7c] to section .rodata..L.str.107 from menus.o
-      Allocate [0x0000fc7d to 0x0000fc87] to section .rodata..L.str.1 from pers.o
-      Allocate [0x0000fc88 to 0x0000fc92] to section .rodata..L.str from pers.o
-      Allocate [0x0000fc93 to 0x0000fc9c] to section .rodata.Str_Telemetry from menus.o
-      Allocate [0x0000fc9d to 0x0000fca6] to section .rodata.Str_DiagSwtch from menus.o
-      Allocate [0x0000fca7 to 0x0000fcb0] to section .rodata.Str_TRE012AG from menus.o
-      Allocate [0x0000fcb1 to 0x0000fcba] to section .rodata..L.str.97 from menus.o
-      Allocate [0x0000fcbb to 0x0000fcc4] to section .rodata..L.str.71 from menus.o
-      Allocate [0x0000fcc5 to 0x0000fcce] to section .rodata..L.str.39 from menus.o
-      Allocate [0x0000fccf to 0x0000fcd8] to section .rodata..L.str.34 from menus.o
-      Allocate [0x0000fcd9 to 0x0000fce2] to section .rodata..L.str.12 from menus.o
-      Allocate [0x0000fce3 to 0x0000fcec] to section .rodata..L.str.113 from menus.o
-      Allocate [0x0000fced to 0x0000fcf6] to section .rodata..L.str from menus.o
-      Allocate [0x0000fcf7 to 0x0000fcff] to section .rodata.Str_Protocol from menus.o
-      Allocate [0x0000fd00 to 0x0000fd08] to section .rodata.Str_Hardware from menus.o
-      Allocate [0x0000fd09 to 0x0000fd11] to section .rodata.Str_Controls from menus.o
-      Allocate [0x0000fd12 to 0x0000fd1a] to section .rodata..L.str.8 from er9x.o
-      Allocate [0x0000fd1b to 0x0000fd23] to section .rodata..L.str.61 from menus.o
-      Allocate [0x0000fd24 to 0x0000fd2c] to section .rodata..L.str.43 from menus.o
-      Allocate [0x0000fd2d to 0x0000fd35] to section .rodata..L.str.40 from menus.o
-      Allocate [0x0000fd36 to 0x0000fd3e] to section .rodata..L.str.36 from menus.o
-      Allocate [0x0000fd3f to 0x0000fd47] to section .rodata..L.str.26 from menus.o
-      Allocate [0x0000fd48 to 0x0000fd50] to section .rodata..L.str.114 from menus.o
-      Allocate [0x0000fd51 to 0x0000fd59] to section .rodata..L.str.105 from menus.o
-      Allocate [0x0000fd5a to 0x0000fd62] to section .rodata..L.str.104 from menus.o
-      Allocate [0x0000fd63 to 0x0000fd6b] to section .rodata..L.str.100 from menus.o
-      Allocate [0x0000fd6c to 0x0000fd74] to section .rodata..L.str.10 from menus.o
-      Allocate [0x0000fd75 to 0x0000fd7c] to section .rodata.per10ms()::crossTrim from drivers.o
-      Allocate [0x0000fd7d to 0x0000fd84] to section .rodata.UnitsText from menus.o
-      Allocate [0x0000fd85 to 0x0000fd8c] to section .rodata._bitmask from lcd.o
-      Allocate [0x0000fd8d to 0x0000fd94] to section .rodata.Str_Expo from menus.o
-      Allocate [0x0000fd95 to 0x0000fd9c] to section .rodata.rate from er9x.o
-      Allocate [0x0000fd9d to 0x0000fda4] to section .rodata.Str_Version from menus.o
-      Allocate [0x0000fda5 to 0x0000fdac] to section .rodata.Str_Trainer from menus.o
-      Allocate [0x0000fdad to 0x0000fdb4] to section .rodata.Str_General from menus.o
-      Allocate [0x0000fdb5 to 0x0000fdbc] to section .rodata.Str_Display from menus.o
-      Allocate [0x0000fdbd to 0x0000fdc4] to section .rodata.Str_DiagAna from menus.o
-      Allocate [0x0000fdc5 to 0x0000fdcc] to section .rodata.UnitsVoice from menus.o
-      Allocate [0x0000fdcd to 0x0000fdd4] to section .rodata..L.str.82 from menus.o
-      Allocate [0x0000fdd5 to 0x0000fddc] to section .rodata..L.str.75 from menus.o
-      Allocate [0x0000fddd to 0x0000fde4] to section .rodata..L.str.4 from er9x.o
-      Allocate [0x0000fde5 to 0x0000fdec] to section .rodata..L.str.33 from menus.o
-      Allocate [0x0000fded to 0x0000fdf4] to section .rodata..L.str.32 from menus.o
-      Allocate [0x0000fdf5 to 0x0000fdfc] to section .rodata..L.str.3 from elrsV2.o
-      Allocate [0x0000fdfd to 0x0000fe04] to section .rodata..L.str.28 from menus.o
-      Allocate [0x0000fe05 to 0x0000fe0c] to section .rodata..L.str.126 from menus.o
-      Allocate [0x0000fe0d to 0x0000fe14] to section .rodata..L.str.101 from menus.o
-      Allocate [0x0000fe15 to 0x0000fe1b] to section .rodata.Str_Alert from er9x.o
-      Allocate [0x0000fe1c to 0x0000fe22] to section .rodata.ChannelToPin from BoardI6.o
-      Allocate [0x0000fe23 to 0x0000fe29] to section .rodata.Str_limits from menus.o
-      Allocate [0x0000fe2a to 0x0000fe30] to section .rodata.Str_Curves from menus.o
-      Allocate [0x0000fe31 to 0x0000fe37] to section .rodata.Str_Alarms from menus.o
-      Allocate [0x0000fe38 to 0x0000fe3e] to section .rodata..L.str.96 from menus.o
-      Allocate [0x0000fe3f to 0x0000fe45] to section .rodata..L.str.77 from menus.o
-      Allocate [0x0000fe46 to 0x0000fe4c] to section .rodata..L.str.37 from menus.o
-      Allocate [0x0000fe4d to 0x0000fe53] to section .rodata..L.str.35 from menus.o
-      Allocate [0x0000fe54 to 0x0000fe5a] to section .rodata..L.str.31 from menus.o
-      Allocate [0x0000fe5b to 0x0000fe61] to section .rodata..L.str.10 from er9x.o
-      Allocate [0x0000fe62 to 0x0000fe68] to section .rodata..L.str.1 from menus.o
-      Allocate [0x0000fe69 to 0x0000fe6e] to section .rodata.Str_Timer from menus.o
-      Allocate [0x0000fe6f to 0x0000fe74] to section .rodata.Str_Modes from menus.o
-      Allocate [0x0000fe75 to 0x0000fe7a] to section .rodata.Str_Mixer from menus.o
-      Allocate [0x0000fe7b to 0x0000fe80] to section .rodata.Str_Curve from menus.o
-      Allocate [0x0000fe81 to 0x0000fe86] to section .rodata.Str_1_RETA from menus.o
-      Allocate [0x0000fe87 to 0x0000fe8c] to section .rodata..L.str.98 from menus.o
-      Allocate [0x0000fe8d to 0x0000fe92] to section .rodata..L.str.41 from menus.o
-      Allocate [0x0000fe93 to 0x0000fe98] to section .rodata..L.str.16 from menus.o
-      Allocate [0x0000fe99 to 0x0000fe9e] to section .rodata..L.str.15 from menus.o
-      Allocate [0x0000fe9f to 0x0000fea4] to section .rodata..L.str.108 from menus.o
-      Allocate [0x0000fea5 to 0x0000feaa] to section .rodata..L.str.1 from elrsV2.o
-      Allocate [0x0000feab to 0x0000feaf] to section .rodata.Str_Name from menus.o
-      Allocate [0x0000feb0 to 0x0000feb4] to section .rodata.Str_Hyphens from er9x.o
-      Allocate [0x0000feb5 to 0x0000feb9] to section .rodata..L.str.89 from menus.o
-      Allocate [0x0000feba to 0x0000febe] to section .rodata..L.str.73 from menus.o
-      Allocate [0x0000febf to 0x0000fec3] to section .rodata..L.str.51 from menus.o
-      Allocate [0x0000fec4 to 0x0000fec8] to section .rodata..L.str.49 from menus.o
-      Allocate [0x0000fec9 to 0x0000fecd] to section .rodata..L.str.48 from menus.o
-      Allocate [0x0000fece to 0x0000fed2] to section .rodata..L.str.42 from menus.o
-      Allocate [0x0000fed3 to 0x0000fed7] to section .rodata..L.str.3 from menus.o
-      Allocate [0x0000fed8 to 0x0000fedc] to section .rodata..L.str.22 from menus.o
-      Allocate [0x0000fedd to 0x0000fee0] to section .rodata.menuProc0(unsigned char)::xt from menus.o
-      Allocate [0x0000fee1 to 0x0000fee4] to section .rodata.Str_ON from er9x.o
-      Allocate [0x0000fee5 to 0x0000fee8] to section .rodata.Str_OFF from er9x.o
-      Allocate [0x0000fee9 to 0x0000feec] to section .rodata..L.str.81 from menus.o
-      Allocate [0x0000feed to 0x0000fef0] to section .rodata..L.str.76 from menus.o
-      Allocate [0x0000fef1 to 0x0000fef4] to section .rodata..L.str.53 from menus.o
-      Allocate [0x0000fef5 to 0x0000fef8] to section .rodata..L.str.52 from menus.o
-      Allocate [0x0000fef9 to 0x0000fefc] to section .rodata..L.str.47 from menus.o
-      Allocate [0x0000fefd to 0x0000ff00] to section .rodata..L.str.46 from menus.o
-      Allocate [0x0000ff01 to 0x0000ff04] to section .rodata..L.str.30 from menus.o
-      Allocate [0x0000ff05 to 0x0000ff08] to section .rodata..L.str.135 from menus.o
-      Allocate [0x0000ff09 to 0x0000ff0c] to section .rodata..L.str.111 from menus.o
-      Allocate [0x0000ff0d to 0x0000ff10] to section .rodata..L.str.1 from er9x.o
-      Allocate [0x0000ff11 to 0x0000ff13] to section .rodata.Str_SC from menus.o
-      Allocate [0x0000ff14 to 0x0000ff16] to section .rodata.Str_GV from menus.o
-      Allocate [0x0000ff17 to 0x0000ff19] to section .rodata..L.str.99 from menus.o
-      Allocate [0x0000ff1a to 0x0000ff1c] to section .rodata..L.str.59 from menus.o
-      Allocate [0x0000ff1d to 0x0000ff1f] to section .rodata..L.str.58 from menus.o
-      Allocate [0x0000ff20 to 0x0000ff22] to section .rodata..L.str.2 from menus.o
-      Allocate [0x0000ff23 to 0x0000ff25] to section .rodata..L.str.11 from menus.o
-      Allocate [0x0000ff26 to 0x0000ff28] to section .rodata..L.str from elrsV2.o
-      Allocate [0x0000ff29 size 0] to block exidx from [ Linker created ]
-      Allocate [0x0000ff29 size 0] to block dtors from [ Linker created ]
+      Allocate [0x0000f2c7 to 0x0000f2f8] to section .rodata.Stamps from stamp.o
+      Allocate [0x0000f2f9 to 0x0000f32a] to section .rodata.AFHDS_A7105_regs from BoardI6.o
+      Allocate [0x0000f32b to 0x0000f35c] to section .rodata.AFHDS2A_A7105_regs from BoardI6.o
+      Allocate [0x0000f35d to 0x0000f38a] to section .rodata..L.str.67 from menus.o
+      Allocate [0x0000f38b to 0x0000f3b8] to section .rodata..L.str.64 from menus.o
+      Allocate [0x0000f3b9 to 0x0000f3e6] to section .rodata..L.str.18 from menus.o
+      Allocate [0x0000f3e7 to 0x0000f411] to section .rodata..L.str.132 from menus.o
+      Allocate [0x0000f412 to 0x0000f43c] to section .rodata..L.str.13 from er9x.o
+      Allocate [0x0000f43d to 0x0000f467] to section .rodata..L.str.109 from menus.o
+      Allocate [0x0000f468 to 0x0000f491] to section .rodata.UnitsString from menus.o
+      Allocate [0x0000f492 to 0x0000f4ba] to section .rodata.Str_Gv_Source from menus.o
+      Allocate [0x0000f4bb to 0x0000f4e3] to section .rodata..L.str.87 from menus.o
+      Allocate [0x0000f4e4 to 0x0000f50b] to section .rodata..L.str.63 from menus.o
+      Allocate [0x0000f50c to 0x0000f532] to section .rodata.MixPopList from menus.o
+      Allocate [0x0000f533 to 0x0000f558] to section .rodata..L.str.115 from menus.o
+      Allocate [0x0000f559 to 0x0000f57d] to section .rodata..L.str.88 from menus.o
+      Allocate [0x0000f57e to 0x0000f5a2] to section .rodata..L.str.6 from er9x.o
+      Allocate [0x0000f5a3 to 0x0000f5c7] to section .rodata..L.str.118 from menus.o
+      Allocate [0x0000f5c8 to 0x0000f5e9] to section .rodata..L.str.125 from menus.o
+      Allocate [0x0000f5ea to 0x0000f60a] to section .rodata..L.str.5 from er9x.o
+      Allocate [0x0000f60b to 0x0000f62a] to section .rodata.AFHDS_tx_channels from AFHDS.o
+      Allocate [0x0000f62b to 0x0000f64a] to section .rodata..L.str.91 from menus.o
+      Allocate [0x0000f64b to 0x0000f66a] to section .rodata..L.str.74 from menus.o
+      Allocate [0x0000f66b to 0x0000f68a] to section .rodata..L.str.130 from menus.o
+      Allocate [0x0000f68b to 0x0000f6a8] to section .rodata.SW_3_IDX from menus.o
+      Allocate [0x0000f6a9 to 0x0000f6c6] to section .rodata.idx_to_afhds2a from crossfire.o
+      Allocate [0x0000f6c7 to 0x0000f6e4] to section .rodata..L.str.29 from menus.o
+      Allocate [0x0000f6e5 to 0x0000f702] to section .rodata..L.str.110 from menus.o
+      Allocate [0x0000f703 to 0x0000f71e] to section .rodata..L.str.7 from menus.o
+      Allocate [0x0000f71f to 0x0000f73a] to section .rodata..L.str.17 from menus.o
+      Allocate [0x0000f73b to 0x0000f756] to section .rodata..L.str.121 from menus.o
+      Allocate [0x0000f757 to 0x0000f771] to section .rodata..L.str.102 from menus.o
+      Allocate [0x0000f772 to 0x0000f78b] to section .rodata..L.str.70 from menus.o
+      Allocate [0x0000f78c to 0x0000f7a4] to section .rodata..L.str.19 from menus.o
+      Allocate [0x0000f7a5 to 0x0000f7bc] to section .rodata.bchout_ar from er9x.o
+      Allocate [0x0000f7bd to 0x0000f7d4] to section .rodata..L.str.133 from menus.o
+      Allocate [0x0000f7d5 to 0x0000f7ec] to section .rodata..L.str.128 from menus.o
+      Allocate [0x0000f7ed to 0x0000f803] to section .rodata..L.str.45 from menus.o
+      Allocate [0x0000f804 to 0x0000f819] to section .rodata.Str_On_Off_Both from menus.o
+      Allocate [0x0000f81a to 0x0000f82f] to section .rodata..L.str.94 from menus.o
+      Allocate [0x0000f830 to 0x0000f845] to section .rodata..L.str.92 from menus.o
+      Allocate [0x0000f846 to 0x0000f85b] to section .rodata..L.str.2 from er9x.o
+      Allocate [0x0000f85c to 0x0000f870] to section .rodata..L.str.2 from pers.o
+      Allocate [0x0000f871 to 0x0000f884] to section .rodata..L.str.60 from menus.o
+      Allocate [0x0000f885 to 0x0000f898] to section .rodata..L.str.6 from menus.o
+      Allocate [0x0000f899 to 0x0000f8ac] to section .rodata..L.str.117 from menus.o
+      Allocate [0x0000f8ad to 0x0000f8bf] to section .rodata..L.str.55 from menus.o
+      Allocate [0x0000f8c0 to 0x0000f8d2] to section .rodata..L.str.44 from menus.o
+      Allocate [0x0000f8d3 to 0x0000f8e5] to section .rodata..L.str.3 from pers.o
+      Allocate [0x0000f8e6 to 0x0000f8f7] to section .rodata.modi12x3 from er9x.o
+      Allocate [0x0000f8f8 to 0x0000f909] to section .rodata..L.str.85 from menus.o
+      Allocate [0x0000f90a to 0x0000f91b] to section .rodata..L.str.5 from pers.o
+      Allocate [0x0000f91c to 0x0000f92d] to section .rodata..L.str.27 from menus.o
+      Allocate [0x0000f92e to 0x0000f93f] to section .rodata..L.str.25 from menus.o
+      Allocate [0x0000f940 to 0x0000f950] to section .rodata.menuWhenDone from menus.o
+      Allocate [0x0000f951 to 0x0000f961] to section .rodata..L.str.83 from menus.o
+      Allocate [0x0000f962 to 0x0000f972] to section .rodata..L.str.66 from menus.o
+      Allocate [0x0000f973 to 0x0000f983] to section .rodata..L.str.57 from menus.o
+      Allocate [0x0000f984 to 0x0000f994] to section .rodata..L.str.54 from menus.o
+      Allocate [0x0000f995 to 0x0000f9a5] to section .rodata..L.str.50 from menus.o
+      Allocate [0x0000f9a6 to 0x0000f9b6] to section .rodata..L.str.20 from menus.o
+      Allocate [0x0000f9b7 to 0x0000f9c7] to section .rodata..L.str.2 from elrsV2.o
+      Allocate [0x0000f9c8 to 0x0000f9d8] to section .rodata..L.str.136 from menus.o
+      Allocate [0x0000f9d9 to 0x0000f9e9] to section .rodata..L.str.134 from menus.o
+      Allocate [0x0000f9ea to 0x0000f9fa] to section .rodata..L.str.119 from menus.o
+      Allocate [0x0000f9fb to 0x0000fa0a] to section .rodata.stickScramble from er9x.o
+      Allocate [0x0000fa0b to 0x0000fa1a] to section .rodata.Str_EEPROM_Overflow from pers.o
+      Allocate [0x0000fa1b to 0x0000fa2a] to section .rodata..L.str.90 from menus.o
+      Allocate [0x0000fa2b to 0x0000fa3a] to section .rodata..L.str.78 from menus.o
+      Allocate [0x0000fa3b to 0x0000fa4a] to section .rodata..L.str.4 from pers.o
+      Allocate [0x0000fa4b to 0x0000fa5a] to section .rodata..L.str.23 from menus.o
+      Allocate [0x0000fa5b to 0x0000fa6a] to section .rodata..L.str.138 from menus.o
+      Allocate [0x0000fa6b to 0x0000fa7a] to section .rodata..L.str.137 from menus.o
+      Allocate [0x0000fa7b to 0x0000fa8a] to section .rodata..L.str.123 from menus.o
+      Allocate [0x0000fa8b to 0x0000fa9a] to section .rodata..L.str.12 from er9x.o
+      Allocate [0x0000fa9b to 0x0000faa9] to section .rodata.Str_Beep_Countdown from menus.o
+      Allocate [0x0000faaa to 0x0000fab8] to section .rodata.csTypeTable from er9x.o
+      Allocate [0x0000fab9 to 0x0000fac7] to section .rodata..L.str.6 from pers.o
+      Allocate [0x0000fac8 to 0x0000fad6] to section .rodata..L.str.5 from menus.o
+      Allocate [0x0000fad7 to 0x0000fae5] to section .rodata..L.str.14 from menus.o
+      Allocate [0x0000fae6 to 0x0000faf4] to section .rodata..L.str.131 from menus.o
+      Allocate [0x0000faf5 to 0x0000fb03] to section .rodata..L.str.112 from menus.o
+      Allocate [0x0000fb04 to 0x0000fb12] to section .rodata..L.str.11 from er9x.o
+      Allocate [0x0000fb13 to 0x0000fb21] to section .rodata..L.str.106 from menus.o
+      Allocate [0x0000fb22 to 0x0000fb2f] to section .rodata..L.str.9 from menus.o
+      Allocate [0x0000fb30 to 0x0000fb3d] to section .rodata..L.str.84 from menus.o
+      Allocate [0x0000fb3e to 0x0000fb4b] to section .rodata..L.str.69 from menus.o
+      Allocate [0x0000fb4c to 0x0000fb59] to section .rodata..L.str.3 from er9x.o
+      Allocate [0x0000fb5a to 0x0000fb67] to section .rodata..L.str.116 from menus.o
+      Allocate [0x0000fb68 to 0x0000fb75] to section .rodata..L.str.103 from menus.o
+      Allocate [0x0000fb76 to 0x0000fb82] to section .rodata..L.str.79 from menus.o
+      Allocate [0x0000fb83 to 0x0000fb8f] to section .rodata..L.str.7 from er9x.o
+      Allocate [0x0000fb90 to 0x0000fb9c] to section .rodata..L.str.24 from menus.o
+      Allocate [0x0000fb9d to 0x0000fba9] to section .rodata..L.str from er9x.o
+      Allocate [0x0000fbaa to 0x0000fbb5] to section .rodata.Lcdinit from lcd.o
+      Allocate [0x0000fbb6 to 0x0000fbc1] to section .rodata.Str_minute_Beep from menus.o
+      Allocate [0x0000fbc2 to 0x0000fbcd] to section .rodata.Str_Calibration from menus.o
+      Allocate [0x0000fbce to 0x0000fbd9] to section .rodata.Str_AudioHaptic from menus.o
+      Allocate [0x0000fbda to 0x0000fbe5] to section .rodata..L.str.93 from menus.o
+      Allocate [0x0000fbe6 to 0x0000fbf1] to section .rodata..L.str.86 from menus.o
+      Allocate [0x0000fbf2 to 0x0000fbfd] to section .rodata..L.str.72 from menus.o
+      Allocate [0x0000fbfe to 0x0000fc09] to section .rodata..L.str.38 from menus.o
+      Allocate [0x0000fc0a to 0x0000fc15] to section .rodata..L.str.21 from menus.o
+      Allocate [0x0000fc16 to 0x0000fc21] to section .rodata..L.str.129 from menus.o
+      Allocate [0x0000fc22 to 0x0000fc2c] to section .rodata.Str_heli_setup from menus.o
+      Allocate [0x0000fc2d to 0x0000fc37] to section .rodata.Str_Cswitches from menus.o
+      Allocate [0x0000fc38 to 0x0000fc42] to section .rodata.Str_Globals from menus.o
+      Allocate [0x0000fc43 to 0x0000fc4d] to section .rodata.Str_Safety from menus.o
+      Allocate [0x0000fc4e to 0x0000fc58] to section .rodata..L.str.95 from menus.o
+      Allocate [0x0000fc59 to 0x0000fc63] to section .rodata..L.str.9 from er9x.o
+      Allocate [0x0000fc64 to 0x0000fc6e] to section .rodata..L.str.80 from menus.o
+      Allocate [0x0000fc6f to 0x0000fc79] to section .rodata..L.str.56 from menus.o
+      Allocate [0x0000fc7a to 0x0000fc84] to section .rodata..L.str.107 from menus.o
+      Allocate [0x0000fc85 to 0x0000fc8f] to section .rodata..L.str.1 from pers.o
+      Allocate [0x0000fc90 to 0x0000fc9a] to section .rodata..L.str from pers.o
+      Allocate [0x0000fc9b to 0x0000fca4] to section .rodata.Str_Telemetry from menus.o
+      Allocate [0x0000fca5 to 0x0000fcae] to section .rodata.Str_DiagSwtch from menus.o
+      Allocate [0x0000fcaf to 0x0000fcb8] to section .rodata.Str_TRE012AG from menus.o
+      Allocate [0x0000fcb9 to 0x0000fcc2] to section .rodata..L.str.97 from menus.o
+      Allocate [0x0000fcc3 to 0x0000fccc] to section .rodata..L.str.71 from menus.o
+      Allocate [0x0000fccd to 0x0000fcd6] to section .rodata..L.str.39 from menus.o
+      Allocate [0x0000fcd7 to 0x0000fce0] to section .rodata..L.str.34 from menus.o
+      Allocate [0x0000fce1 to 0x0000fcea] to section .rodata..L.str.12 from menus.o
+      Allocate [0x0000fceb to 0x0000fcf4] to section .rodata..L.str.113 from menus.o
+      Allocate [0x0000fcf5 to 0x0000fcfe] to section .rodata..L.str from menus.o
+      Allocate [0x0000fcff to 0x0000fd07] to section .rodata.Str_Protocol from menus.o
+      Allocate [0x0000fd08 to 0x0000fd10] to section .rodata.Str_Hardware from menus.o
+      Allocate [0x0000fd11 to 0x0000fd19] to section .rodata.Str_Controls from menus.o
+      Allocate [0x0000fd1a to 0x0000fd22] to section .rodata..L.str.8 from er9x.o
+      Allocate [0x0000fd23 to 0x0000fd2b] to section .rodata..L.str.61 from menus.o
+      Allocate [0x0000fd2c to 0x0000fd34] to section .rodata..L.str.43 from menus.o
+      Allocate [0x0000fd35 to 0x0000fd3d] to section .rodata..L.str.40 from menus.o
+      Allocate [0x0000fd3e to 0x0000fd46] to section .rodata..L.str.36 from menus.o
+      Allocate [0x0000fd47 to 0x0000fd4f] to section .rodata..L.str.26 from menus.o
+      Allocate [0x0000fd50 to 0x0000fd58] to section .rodata..L.str.114 from menus.o
+      Allocate [0x0000fd59 to 0x0000fd61] to section .rodata..L.str.105 from menus.o
+      Allocate [0x0000fd62 to 0x0000fd6a] to section .rodata..L.str.104 from menus.o
+      Allocate [0x0000fd6b to 0x0000fd73] to section .rodata..L.str.100 from menus.o
+      Allocate [0x0000fd74 to 0x0000fd7c] to section .rodata..L.str.10 from menus.o
+      Allocate [0x0000fd7d to 0x0000fd84] to section .rodata.per10ms()::crossTrim from drivers.o
+      Allocate [0x0000fd85 to 0x0000fd8c] to section .rodata.UnitsText from menus.o
+      Allocate [0x0000fd8d to 0x0000fd94] to section .rodata._bitmask from lcd.o
+      Allocate [0x0000fd95 to 0x0000fd9c] to section .rodata.Str_Expo from menus.o
+      Allocate [0x0000fd9d to 0x0000fda4] to section .rodata.rate from er9x.o
+      Allocate [0x0000fda5 to 0x0000fdac] to section .rodata.Str_Version from menus.o
+      Allocate [0x0000fdad to 0x0000fdb4] to section .rodata.Str_Trainer from menus.o
+      Allocate [0x0000fdb5 to 0x0000fdbc] to section .rodata.Str_General from menus.o
+      Allocate [0x0000fdbd to 0x0000fdc4] to section .rodata.Str_Display from menus.o
+      Allocate [0x0000fdc5 to 0x0000fdcc] to section .rodata.Str_DiagAna from menus.o
+      Allocate [0x0000fdcd to 0x0000fdd4] to section .rodata.UnitsVoice from menus.o
+      Allocate [0x0000fdd5 to 0x0000fddc] to section .rodata..L.str.82 from menus.o
+      Allocate [0x0000fddd to 0x0000fde4] to section .rodata..L.str.75 from menus.o
+      Allocate [0x0000fde5 to 0x0000fdec] to section .rodata..L.str.4 from er9x.o
+      Allocate [0x0000fded to 0x0000fdf4] to section .rodata..L.str.33 from menus.o
+      Allocate [0x0000fdf5 to 0x0000fdfc] to section .rodata..L.str.32 from menus.o
+      Allocate [0x0000fdfd to 0x0000fe04] to section .rodata..L.str.3 from elrsV2.o
+      Allocate [0x0000fe05 to 0x0000fe0c] to section .rodata..L.str.28 from menus.o
+      Allocate [0x0000fe0d to 0x0000fe14] to section .rodata..L.str.126 from menus.o
+      Allocate [0x0000fe15 to 0x0000fe1c] to section .rodata..L.str.101 from menus.o
+      Allocate [0x0000fe1d to 0x0000fe23] to section .rodata.Str_Alert from er9x.o
+      Allocate [0x0000fe24 to 0x0000fe2a] to section .rodata.ChannelToPin from BoardI6.o
+      Allocate [0x0000fe2b to 0x0000fe31] to section .rodata.Str_limits from menus.o
+      Allocate [0x0000fe32 to 0x0000fe38] to section .rodata.Str_Curves from menus.o
+      Allocate [0x0000fe39 to 0x0000fe3f] to section .rodata.Str_Alarms from menus.o
+      Allocate [0x0000fe40 to 0x0000fe46] to section .rodata..L.str.96 from menus.o
+      Allocate [0x0000fe47 to 0x0000fe4d] to section .rodata..L.str.77 from menus.o
+      Allocate [0x0000fe4e to 0x0000fe54] to section .rodata..L.str.37 from menus.o
+      Allocate [0x0000fe55 to 0x0000fe5b] to section .rodata..L.str.35 from menus.o
+      Allocate [0x0000fe5c to 0x0000fe62] to section .rodata..L.str.31 from menus.o
+      Allocate [0x0000fe63 to 0x0000fe69] to section .rodata..L.str.10 from er9x.o
+      Allocate [0x0000fe6a to 0x0000fe70] to section .rodata..L.str.1 from menus.o
+      Allocate [0x0000fe71 to 0x0000fe76] to section .rodata.Str_Timer from menus.o
+      Allocate [0x0000fe77 to 0x0000fe7c] to section .rodata.Str_Modes from menus.o
+      Allocate [0x0000fe7d to 0x0000fe82] to section .rodata.Str_Mixer from menus.o
+      Allocate [0x0000fe83 to 0x0000fe88] to section .rodata.Str_Curve from menus.o
+      Allocate [0x0000fe89 to 0x0000fe8e] to section .rodata.Str_1_RETA from menus.o
+      Allocate [0x0000fe8f to 0x0000fe94] to section .rodata..L.str.98 from menus.o
+      Allocate [0x0000fe95 to 0x0000fe9a] to section .rodata..L.str.41 from menus.o
+      Allocate [0x0000fe9b to 0x0000fea0] to section .rodata..L.str.16 from menus.o
+      Allocate [0x0000fea1 to 0x0000fea6] to section .rodata..L.str.15 from menus.o
+      Allocate [0x0000fea7 to 0x0000feac] to section .rodata..L.str.108 from menus.o
+      Allocate [0x0000fead to 0x0000feb2] to section .rodata..L.str.1 from elrsV2.o
+      Allocate [0x0000feb3 to 0x0000feb7] to section .rodata.Str_Name from menus.o
+      Allocate [0x0000feb8 to 0x0000febc] to section .rodata.Str_Hyphens from er9x.o
+      Allocate [0x0000febd to 0x0000fec1] to section .rodata..L.str.89 from menus.o
+      Allocate [0x0000fec2 to 0x0000fec6] to section .rodata..L.str.73 from menus.o
+      Allocate [0x0000fec7 to 0x0000fecb] to section .rodata..L.str.51 from menus.o
+      Allocate [0x0000fecc to 0x0000fed0] to section .rodata..L.str.49 from menus.o
+      Allocate [0x0000fed1 to 0x0000fed5] to section .rodata..L.str.48 from menus.o
+      Allocate [0x0000fed6 to 0x0000feda] to section .rodata..L.str.42 from menus.o
+      Allocate [0x0000fedb to 0x0000fedf] to section .rodata..L.str.3 from menus.o
+      Allocate [0x0000fee0 to 0x0000fee4] to section .rodata..L.str.22 from menus.o
+      Allocate [0x0000fee5 to 0x0000fee8] to section .rodata.menuProc0(unsigned char)::xt from menus.o
+      Allocate [0x0000fee9 to 0x0000feec] to section .rodata.Str_ON from er9x.o
+      Allocate [0x0000feed to 0x0000fef0] to section .rodata.Str_OFF from er9x.o
+      Allocate [0x0000fef1 to 0x0000fef4] to section .rodata..L.str.81 from menus.o
+      Allocate [0x0000fef5 to 0x0000fef8] to section .rodata..L.str.76 from menus.o
+      Allocate [0x0000fef9 to 0x0000fefc] to section .rodata..L.str.53 from menus.o
+      Allocate [0x0000fefd to 0x0000ff00] to section .rodata..L.str.52 from menus.o
+      Allocate [0x0000ff01 to 0x0000ff04] to section .rodata..L.str.47 from menus.o
+      Allocate [0x0000ff05 to 0x0000ff08] to section .rodata..L.str.46 from menus.o
+      Allocate [0x0000ff09 to 0x0000ff0c] to section .rodata..L.str.30 from menus.o
+      Allocate [0x0000ff0d to 0x0000ff10] to section .rodata..L.str.135 from menus.o
+      Allocate [0x0000ff11 to 0x0000ff14] to section .rodata..L.str.111 from menus.o
+      Allocate [0x0000ff15 to 0x0000ff18] to section .rodata..L.str.1 from er9x.o
+      Allocate [0x0000ff19 to 0x0000ff1b] to section .rodata.Str_SC from menus.o
+      Allocate [0x0000ff1c to 0x0000ff1e] to section .rodata.Str_GV from menus.o
+      Allocate [0x0000ff1f to 0x0000ff21] to section .rodata..L.str.99 from menus.o
+      Allocate [0x0000ff22 to 0x0000ff24] to section .rodata..L.str.59 from menus.o
+      Allocate [0x0000ff25 to 0x0000ff27] to section .rodata..L.str.58 from menus.o
+      Allocate [0x0000ff28 to 0x0000ff2a] to section .rodata..L.str.2 from menus.o
+      Allocate [0x0000ff2b to 0x0000ff2d] to section .rodata..L.str.11 from menus.o
+      Allocate [0x0000ff2e to 0x0000ff30] to section .rodata..L.str from elrsV2.o
+      Allocate [0x0000ff31 size 0] to block exidx from [ Linker created ]
+      Allocate [0x0000ff31 size 0] to block dtors from [ Linker created ]
       Inputs to block dtors
-          Allocate [0x0000ff29 size 0] to inline block <#2> at line 62, col 85 from [ Linker created ]
-      Allocate [0x0000ff2c to 0x0000ff37] to block ctors from [ Linker created ]
+          Allocate [0x0000ff31 size 0] to inline block <#2> at line 62, col 85 from [ Linker created ]
+      Allocate [0x0000ff34 to 0x0000ff3f] to block ctors from [ Linker created ]
       Inputs to block ctors
           Inputs to inline block <#1> at line 61, col 85
-              Allocate [0x0000ff2c to 0x0000ff2f] to section .init_array from er9x.o
-              Allocate [0x0000ff30 to 0x0000ff33] to section .init_array from SX127x.o
-              Allocate [0x0000ff34 to 0x0000ff37] to section .init_array from ELRS.o
-          Allocate [0x0000ff2c to 0x0000ff37] to inline block <#1> at line 61, col 85 from [ Linker created ]
-  Executing place in [0x0000ff29 to 0x0000ff2b] + [0x0000ff38 to 0x0000ffff] (1 inputs selected)
+              Allocate [0x0000ff34 to 0x0000ff37] to section .init_array from er9x.o
+              Allocate [0x0000ff38 to 0x0000ff3b] to section .init_array from SX127x.o
+              Allocate [0x0000ff3c to 0x0000ff3f] to section .init_array from ELRS.o
+          Allocate [0x0000ff34 to 0x0000ff3f] to inline block <#1> at line 61, col 85 from [ Linker created ]
+  Executing place in [0x0000ff31 to 0x0000ff33] + [0x0000ff40 to 0x0000ffff] (1 inputs selected)
       Candidate regions: [0x00000000 to 0x0000ffff]
-      Allocate [0x0000ff29 size 0] to block tdata_load from [ Linker created ]
+      Allocate [0x0000ff31 size 0] to block tdata_load from [ Linker created ]
       Inputs to block tdata_load
-          Allocate [0x0000ff29 size 0] to copy of block tdata from [ Linker created ]
+          Allocate [0x0000ff31 size 0] to copy of block tdata from [ Linker created ]
   Executing place in [0x1ffff800 to 0x200016ff] (1 inputs selected)
       Candidate regions: [0x1ffff800 to 0x200017ff]
       Allocate [0x1ffff800 size 0] to block tls from [ Linker created ]
@@ -9090,7 +9090,7 @@
 ***************************************************************************************
 
   Create copy of block tdata:
-      [0x0000ff29 size 0]
+      [0x0000ff31 size 0]
   Create placeholder section for block heap
   Create placeholder section for block stack
 
@@ -11202,15 +11202,15 @@
           Select section .bss.block.heap ([.bss.block.heap]) from [ Linker created ] using wildcard
           Select section .bss.block.stack ([.bss.block.stack]) from [ Linker created ] using wildcard
       Select inputs for 'place in' block <#13> at line 128, col 45
-      Executing place in [0x0000ff29 to 0x0000ff2b] + [0x0000ff38 to 0x0000ffff] (640 inputs selected)
+      Executing place in [0x0000ff31 to 0x0000ff33] + [0x0000ff40 to 0x0000ffff] (640 inputs selected)
           Candidate regions: [0x00000000 to 0x0000ffff]
-          Allocate [0x0000ff38 to 0x0000ff5f] to section .segger.init.table from [ Linker created ]
-          Allocate [0x0000ff60 to 0x0000ff7f] to section .segger.init.__SEGGER_init_ctors from SEGGER_crtinit_v6m_little.o
-          Allocate [0x0000ff80 to 0x0000ff9b] to section .segger.init.__SEGGER_init_heap from SEGGER_crtinit_v6m_little.o
-          Allocate [0x0000ff9c to 0x0000ffad] to section .segger.init.data from [ Linker created ]
-          Allocate [0x0000ffae to 0x0000ffc1] to section .segger.init.__SEGGER_init_copy from SEGGER_crtinit_v6m_little.o
-          Allocate [0x0000ffc2 to 0x0000ffd3] to section .segger.init.__SEGGER_init_zero from SEGGER_crtinit_v6m_little.o
-      Executing place in [0x0000ff29 to 0x0000ff2b] + [0x0000ffd4 to 0x0000ffff] (1 inputs selected)
+          Allocate [0x0000ff40 to 0x0000ff67] to section .segger.init.table from [ Linker created ]
+          Allocate [0x0000ff68 to 0x0000ff87] to section .segger.init.__SEGGER_init_ctors from SEGGER_crtinit_v6m_little.o
+          Allocate [0x0000ff88 to 0x0000ffa3] to section .segger.init.__SEGGER_init_heap from SEGGER_crtinit_v6m_little.o
+          Allocate [0x0000ffa4 to 0x0000ffb5] to section .segger.init.data from [ Linker created ]
+          Allocate [0x0000ffb6 to 0x0000ffc9] to section .segger.init.__SEGGER_init_copy from SEGGER_crtinit_v6m_little.o
+          Allocate [0x0000ffca to 0x0000ffdb] to section .segger.init.__SEGGER_init_zero from SEGGER_crtinit_v6m_little.o
+      Executing place in [0x0000ff31 to 0x0000ff33] + [0x0000ffdc to 0x0000ffff] (1 inputs selected)
           Candidate regions: [0x00000000 to 0x0000ffff]
       Executing place in [0x20000e9b to 0x20000e9f] + [0x20000fa0 to 0x200016ff] (1 inputs selected)
           Candidate regions: [0x1ffff800 to 0x200017ff]
@@ -11229,8 +11229,8 @@
   Creating symbols for block vectors
   Creating symbols for block vectors_ram
   Creating symbols for block ctors
-      Define global symbol __ctors_start__ = 0x0000ff2c
-      Define global symbol __ctors_end__ = 0x0000ff38
+      Define global symbol __ctors_start__ = 0x0000ff34
+      Define global symbol __ctors_end__ = 0x0000ff40
   Creating symbols for block dtors
   Creating symbols for block exidx
   Creating symbols for block tbss
@@ -12981,19 +12981,19 @@
 ***                                                                                 ***
 ***************************************************************************************
 
+  Load REL relocations for .debug_aranges (system_MKL16Z4.o)
   Load REL relocations for .debug_aranges (Kinetis_KL_Startup.o)
   Load REL relocations for .debug_aranges (MKL16Z4_Vectors.o)
   Load REL relocations for .debug_aranges (SEGGER_THUMB_Startup.o)
-  Load REL relocations for .debug_aranges (system_MKL16Z4.o)
   Load REL relocations for .debug_frame (system_MKL16Z4.o)
+  Load REL relocations for .debug_info (system_MKL16Z4.o)
   Load REL relocations for .debug_info (Kinetis_KL_Startup.o)
   Load REL relocations for .debug_info (MKL16Z4_Vectors.o)
   Load REL relocations for .debug_info (SEGGER_THUMB_Startup.o)
-  Load REL relocations for .debug_info (system_MKL16Z4.o)
+  Load REL relocations for .debug_line (system_MKL16Z4.o)
   Load REL relocations for .debug_line (Kinetis_KL_Startup.o)
   Load REL relocations for .debug_line (MKL16Z4_Vectors.o)
   Load REL relocations for .debug_line (SEGGER_THUMB_Startup.o)
-  Load REL relocations for .debug_line (system_MKL16Z4.o)
   Load REL relocations for .debug_loc (system_MKL16Z4.o)
   Load REL relocations for .debug_pubnames (system_MKL16Z4.o)
   Load REL relocations for .debug_pubtypes (system_MKL16Z4.o)
@@ -13451,229 +13451,229 @@
         [0x0000f229 to 0x0000f25d] - ModelPopList (section .rodata.ModelPopList)
         [0x0000f25e to 0x0000f292] - [.rodata..L.str.120] (section .rodata..L.str.120)
         [0x0000f293 to 0x0000f2c6] - [.rodata..L.str.124] (section .rodata..L.str.124)
-        [0x0000f2c7 to 0x0000f2f8] - AFHDS_A7105_regs (section .rodata.AFHDS_A7105_regs)
-        [0x0000f2f9 to 0x0000f32a] - AFHDS2A_A7105_regs (section .rodata.AFHDS2A_A7105_regs)
-        [0x0000f32b to 0x0000f358] - [.rodata..L.str.67] (section .rodata..L.str.67)
-        [0x0000f359 to 0x0000f386] - [.rodata..L.str.64] (section .rodata..L.str.64)
-        [0x0000f387 to 0x0000f3b4] - [.rodata..L.str.18] (section .rodata..L.str.18)
-        [0x0000f3b5 to 0x0000f3df] - [.rodata..L.str.132] (section .rodata..L.str.132)
-        [0x0000f3e0 to 0x0000f40a] - [.rodata..L.str.13] (section .rodata..L.str.13)
-        [0x0000f40b to 0x0000f435] - [.rodata..L.str.109] (section .rodata..L.str.109)
-        [0x0000f436 to 0x0000f45f] - UnitsString (section .rodata.UnitsString)
-        [0x0000f460 to 0x0000f489] - Stamps (section .rodata.Stamps)
-        [0x0000f48a to 0x0000f4b2] - Str_Gv_Source (section .rodata.Str_Gv_Source)
-        [0x0000f4b3 to 0x0000f4db] - [.rodata..L.str.87] (section .rodata..L.str.87)
-        [0x0000f4dc to 0x0000f503] - [.rodata..L.str.63] (section .rodata..L.str.63)
-        [0x0000f504 to 0x0000f52a] - MixPopList (section .rodata.MixPopList)
-        [0x0000f52b to 0x0000f550] - [.rodata..L.str.115] (section .rodata..L.str.115)
-        [0x0000f551 to 0x0000f575] - [.rodata..L.str.88] (section .rodata..L.str.88)
-        [0x0000f576 to 0x0000f59a] - [.rodata..L.str.6] (section .rodata..L.str.6)
-        [0x0000f59b to 0x0000f5bf] - [.rodata..L.str.118] (section .rodata..L.str.118)
-        [0x0000f5c0 to 0x0000f5e1] - [.rodata..L.str.125] (section .rodata..L.str.125)
-        [0x0000f5e2 to 0x0000f602] - [.rodata..L.str.5] (section .rodata..L.str.5)
-        [0x0000f603 to 0x0000f622] - AFHDS_tx_channels (section .rodata.AFHDS_tx_channels)
-        [0x0000f623 to 0x0000f642] - [.rodata..L.str.91] (section .rodata..L.str.91)
-        [0x0000f643 to 0x0000f662] - [.rodata..L.str.74] (section .rodata..L.str.74)
-        [0x0000f663 to 0x0000f682] - [.rodata..L.str.130] (section .rodata..L.str.130)
-        [0x0000f683 to 0x0000f6a0] - SW_3_IDX (section .rodata.SW_3_IDX)
-        [0x0000f6a1 to 0x0000f6be] - idx_to_afhds2a (section .rodata.idx_to_afhds2a)
-        [0x0000f6bf to 0x0000f6dc] - [.rodata..L.str.29] (section .rodata..L.str.29)
-        [0x0000f6dd to 0x0000f6fa] - [.rodata..L.str.110] (section .rodata..L.str.110)
-        [0x0000f6fb to 0x0000f716] - [.rodata..L.str.7] (section .rodata..L.str.7)
-        [0x0000f717 to 0x0000f732] - [.rodata..L.str.17] (section .rodata..L.str.17)
-        [0x0000f733 to 0x0000f74e] - [.rodata..L.str.121] (section .rodata..L.str.121)
-        [0x0000f74f to 0x0000f769] - [.rodata..L.str.102] (section .rodata..L.str.102)
-        [0x0000f76a to 0x0000f783] - [.rodata..L.str.70] (section .rodata..L.str.70)
-        [0x0000f784 to 0x0000f79c] - [.rodata..L.str.19] (section .rodata..L.str.19)
-        [0x0000f79d to 0x0000f7b4] - bchout_ar (section .rodata.bchout_ar)
-        [0x0000f7b5 to 0x0000f7cc] - [.rodata..L.str.133] (section .rodata..L.str.133)
-        [0x0000f7cd to 0x0000f7e4] - [.rodata..L.str.128] (section .rodata..L.str.128)
-        [0x0000f7e5 to 0x0000f7fb] - [.rodata..L.str.45] (section .rodata..L.str.45)
-        [0x0000f7fc to 0x0000f811] - Str_On_Off_Both (section .rodata.Str_On_Off_Both)
-        [0x0000f812 to 0x0000f827] - [.rodata..L.str.94] (section .rodata..L.str.94)
-        [0x0000f828 to 0x0000f83d] - [.rodata..L.str.92] (section .rodata..L.str.92)
-        [0x0000f83e to 0x0000f853] - [.rodata..L.str.2] (section .rodata..L.str.2)
-        [0x0000f854 to 0x0000f868] - [.rodata..L.str.2] (section .rodata..L.str.2)
-        [0x0000f869 to 0x0000f87c] - [.rodata..L.str.60] (section .rodata..L.str.60)
-        [0x0000f87d to 0x0000f890] - [.rodata..L.str.6] (section .rodata..L.str.6)
-        [0x0000f891 to 0x0000f8a4] - [.rodata..L.str.117] (section .rodata..L.str.117)
-        [0x0000f8a5 to 0x0000f8b7] - [.rodata..L.str.55] (section .rodata..L.str.55)
-        [0x0000f8b8 to 0x0000f8ca] - [.rodata..L.str.44] (section .rodata..L.str.44)
-        [0x0000f8cb to 0x0000f8dd] - [.rodata..L.str.3] (section .rodata..L.str.3)
-        [0x0000f8de to 0x0000f8ef] - modi12x3 (section .rodata.modi12x3)
-        [0x0000f8f0 to 0x0000f901] - [.rodata..L.str.85] (section .rodata..L.str.85)
-        [0x0000f902 to 0x0000f913] - [.rodata..L.str.5] (section .rodata..L.str.5)
-        [0x0000f914 to 0x0000f925] - [.rodata..L.str.27] (section .rodata..L.str.27)
-        [0x0000f926 to 0x0000f937] - [.rodata..L.str.25] (section .rodata..L.str.25)
-        [0x0000f938 to 0x0000f948] - menuWhenDone (section .rodata.menuWhenDone)
-        [0x0000f949 to 0x0000f959] - [.rodata..L.str.83] (section .rodata..L.str.83)
-        [0x0000f95a to 0x0000f96a] - [.rodata..L.str.66] (section .rodata..L.str.66)
-        [0x0000f96b to 0x0000f97b] - [.rodata..L.str.57] (section .rodata..L.str.57)
-        [0x0000f97c to 0x0000f98c] - [.rodata..L.str.54] (section .rodata..L.str.54)
-        [0x0000f98d to 0x0000f99d] - [.rodata..L.str.50] (section .rodata..L.str.50)
-        [0x0000f99e to 0x0000f9ae] - [.rodata..L.str.20] (section .rodata..L.str.20)
-        [0x0000f9af to 0x0000f9bf] - [.rodata..L.str.2] (section .rodata..L.str.2)
-        [0x0000f9c0 to 0x0000f9d0] - [.rodata..L.str.136] (section .rodata..L.str.136)
-        [0x0000f9d1 to 0x0000f9e1] - [.rodata..L.str.134] (section .rodata..L.str.134)
-        [0x0000f9e2 to 0x0000f9f2] - [.rodata..L.str.119] (section .rodata..L.str.119)
-        [0x0000f9f3 to 0x0000fa02] - stickScramble (section .rodata.stickScramble)
-        [0x0000fa03 to 0x0000fa12] - Str_EEPROM_Overflow (section .rodata.Str_EEPROM_Overflow)
-        [0x0000fa13 to 0x0000fa22] - [.rodata..L.str.90] (section .rodata..L.str.90)
-        [0x0000fa23 to 0x0000fa32] - [.rodata..L.str.78] (section .rodata..L.str.78)
-        [0x0000fa33 to 0x0000fa42] - [.rodata..L.str.4] (section .rodata..L.str.4)
-        [0x0000fa43 to 0x0000fa52] - [.rodata..L.str.23] (section .rodata..L.str.23)
-        [0x0000fa53 to 0x0000fa62] - [.rodata..L.str.138] (section .rodata..L.str.138)
-        [0x0000fa63 to 0x0000fa72] - [.rodata..L.str.137] (section .rodata..L.str.137)
-        [0x0000fa73 to 0x0000fa82] - [.rodata..L.str.123] (section .rodata..L.str.123)
-        [0x0000fa83 to 0x0000fa92] - [.rodata..L.str.12] (section .rodata..L.str.12)
-        [0x0000fa93 to 0x0000faa1] - Str_Beep_Countdown (section .rodata.Str_Beep_Countdown)
-        [0x0000faa2 to 0x0000fab0] - csTypeTable (section .rodata.csTypeTable)
-        [0x0000fab1 to 0x0000fabf] - [.rodata..L.str.6] (section .rodata..L.str.6)
-        [0x0000fac0 to 0x0000face] - [.rodata..L.str.5] (section .rodata..L.str.5)
-        [0x0000facf to 0x0000fadd] - [.rodata..L.str.14] (section .rodata..L.str.14)
-        [0x0000fade to 0x0000faec] - [.rodata..L.str.131] (section .rodata..L.str.131)
-        [0x0000faed to 0x0000fafb] - [.rodata..L.str.112] (section .rodata..L.str.112)
-        [0x0000fafc to 0x0000fb0a] - [.rodata..L.str.11] (section .rodata..L.str.11)
-        [0x0000fb0b to 0x0000fb19] - [.rodata..L.str.106] (section .rodata..L.str.106)
-        [0x0000fb1a to 0x0000fb27] - [.rodata..L.str.9] (section .rodata..L.str.9)
-        [0x0000fb28 to 0x0000fb35] - [.rodata..L.str.84] (section .rodata..L.str.84)
-        [0x0000fb36 to 0x0000fb43] - [.rodata..L.str.69] (section .rodata..L.str.69)
-        [0x0000fb44 to 0x0000fb51] - [.rodata..L.str.3] (section .rodata..L.str.3)
-        [0x0000fb52 to 0x0000fb5f] - [.rodata..L.str.116] (section .rodata..L.str.116)
-        [0x0000fb60 to 0x0000fb6d] - [.rodata..L.str.103] (section .rodata..L.str.103)
-        [0x0000fb6e to 0x0000fb7a] - [.rodata..L.str.79] (section .rodata..L.str.79)
-        [0x0000fb7b to 0x0000fb87] - [.rodata..L.str.7] (section .rodata..L.str.7)
-        [0x0000fb88 to 0x0000fb94] - [.rodata..L.str.24] (section .rodata..L.str.24)
-        [0x0000fb95 to 0x0000fba1] - [.rodata..L.str] (section .rodata..L.str)
-        [0x0000fba2 to 0x0000fbad] - Lcdinit (section .rodata.Lcdinit)
-        [0x0000fbae to 0x0000fbb9] - Str_minute_Beep (section .rodata.Str_minute_Beep)
-        [0x0000fbba to 0x0000fbc5] - Str_Calibration (section .rodata.Str_Calibration)
-        [0x0000fbc6 to 0x0000fbd1] - Str_AudioHaptic (section .rodata.Str_AudioHaptic)
-        [0x0000fbd2 to 0x0000fbdd] - [.rodata..L.str.93] (section .rodata..L.str.93)
-        [0x0000fbde to 0x0000fbe9] - [.rodata..L.str.86] (section .rodata..L.str.86)
-        [0x0000fbea to 0x0000fbf5] - [.rodata..L.str.72] (section .rodata..L.str.72)
-        [0x0000fbf6 to 0x0000fc01] - [.rodata..L.str.38] (section .rodata..L.str.38)
-        [0x0000fc02 to 0x0000fc0d] - [.rodata..L.str.21] (section .rodata..L.str.21)
-        [0x0000fc0e to 0x0000fc19] - [.rodata..L.str.129] (section .rodata..L.str.129)
-        [0x0000fc1a to 0x0000fc24] - Str_heli_setup (section .rodata.Str_heli_setup)
-        [0x0000fc25 to 0x0000fc2f] - Str_Cswitches (section .rodata.Str_Cswitches)
-        [0x0000fc30 to 0x0000fc3a] - Str_Globals (section .rodata.Str_Globals)
-        [0x0000fc3b to 0x0000fc45] - Str_Safety (section .rodata.Str_Safety)
-        [0x0000fc46 to 0x0000fc50] - [.rodata..L.str.95] (section .rodata..L.str.95)
-        [0x0000fc51 to 0x0000fc5b] - [.rodata..L.str.9] (section .rodata..L.str.9)
-        [0x0000fc5c to 0x0000fc66] - [.rodata..L.str.80] (section .rodata..L.str.80)
-        [0x0000fc67 to 0x0000fc71] - [.rodata..L.str.56] (section .rodata..L.str.56)
-        [0x0000fc72 to 0x0000fc7c] - [.rodata..L.str.107] (section .rodata..L.str.107)
-        [0x0000fc7d to 0x0000fc87] - [.rodata..L.str.1] (section .rodata..L.str.1)
-        [0x0000fc88 to 0x0000fc92] - [.rodata..L.str] (section .rodata..L.str)
-        [0x0000fc93 to 0x0000fc9c] - Str_Telemetry (section .rodata.Str_Telemetry)
-        [0x0000fc9d to 0x0000fca6] - Str_DiagSwtch (section .rodata.Str_DiagSwtch)
-        [0x0000fca7 to 0x0000fcb0] - Str_TRE012AG (section .rodata.Str_TRE012AG)
-        [0x0000fcb1 to 0x0000fcba] - [.rodata..L.str.97] (section .rodata..L.str.97)
-        [0x0000fcbb to 0x0000fcc4] - [.rodata..L.str.71] (section .rodata..L.str.71)
-        [0x0000fcc5 to 0x0000fcce] - [.rodata..L.str.39] (section .rodata..L.str.39)
-        [0x0000fccf to 0x0000fcd8] - [.rodata..L.str.34] (section .rodata..L.str.34)
-        [0x0000fcd9 to 0x0000fce2] - [.rodata..L.str.12] (section .rodata..L.str.12)
-        [0x0000fce3 to 0x0000fcec] - [.rodata..L.str.113] (section .rodata..L.str.113)
-        [0x0000fced to 0x0000fcf6] - [.rodata..L.str] (section .rodata..L.str)
-        [0x0000fcf7 to 0x0000fcff] - Str_Protocol (section .rodata.Str_Protocol)
-        [0x0000fd00 to 0x0000fd08] - Str_Hardware (section .rodata.Str_Hardware)
-        [0x0000fd09 to 0x0000fd11] - Str_Controls (section .rodata.Str_Controls)
-        [0x0000fd12 to 0x0000fd1a] - [.rodata..L.str.8] (section .rodata..L.str.8)
-        [0x0000fd1b to 0x0000fd23] - [.rodata..L.str.61] (section .rodata..L.str.61)
-        [0x0000fd24 to 0x0000fd2c] - [.rodata..L.str.43] (section .rodata..L.str.43)
-        [0x0000fd2d to 0x0000fd35] - [.rodata..L.str.40] (section .rodata..L.str.40)
-        [0x0000fd36 to 0x0000fd3e] - [.rodata..L.str.36] (section .rodata..L.str.36)
-        [0x0000fd3f to 0x0000fd47] - [.rodata..L.str.26] (section .rodata..L.str.26)
-        [0x0000fd48 to 0x0000fd50] - [.rodata..L.str.114] (section .rodata..L.str.114)
-        [0x0000fd51 to 0x0000fd59] - [.rodata..L.str.105] (section .rodata..L.str.105)
-        [0x0000fd5a to 0x0000fd62] - [.rodata..L.str.104] (section .rodata..L.str.104)
-        [0x0000fd63 to 0x0000fd6b] - [.rodata..L.str.100] (section .rodata..L.str.100)
-        [0x0000fd6c to 0x0000fd74] - [.rodata..L.str.10] (section .rodata..L.str.10)
-        [0x0000fd75 to 0x0000fd7c] - per10ms()::crossTrim (section .rodata.per10ms()::crossTrim)
-        [0x0000fd7d to 0x0000fd84] - UnitsText (section .rodata.UnitsText)
-        [0x0000fd85 to 0x0000fd8c] - _bitmask (section .rodata._bitmask)
-        [0x0000fd8d to 0x0000fd94] - Str_Expo (section .rodata.Str_Expo)
-        [0x0000fd95 to 0x0000fd9c] - rate (section .rodata.rate)
-        [0x0000fd9d to 0x0000fda4] - Str_Version (section .rodata.Str_Version)
-        [0x0000fda5 to 0x0000fdac] - Str_Trainer (section .rodata.Str_Trainer)
-        [0x0000fdad to 0x0000fdb4] - Str_General (section .rodata.Str_General)
-        [0x0000fdb5 to 0x0000fdbc] - Str_Display (section .rodata.Str_Display)
-        [0x0000fdbd to 0x0000fdc4] - Str_DiagAna (section .rodata.Str_DiagAna)
-        [0x0000fdc5 to 0x0000fdcc] - UnitsVoice (section .rodata.UnitsVoice)
-        [0x0000fdcd to 0x0000fdd4] - [.rodata..L.str.82] (section .rodata..L.str.82)
-        [0x0000fdd5 to 0x0000fddc] - [.rodata..L.str.75] (section .rodata..L.str.75)
-        [0x0000fddd to 0x0000fde4] - [.rodata..L.str.4] (section .rodata..L.str.4)
-        [0x0000fde5 to 0x0000fdec] - [.rodata..L.str.33] (section .rodata..L.str.33)
-        [0x0000fded to 0x0000fdf4] - [.rodata..L.str.32] (section .rodata..L.str.32)
-        [0x0000fdf5 to 0x0000fdfc] - [.rodata..L.str.3] (section .rodata..L.str.3)
-        [0x0000fdfd to 0x0000fe04] - [.rodata..L.str.28] (section .rodata..L.str.28)
-        [0x0000fe05 to 0x0000fe0c] - [.rodata..L.str.126] (section .rodata..L.str.126)
-        [0x0000fe0d to 0x0000fe14] - [.rodata..L.str.101] (section .rodata..L.str.101)
-        [0x0000fe15 to 0x0000fe1b] - Str_Alert (section .rodata.Str_Alert)
-        [0x0000fe1c to 0x0000fe22] - ChannelToPin (section .rodata.ChannelToPin)
-        [0x0000fe23 to 0x0000fe29] - Str_limits (section .rodata.Str_limits)
-        [0x0000fe2a to 0x0000fe30] - Str_Curves (section .rodata.Str_Curves)
-        [0x0000fe31 to 0x0000fe37] - Str_Alarms (section .rodata.Str_Alarms)
-        [0x0000fe38 to 0x0000fe3e] - [.rodata..L.str.96] (section .rodata..L.str.96)
-        [0x0000fe3f to 0x0000fe45] - [.rodata..L.str.77] (section .rodata..L.str.77)
-        [0x0000fe46 to 0x0000fe4c] - [.rodata..L.str.37] (section .rodata..L.str.37)
-        [0x0000fe4d to 0x0000fe53] - [.rodata..L.str.35] (section .rodata..L.str.35)
-        [0x0000fe54 to 0x0000fe5a] - [.rodata..L.str.31] (section .rodata..L.str.31)
-        [0x0000fe5b to 0x0000fe61] - [.rodata..L.str.10] (section .rodata..L.str.10)
-        [0x0000fe62 to 0x0000fe68] - [.rodata..L.str.1] (section .rodata..L.str.1)
-        [0x0000fe69 to 0x0000fe6e] - Str_Timer (section .rodata.Str_Timer)
-        [0x0000fe6f to 0x0000fe74] - Str_Modes (section .rodata.Str_Modes)
-        [0x0000fe75 to 0x0000fe7a] - Str_Mixer (section .rodata.Str_Mixer)
-        [0x0000fe7b to 0x0000fe80] - Str_Curve (section .rodata.Str_Curve)
-        [0x0000fe81 to 0x0000fe86] - Str_1_RETA (section .rodata.Str_1_RETA)
-        [0x0000fe87 to 0x0000fe8c] - [.rodata..L.str.98] (section .rodata..L.str.98)
-        [0x0000fe8d to 0x0000fe92] - [.rodata..L.str.41] (section .rodata..L.str.41)
-        [0x0000fe93 to 0x0000fe98] - [.rodata..L.str.16] (section .rodata..L.str.16)
-        [0x0000fe99 to 0x0000fe9e] - [.rodata..L.str.15] (section .rodata..L.str.15)
-        [0x0000fe9f to 0x0000fea4] - [.rodata..L.str.108] (section .rodata..L.str.108)
-        [0x0000fea5 to 0x0000feaa] - [.rodata..L.str.1] (section .rodata..L.str.1)
-        [0x0000feab to 0x0000feaf] - Str_Name (section .rodata.Str_Name)
-        [0x0000feb0 to 0x0000feb4] - Str_Hyphens (section .rodata.Str_Hyphens)
-        [0x0000feb5 to 0x0000feb9] - [.rodata..L.str.89] (section .rodata..L.str.89)
-        [0x0000feba to 0x0000febe] - [.rodata..L.str.73] (section .rodata..L.str.73)
-        [0x0000febf to 0x0000fec3] - [.rodata..L.str.51] (section .rodata..L.str.51)
-        [0x0000fec4 to 0x0000fec8] - [.rodata..L.str.49] (section .rodata..L.str.49)
-        [0x0000fec9 to 0x0000fecd] - [.rodata..L.str.48] (section .rodata..L.str.48)
-        [0x0000fece to 0x0000fed2] - [.rodata..L.str.42] (section .rodata..L.str.42)
-        [0x0000fed3 to 0x0000fed7] - [.rodata..L.str.3] (section .rodata..L.str.3)
-        [0x0000fed8 to 0x0000fedc] - [.rodata..L.str.22] (section .rodata..L.str.22)
-        [0x0000fedd to 0x0000fee0] - menuProc0(unsigned char)::xt (section .rodata.menuProc0(unsigned char)::xt)
-        [0x0000fee1 to 0x0000fee4] - Str_ON (section .rodata.Str_ON)
-        [0x0000fee5 to 0x0000fee8] - Str_OFF (section .rodata.Str_OFF)
-        [0x0000fee9 to 0x0000feec] - [.rodata..L.str.81] (section .rodata..L.str.81)
-        [0x0000feed to 0x0000fef0] - [.rodata..L.str.76] (section .rodata..L.str.76)
-        [0x0000fef1 to 0x0000fef4] - [.rodata..L.str.53] (section .rodata..L.str.53)
-        [0x0000fef5 to 0x0000fef8] - [.rodata..L.str.52] (section .rodata..L.str.52)
-        [0x0000fef9 to 0x0000fefc] - [.rodata..L.str.47] (section .rodata..L.str.47)
-        [0x0000fefd to 0x0000ff00] - [.rodata..L.str.46] (section .rodata..L.str.46)
-        [0x0000ff01 to 0x0000ff04] - [.rodata..L.str.30] (section .rodata..L.str.30)
-        [0x0000ff05 to 0x0000ff08] - [.rodata..L.str.135] (section .rodata..L.str.135)
-        [0x0000ff09 to 0x0000ff0c] - [.rodata..L.str.111] (section .rodata..L.str.111)
-        [0x0000ff0d to 0x0000ff10] - [.rodata..L.str.1] (section .rodata..L.str.1)
-        [0x0000ff11 to 0x0000ff13] - Str_SC (section .rodata.Str_SC)
-        [0x0000ff14 to 0x0000ff16] - Str_GV (section .rodata.Str_GV)
-        [0x0000ff17 to 0x0000ff19] - [.rodata..L.str.99] (section .rodata..L.str.99)
-        [0x0000ff1a to 0x0000ff1c] - [.rodata..L.str.59] (section .rodata..L.str.59)
-        [0x0000ff1d to 0x0000ff1f] - [.rodata..L.str.58] (section .rodata..L.str.58)
-        [0x0000ff20 to 0x0000ff22] - [.rodata..L.str.2] (section .rodata..L.str.2)
-        [0x0000ff23 to 0x0000ff25] - [.rodata..L.str.11] (section .rodata..L.str.11)
-        [0x0000ff26 to 0x0000ff28] - [.rodata..L.str] (section .rodata..L.str)
-        [0x0000ff29 size 0] - [.rodata.block.tdata.copy] (section .rodata.block.tdata.copy)
-        [0x0000ff2c to 0x0000ff2f] - [.init_array] (section .init_array)
-        [0x0000ff30 to 0x0000ff33] - [.init_array] (section .init_array)
+        [0x0000f2c7 to 0x0000f2f8] - Stamps (section .rodata.Stamps)
+        [0x0000f2f9 to 0x0000f32a] - AFHDS_A7105_regs (section .rodata.AFHDS_A7105_regs)
+        [0x0000f32b to 0x0000f35c] - AFHDS2A_A7105_regs (section .rodata.AFHDS2A_A7105_regs)
+        [0x0000f35d to 0x0000f38a] - [.rodata..L.str.67] (section .rodata..L.str.67)
+        [0x0000f38b to 0x0000f3b8] - [.rodata..L.str.64] (section .rodata..L.str.64)
+        [0x0000f3b9 to 0x0000f3e6] - [.rodata..L.str.18] (section .rodata..L.str.18)
+        [0x0000f3e7 to 0x0000f411] - [.rodata..L.str.132] (section .rodata..L.str.132)
+        [0x0000f412 to 0x0000f43c] - [.rodata..L.str.13] (section .rodata..L.str.13)
+        [0x0000f43d to 0x0000f467] - [.rodata..L.str.109] (section .rodata..L.str.109)
+        [0x0000f468 to 0x0000f491] - UnitsString (section .rodata.UnitsString)
+        [0x0000f492 to 0x0000f4ba] - Str_Gv_Source (section .rodata.Str_Gv_Source)
+        [0x0000f4bb to 0x0000f4e3] - [.rodata..L.str.87] (section .rodata..L.str.87)
+        [0x0000f4e4 to 0x0000f50b] - [.rodata..L.str.63] (section .rodata..L.str.63)
+        [0x0000f50c to 0x0000f532] - MixPopList (section .rodata.MixPopList)
+        [0x0000f533 to 0x0000f558] - [.rodata..L.str.115] (section .rodata..L.str.115)
+        [0x0000f559 to 0x0000f57d] - [.rodata..L.str.88] (section .rodata..L.str.88)
+        [0x0000f57e to 0x0000f5a2] - [.rodata..L.str.6] (section .rodata..L.str.6)
+        [0x0000f5a3 to 0x0000f5c7] - [.rodata..L.str.118] (section .rodata..L.str.118)
+        [0x0000f5c8 to 0x0000f5e9] - [.rodata..L.str.125] (section .rodata..L.str.125)
+        [0x0000f5ea to 0x0000f60a] - [.rodata..L.str.5] (section .rodata..L.str.5)
+        [0x0000f60b to 0x0000f62a] - AFHDS_tx_channels (section .rodata.AFHDS_tx_channels)
+        [0x0000f62b to 0x0000f64a] - [.rodata..L.str.91] (section .rodata..L.str.91)
+        [0x0000f64b to 0x0000f66a] - [.rodata..L.str.74] (section .rodata..L.str.74)
+        [0x0000f66b to 0x0000f68a] - [.rodata..L.str.130] (section .rodata..L.str.130)
+        [0x0000f68b to 0x0000f6a8] - SW_3_IDX (section .rodata.SW_3_IDX)
+        [0x0000f6a9 to 0x0000f6c6] - idx_to_afhds2a (section .rodata.idx_to_afhds2a)
+        [0x0000f6c7 to 0x0000f6e4] - [.rodata..L.str.29] (section .rodata..L.str.29)
+        [0x0000f6e5 to 0x0000f702] - [.rodata..L.str.110] (section .rodata..L.str.110)
+        [0x0000f703 to 0x0000f71e] - [.rodata..L.str.7] (section .rodata..L.str.7)
+        [0x0000f71f to 0x0000f73a] - [.rodata..L.str.17] (section .rodata..L.str.17)
+        [0x0000f73b to 0x0000f756] - [.rodata..L.str.121] (section .rodata..L.str.121)
+        [0x0000f757 to 0x0000f771] - [.rodata..L.str.102] (section .rodata..L.str.102)
+        [0x0000f772 to 0x0000f78b] - [.rodata..L.str.70] (section .rodata..L.str.70)
+        [0x0000f78c to 0x0000f7a4] - [.rodata..L.str.19] (section .rodata..L.str.19)
+        [0x0000f7a5 to 0x0000f7bc] - bchout_ar (section .rodata.bchout_ar)
+        [0x0000f7bd to 0x0000f7d4] - [.rodata..L.str.133] (section .rodata..L.str.133)
+        [0x0000f7d5 to 0x0000f7ec] - [.rodata..L.str.128] (section .rodata..L.str.128)
+        [0x0000f7ed to 0x0000f803] - [.rodata..L.str.45] (section .rodata..L.str.45)
+        [0x0000f804 to 0x0000f819] - Str_On_Off_Both (section .rodata.Str_On_Off_Both)
+        [0x0000f81a to 0x0000f82f] - [.rodata..L.str.94] (section .rodata..L.str.94)
+        [0x0000f830 to 0x0000f845] - [.rodata..L.str.92] (section .rodata..L.str.92)
+        [0x0000f846 to 0x0000f85b] - [.rodata..L.str.2] (section .rodata..L.str.2)
+        [0x0000f85c to 0x0000f870] - [.rodata..L.str.2] (section .rodata..L.str.2)
+        [0x0000f871 to 0x0000f884] - [.rodata..L.str.60] (section .rodata..L.str.60)
+        [0x0000f885 to 0x0000f898] - [.rodata..L.str.6] (section .rodata..L.str.6)
+        [0x0000f899 to 0x0000f8ac] - [.rodata..L.str.117] (section .rodata..L.str.117)
+        [0x0000f8ad to 0x0000f8bf] - [.rodata..L.str.55] (section .rodata..L.str.55)
+        [0x0000f8c0 to 0x0000f8d2] - [.rodata..L.str.44] (section .rodata..L.str.44)
+        [0x0000f8d3 to 0x0000f8e5] - [.rodata..L.str.3] (section .rodata..L.str.3)
+        [0x0000f8e6 to 0x0000f8f7] - modi12x3 (section .rodata.modi12x3)
+        [0x0000f8f8 to 0x0000f909] - [.rodata..L.str.85] (section .rodata..L.str.85)
+        [0x0000f90a to 0x0000f91b] - [.rodata..L.str.5] (section .rodata..L.str.5)
+        [0x0000f91c to 0x0000f92d] - [.rodata..L.str.27] (section .rodata..L.str.27)
+        [0x0000f92e to 0x0000f93f] - [.rodata..L.str.25] (section .rodata..L.str.25)
+        [0x0000f940 to 0x0000f950] - menuWhenDone (section .rodata.menuWhenDone)
+        [0x0000f951 to 0x0000f961] - [.rodata..L.str.83] (section .rodata..L.str.83)
+        [0x0000f962 to 0x0000f972] - [.rodata..L.str.66] (section .rodata..L.str.66)
+        [0x0000f973 to 0x0000f983] - [.rodata..L.str.57] (section .rodata..L.str.57)
+        [0x0000f984 to 0x0000f994] - [.rodata..L.str.54] (section .rodata..L.str.54)
+        [0x0000f995 to 0x0000f9a5] - [.rodata..L.str.50] (section .rodata..L.str.50)
+        [0x0000f9a6 to 0x0000f9b6] - [.rodata..L.str.20] (section .rodata..L.str.20)
+        [0x0000f9b7 to 0x0000f9c7] - [.rodata..L.str.2] (section .rodata..L.str.2)
+        [0x0000f9c8 to 0x0000f9d8] - [.rodata..L.str.136] (section .rodata..L.str.136)
+        [0x0000f9d9 to 0x0000f9e9] - [.rodata..L.str.134] (section .rodata..L.str.134)
+        [0x0000f9ea to 0x0000f9fa] - [.rodata..L.str.119] (section .rodata..L.str.119)
+        [0x0000f9fb to 0x0000fa0a] - stickScramble (section .rodata.stickScramble)
+        [0x0000fa0b to 0x0000fa1a] - Str_EEPROM_Overflow (section .rodata.Str_EEPROM_Overflow)
+        [0x0000fa1b to 0x0000fa2a] - [.rodata..L.str.90] (section .rodata..L.str.90)
+        [0x0000fa2b to 0x0000fa3a] - [.rodata..L.str.78] (section .rodata..L.str.78)
+        [0x0000fa3b to 0x0000fa4a] - [.rodata..L.str.4] (section .rodata..L.str.4)
+        [0x0000fa4b to 0x0000fa5a] - [.rodata..L.str.23] (section .rodata..L.str.23)
+        [0x0000fa5b to 0x0000fa6a] - [.rodata..L.str.138] (section .rodata..L.str.138)
+        [0x0000fa6b to 0x0000fa7a] - [.rodata..L.str.137] (section .rodata..L.str.137)
+        [0x0000fa7b to 0x0000fa8a] - [.rodata..L.str.123] (section .rodata..L.str.123)
+        [0x0000fa8b to 0x0000fa9a] - [.rodata..L.str.12] (section .rodata..L.str.12)
+        [0x0000fa9b to 0x0000faa9] - Str_Beep_Countdown (section .rodata.Str_Beep_Countdown)
+        [0x0000faaa to 0x0000fab8] - csTypeTable (section .rodata.csTypeTable)
+        [0x0000fab9 to 0x0000fac7] - [.rodata..L.str.6] (section .rodata..L.str.6)
+        [0x0000fac8 to 0x0000fad6] - [.rodata..L.str.5] (section .rodata..L.str.5)
+        [0x0000fad7 to 0x0000fae5] - [.rodata..L.str.14] (section .rodata..L.str.14)
+        [0x0000fae6 to 0x0000faf4] - [.rodata..L.str.131] (section .rodata..L.str.131)
+        [0x0000faf5 to 0x0000fb03] - [.rodata..L.str.112] (section .rodata..L.str.112)
+        [0x0000fb04 to 0x0000fb12] - [.rodata..L.str.11] (section .rodata..L.str.11)
+        [0x0000fb13 to 0x0000fb21] - [.rodata..L.str.106] (section .rodata..L.str.106)
+        [0x0000fb22 to 0x0000fb2f] - [.rodata..L.str.9] (section .rodata..L.str.9)
+        [0x0000fb30 to 0x0000fb3d] - [.rodata..L.str.84] (section .rodata..L.str.84)
+        [0x0000fb3e to 0x0000fb4b] - [.rodata..L.str.69] (section .rodata..L.str.69)
+        [0x0000fb4c to 0x0000fb59] - [.rodata..L.str.3] (section .rodata..L.str.3)
+        [0x0000fb5a to 0x0000fb67] - [.rodata..L.str.116] (section .rodata..L.str.116)
+        [0x0000fb68 to 0x0000fb75] - [.rodata..L.str.103] (section .rodata..L.str.103)
+        [0x0000fb76 to 0x0000fb82] - [.rodata..L.str.79] (section .rodata..L.str.79)
+        [0x0000fb83 to 0x0000fb8f] - [.rodata..L.str.7] (section .rodata..L.str.7)
+        [0x0000fb90 to 0x0000fb9c] - [.rodata..L.str.24] (section .rodata..L.str.24)
+        [0x0000fb9d to 0x0000fba9] - [.rodata..L.str] (section .rodata..L.str)
+        [0x0000fbaa to 0x0000fbb5] - Lcdinit (section .rodata.Lcdinit)
+        [0x0000fbb6 to 0x0000fbc1] - Str_minute_Beep (section .rodata.Str_minute_Beep)
+        [0x0000fbc2 to 0x0000fbcd] - Str_Calibration (section .rodata.Str_Calibration)
+        [0x0000fbce to 0x0000fbd9] - Str_AudioHaptic (section .rodata.Str_AudioHaptic)
+        [0x0000fbda to 0x0000fbe5] - [.rodata..L.str.93] (section .rodata..L.str.93)
+        [0x0000fbe6 to 0x0000fbf1] - [.rodata..L.str.86] (section .rodata..L.str.86)
+        [0x0000fbf2 to 0x0000fbfd] - [.rodata..L.str.72] (section .rodata..L.str.72)
+        [0x0000fbfe to 0x0000fc09] - [.rodata..L.str.38] (section .rodata..L.str.38)
+        [0x0000fc0a to 0x0000fc15] - [.rodata..L.str.21] (section .rodata..L.str.21)
+        [0x0000fc16 to 0x0000fc21] - [.rodata..L.str.129] (section .rodata..L.str.129)
+        [0x0000fc22 to 0x0000fc2c] - Str_heli_setup (section .rodata.Str_heli_setup)
+        [0x0000fc2d to 0x0000fc37] - Str_Cswitches (section .rodata.Str_Cswitches)
+        [0x0000fc38 to 0x0000fc42] - Str_Globals (section .rodata.Str_Globals)
+        [0x0000fc43 to 0x0000fc4d] - Str_Safety (section .rodata.Str_Safety)
+        [0x0000fc4e to 0x0000fc58] - [.rodata..L.str.95] (section .rodata..L.str.95)
+        [0x0000fc59 to 0x0000fc63] - [.rodata..L.str.9] (section .rodata..L.str.9)
+        [0x0000fc64 to 0x0000fc6e] - [.rodata..L.str.80] (section .rodata..L.str.80)
+        [0x0000fc6f to 0x0000fc79] - [.rodata..L.str.56] (section .rodata..L.str.56)
+        [0x0000fc7a to 0x0000fc84] - [.rodata..L.str.107] (section .rodata..L.str.107)
+        [0x0000fc85 to 0x0000fc8f] - [.rodata..L.str.1] (section .rodata..L.str.1)
+        [0x0000fc90 to 0x0000fc9a] - [.rodata..L.str] (section .rodata..L.str)
+        [0x0000fc9b to 0x0000fca4] - Str_Telemetry (section .rodata.Str_Telemetry)
+        [0x0000fca5 to 0x0000fcae] - Str_DiagSwtch (section .rodata.Str_DiagSwtch)
+        [0x0000fcaf to 0x0000fcb8] - Str_TRE012AG (section .rodata.Str_TRE012AG)
+        [0x0000fcb9 to 0x0000fcc2] - [.rodata..L.str.97] (section .rodata..L.str.97)
+        [0x0000fcc3 to 0x0000fccc] - [.rodata..L.str.71] (section .rodata..L.str.71)
+        [0x0000fccd to 0x0000fcd6] - [.rodata..L.str.39] (section .rodata..L.str.39)
+        [0x0000fcd7 to 0x0000fce0] - [.rodata..L.str.34] (section .rodata..L.str.34)
+        [0x0000fce1 to 0x0000fcea] - [.rodata..L.str.12] (section .rodata..L.str.12)
+        [0x0000fceb to 0x0000fcf4] - [.rodata..L.str.113] (section .rodata..L.str.113)
+        [0x0000fcf5 to 0x0000fcfe] - [.rodata..L.str] (section .rodata..L.str)
+        [0x0000fcff to 0x0000fd07] - Str_Protocol (section .rodata.Str_Protocol)
+        [0x0000fd08 to 0x0000fd10] - Str_Hardware (section .rodata.Str_Hardware)
+        [0x0000fd11 to 0x0000fd19] - Str_Controls (section .rodata.Str_Controls)
+        [0x0000fd1a to 0x0000fd22] - [.rodata..L.str.8] (section .rodata..L.str.8)
+        [0x0000fd23 to 0x0000fd2b] - [.rodata..L.str.61] (section .rodata..L.str.61)
+        [0x0000fd2c to 0x0000fd34] - [.rodata..L.str.43] (section .rodata..L.str.43)
+        [0x0000fd35 to 0x0000fd3d] - [.rodata..L.str.40] (section .rodata..L.str.40)
+        [0x0000fd3e to 0x0000fd46] - [.rodata..L.str.36] (section .rodata..L.str.36)
+        [0x0000fd47 to 0x0000fd4f] - [.rodata..L.str.26] (section .rodata..L.str.26)
+        [0x0000fd50 to 0x0000fd58] - [.rodata..L.str.114] (section .rodata..L.str.114)
+        [0x0000fd59 to 0x0000fd61] - [.rodata..L.str.105] (section .rodata..L.str.105)
+        [0x0000fd62 to 0x0000fd6a] - [.rodata..L.str.104] (section .rodata..L.str.104)
+        [0x0000fd6b to 0x0000fd73] - [.rodata..L.str.100] (section .rodata..L.str.100)
+        [0x0000fd74 to 0x0000fd7c] - [.rodata..L.str.10] (section .rodata..L.str.10)
+        [0x0000fd7d to 0x0000fd84] - per10ms()::crossTrim (section .rodata.per10ms()::crossTrim)
+        [0x0000fd85 to 0x0000fd8c] - UnitsText (section .rodata.UnitsText)
+        [0x0000fd8d to 0x0000fd94] - _bitmask (section .rodata._bitmask)
+        [0x0000fd95 to 0x0000fd9c] - Str_Expo (section .rodata.Str_Expo)
+        [0x0000fd9d to 0x0000fda4] - rate (section .rodata.rate)
+        [0x0000fda5 to 0x0000fdac] - Str_Version (section .rodata.Str_Version)
+        [0x0000fdad to 0x0000fdb4] - Str_Trainer (section .rodata.Str_Trainer)
+        [0x0000fdb5 to 0x0000fdbc] - Str_General (section .rodata.Str_General)
+        [0x0000fdbd to 0x0000fdc4] - Str_Display (section .rodata.Str_Display)
+        [0x0000fdc5 to 0x0000fdcc] - Str_DiagAna (section .rodata.Str_DiagAna)
+        [0x0000fdcd to 0x0000fdd4] - UnitsVoice (section .rodata.UnitsVoice)
+        [0x0000fdd5 to 0x0000fddc] - [.rodata..L.str.82] (section .rodata..L.str.82)
+        [0x0000fddd to 0x0000fde4] - [.rodata..L.str.75] (section .rodata..L.str.75)
+        [0x0000fde5 to 0x0000fdec] - [.rodata..L.str.4] (section .rodata..L.str.4)
+        [0x0000fded to 0x0000fdf4] - [.rodata..L.str.33] (section .rodata..L.str.33)
+        [0x0000fdf5 to 0x0000fdfc] - [.rodata..L.str.32] (section .rodata..L.str.32)
+        [0x0000fdfd to 0x0000fe04] - [.rodata..L.str.3] (section .rodata..L.str.3)
+        [0x0000fe05 to 0x0000fe0c] - [.rodata..L.str.28] (section .rodata..L.str.28)
+        [0x0000fe0d to 0x0000fe14] - [.rodata..L.str.126] (section .rodata..L.str.126)
+        [0x0000fe15 to 0x0000fe1c] - [.rodata..L.str.101] (section .rodata..L.str.101)
+        [0x0000fe1d to 0x0000fe23] - Str_Alert (section .rodata.Str_Alert)
+        [0x0000fe24 to 0x0000fe2a] - ChannelToPin (section .rodata.ChannelToPin)
+        [0x0000fe2b to 0x0000fe31] - Str_limits (section .rodata.Str_limits)
+        [0x0000fe32 to 0x0000fe38] - Str_Curves (section .rodata.Str_Curves)
+        [0x0000fe39 to 0x0000fe3f] - Str_Alarms (section .rodata.Str_Alarms)
+        [0x0000fe40 to 0x0000fe46] - [.rodata..L.str.96] (section .rodata..L.str.96)
+        [0x0000fe47 to 0x0000fe4d] - [.rodata..L.str.77] (section .rodata..L.str.77)
+        [0x0000fe4e to 0x0000fe54] - [.rodata..L.str.37] (section .rodata..L.str.37)
+        [0x0000fe55 to 0x0000fe5b] - [.rodata..L.str.35] (section .rodata..L.str.35)
+        [0x0000fe5c to 0x0000fe62] - [.rodata..L.str.31] (section .rodata..L.str.31)
+        [0x0000fe63 to 0x0000fe69] - [.rodata..L.str.10] (section .rodata..L.str.10)
+        [0x0000fe6a to 0x0000fe70] - [.rodata..L.str.1] (section .rodata..L.str.1)
+        [0x0000fe71 to 0x0000fe76] - Str_Timer (section .rodata.Str_Timer)
+        [0x0000fe77 to 0x0000fe7c] - Str_Modes (section .rodata.Str_Modes)
+        [0x0000fe7d to 0x0000fe82] - Str_Mixer (section .rodata.Str_Mixer)
+        [0x0000fe83 to 0x0000fe88] - Str_Curve (section .rodata.Str_Curve)
+        [0x0000fe89 to 0x0000fe8e] - Str_1_RETA (section .rodata.Str_1_RETA)
+        [0x0000fe8f to 0x0000fe94] - [.rodata..L.str.98] (section .rodata..L.str.98)
+        [0x0000fe95 to 0x0000fe9a] - [.rodata..L.str.41] (section .rodata..L.str.41)
+        [0x0000fe9b to 0x0000fea0] - [.rodata..L.str.16] (section .rodata..L.str.16)
+        [0x0000fea1 to 0x0000fea6] - [.rodata..L.str.15] (section .rodata..L.str.15)
+        [0x0000fea7 to 0x0000feac] - [.rodata..L.str.108] (section .rodata..L.str.108)
+        [0x0000fead to 0x0000feb2] - [.rodata..L.str.1] (section .rodata..L.str.1)
+        [0x0000feb3 to 0x0000feb7] - Str_Name (section .rodata.Str_Name)
+        [0x0000feb8 to 0x0000febc] - Str_Hyphens (section .rodata.Str_Hyphens)
+        [0x0000febd to 0x0000fec1] - [.rodata..L.str.89] (section .rodata..L.str.89)
+        [0x0000fec2 to 0x0000fec6] - [.rodata..L.str.73] (section .rodata..L.str.73)
+        [0x0000fec7 to 0x0000fecb] - [.rodata..L.str.51] (section .rodata..L.str.51)
+        [0x0000fecc to 0x0000fed0] - [.rodata..L.str.49] (section .rodata..L.str.49)
+        [0x0000fed1 to 0x0000fed5] - [.rodata..L.str.48] (section .rodata..L.str.48)
+        [0x0000fed6 to 0x0000feda] - [.rodata..L.str.42] (section .rodata..L.str.42)
+        [0x0000fedb to 0x0000fedf] - [.rodata..L.str.3] (section .rodata..L.str.3)
+        [0x0000fee0 to 0x0000fee4] - [.rodata..L.str.22] (section .rodata..L.str.22)
+        [0x0000fee5 to 0x0000fee8] - menuProc0(unsigned char)::xt (section .rodata.menuProc0(unsigned char)::xt)
+        [0x0000fee9 to 0x0000feec] - Str_ON (section .rodata.Str_ON)
+        [0x0000feed to 0x0000fef0] - Str_OFF (section .rodata.Str_OFF)
+        [0x0000fef1 to 0x0000fef4] - [.rodata..L.str.81] (section .rodata..L.str.81)
+        [0x0000fef5 to 0x0000fef8] - [.rodata..L.str.76] (section .rodata..L.str.76)
+        [0x0000fef9 to 0x0000fefc] - [.rodata..L.str.53] (section .rodata..L.str.53)
+        [0x0000fefd to 0x0000ff00] - [.rodata..L.str.52] (section .rodata..L.str.52)
+        [0x0000ff01 to 0x0000ff04] - [.rodata..L.str.47] (section .rodata..L.str.47)
+        [0x0000ff05 to 0x0000ff08] - [.rodata..L.str.46] (section .rodata..L.str.46)
+        [0x0000ff09 to 0x0000ff0c] - [.rodata..L.str.30] (section .rodata..L.str.30)
+        [0x0000ff0d to 0x0000ff10] - [.rodata..L.str.135] (section .rodata..L.str.135)
+        [0x0000ff11 to 0x0000ff14] - [.rodata..L.str.111] (section .rodata..L.str.111)
+        [0x0000ff15 to 0x0000ff18] - [.rodata..L.str.1] (section .rodata..L.str.1)
+        [0x0000ff19 to 0x0000ff1b] - Str_SC (section .rodata.Str_SC)
+        [0x0000ff1c to 0x0000ff1e] - Str_GV (section .rodata.Str_GV)
+        [0x0000ff1f to 0x0000ff21] - [.rodata..L.str.99] (section .rodata..L.str.99)
+        [0x0000ff22 to 0x0000ff24] - [.rodata..L.str.59] (section .rodata..L.str.59)
+        [0x0000ff25 to 0x0000ff27] - [.rodata..L.str.58] (section .rodata..L.str.58)
+        [0x0000ff28 to 0x0000ff2a] - [.rodata..L.str.2] (section .rodata..L.str.2)
+        [0x0000ff2b to 0x0000ff2d] - [.rodata..L.str.11] (section .rodata..L.str.11)
+        [0x0000ff2e to 0x0000ff30] - [.rodata..L.str] (section .rodata..L.str)
+        [0x0000ff31 size 0] - [.rodata.block.tdata.copy] (section .rodata.block.tdata.copy)
         [0x0000ff34 to 0x0000ff37] - [.init_array] (section .init_array)
-        [0x0000ff38 to 0x0000ff5f] - __SEGGER_init_table__ (section .segger.init.table)
-        [0x0000ff60 to 0x0000ff7f] - __SEGGER_init_ctors (section .segger.init.__SEGGER_init_ctors)
-        [0x0000ff80 to 0x0000ff9b] - __SEGGER_init_heap (section .segger.init.__SEGGER_init_heap)
-        [0x0000ff9c to 0x0000ffad] - __SEGGER_init_data__ (section .segger.init.data)
-        [0x0000ffae to 0x0000ffc1] - __SEGGER_init_copy (section .segger.init.__SEGGER_init_copy)
-        [0x0000ffc2 to 0x0000ffd3] - __SEGGER_init_zero (section .segger.init.__SEGGER_init_zero)
+        [0x0000ff38 to 0x0000ff3b] - [.init_array] (section .init_array)
+        [0x0000ff3c to 0x0000ff3f] - [.init_array] (section .init_array)
+        [0x0000ff40 to 0x0000ff67] - __SEGGER_init_table__ (section .segger.init.table)
+        [0x0000ff68 to 0x0000ff87] - __SEGGER_init_ctors (section .segger.init.__SEGGER_init_ctors)
+        [0x0000ff88 to 0x0000ffa3] - __SEGGER_init_heap (section .segger.init.__SEGGER_init_heap)
+        [0x0000ffa4 to 0x0000ffb5] - __SEGGER_init_data__ (section .segger.init.data)
+        [0x0000ffb6 to 0x0000ffc9] - __SEGGER_init_copy (section .segger.init.__SEGGER_init_copy)
+        [0x0000ffca to 0x0000ffdb] - __SEGGER_init_zero (section .segger.init.__SEGGER_init_zero)
       Start program header at 0x1ffff800
         [0x1ffff800 to 0x1ffff807] - AFHDS2A_tel_status (section .bss.AFHDS2A_tel_status)
         [0x1ffff808 to 0x1ffffc07] - DisplayBuf (section .bss.DisplayBuf)
