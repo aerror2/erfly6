@@ -3133,52 +3133,6 @@ void t_voice::voice_process(void)
 */
 }
 
-static void pollRotary()
-{
-/*	// Rotary Encoder polling
-	PORTA = 0 ;			// No pullups
-	DDRA = 0x1F ;		// Top 3 bits input
-	asm(" rjmp 1f") ;
-	asm("1:") ;
-//	asm(" nop") ;
-//	asm(" nop") ;
-	uint8_t rotary ;
-	rotary = PINA ;
-	DDRA = 0xFF ;		// Back to all outputs
-	rotary &= 0xE0 ;
-//	RotEncoder = rotary ;
-
-	struct t_rotary *protary = &Rotary ;
-	FORCE_INDIRECT(protary) ;
-
-	if( protary->TezRotary != 0)
-		protary->RotEncoder = 0x20; // switch is on
-	else
-		protary->RotEncoder = rotary ; // just read the lcd pin
-
-	rotary &= 0xDF ;
-	if ( rotary != protary->RotPosition )
-	{
-		uint8_t x ;
-		x = protary->RotPosition & 0x40 ;
-		x <<= 1 ;
-		x ^= rotary & 0x80 ;
-		if ( x )
-		{
-			protary->RotCount -= 1 ;
-		}
-		else
-		{
-			protary->RotCount += 1 ;
-		}
-		protary->RotPosition = rotary ;
-	}
-	if ( protary->TrotCount != protary->LastTrotCount )
-	{
-		protary->RotCount = protary->LastTrotCount = protary->TrotCount ;
-	}*/
-}
-
 const static uint8_t rate[8] = { 0, 0, 100, 40, 16, 7, 3, 1 } ;
 
 uint8_t calcStickScroll( uint8_t index )
@@ -3916,30 +3870,30 @@ void ISR_TIMER0_COMP_vect(void) // 10ms timer
 // count delta values thus can range from about 1600 to 4400 counts (800us to 2200us),
 // corresponding to a PPM signal in the range 0.8ms to 2.2ms (1.5ms at center).
 // (The timer is free-running and is thus not reset to zero at each capture interval.)
-void ISR_TIMER3_CAPT_vect(void)    // capture ppm in 16MHz / 8 = 2MHz
-{
-  uint16_t capture = GetPPMTimCapture();
-  static uint16_t lastCapt = 0;
-  uint16_t val        = ((uint16_t)(capture - lastCapt)) / 3;
-  lastCapt            = capture;
-  uint8_t lppmInState = ppmInState;
-  // We prcoess g_ppmInsright here to make servo movement as smooth as possible
-  //    while under trainee control
-  if (val > 4000 && val < 16000)    // G: Prioritize reset pulse. (Needed when less than 8 incoming pulses)
-    lppmInState = 1;                // triggered
-  else {
-    if (lppmInState && lppmInState <= 8) {
-      if (val > 800 && val < 2200) {
-        ppmInAvailable              = 100;
-        g_ppmIns[lppmInState++ - 1] = (int16_t)(val - 1500) * (uint8_t)(g_eeGeneral.PPM_Multiplier + 10) / 10;    //+-500 != 512, but close enough.
+//void ISR_TIMER3_CAPT_vect(void)    // capture ppm in 16MHz / 8 = 2MHz
+//{
+//  uint16_t capture = GetPPMTimCapture();
+//  static uint16_t lastCapt = 0;
+//  uint16_t val        = ((uint16_t)(capture - lastCapt)) / 3;
+//  lastCapt            = capture;
+//  uint8_t lppmInState = ppmInState;
+//  // We prcoess g_ppmInsright here to make servo movement as smooth as possible
+//  //    while under trainee control
+//  if (val > 4000 && val < 16000)    // G: Prioritize reset pulse. (Needed when less than 8 incoming pulses)
+//    lppmInState = 1;                // triggered
+//  else {
+//    if (lppmInState && lppmInState <= 8) {
+//      if (val > 800 && val < 2200) {
+//        ppmInAvailable              = 100;
+//        g_ppmIns[lppmInState++ - 1] = (int16_t)(val - 1500) * (uint8_t)(g_eeGeneral.PPM_Multiplier + 10) / 10;    //+-500 != 512, but close enough.
 
-      } else {
-        lppmInState = 0;    // not triggered
-      }
-    }
-  }
-  ppmInState = lppmInState;
-}
+//      } else {
+//        lppmInState = 0;    // not triggered
+//      }
+//    }
+//  }
+//  ppmInState = lppmInState;
+//}
 /*----------------------------------------------------------------------------*/
 extern struct t_latency g_latency ;
 //void main(void) __attribute__((noreturn));
@@ -3969,6 +3923,14 @@ void mainER(void)
 
 extern uint8_t serialDat0 ;
 	serialDat0 = 0xFF ;
+
+
+
+init_voice_serial();
+
+	
+
+
 
 #ifdef CPUM2561
   uint8_t mcusr = MCUSR; // save the WDT (etc) flags
@@ -4504,31 +4466,13 @@ void mainSequence()
       
 	uint16_t t0 = g_tmr16KHz;
 
-        //if(g_model.protocol == PROTO_CRSF)
-        //{
-        //  crsf_wait_and_read();
-        //}
-  //      getADC[g_eeGeneral.filterInput]();
-//    if ( g_eeGeneral.filterInput == 1)
-  //    {
-//        getADC_filt() ;
-//    }
-//    else if ( g_eeGeneral.filterInput == 2)
-//    {
+
   getADC_osmp() ;
-//    }
-//    else
-//    {
-//        getADC_single() ;
-//    }
-/*  ADMUX=0x1E|ADC_VREF_TYPE;   // Select bandgap*/
-	pollRotary() ;
 
-//	Backup_RestoreRunning =
 
-  perMain();      // Give bandgap plenty of time to settle
-  //while(get_tmr10ms()==old10ms) sleep_mode();
-	if(heartbeat == 0x3)
+  perMain();  
+  
+  if(heartbeat == 0x3)
   {
       wdt_reset();
       heartbeat = 0;

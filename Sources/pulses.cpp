@@ -173,6 +173,7 @@ void setupPulses() {
         DisablePPMOut();
         crsf_init();
         EnablePRTTim();
+
         break;
     }
 

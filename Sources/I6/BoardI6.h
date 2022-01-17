@@ -83,6 +83,7 @@ void TPM1_IRQHandler(void);
 void TPM0_IRQHandler(void);
 void TPM2_IRQHandler(void);
 void UART2_IRQHandler(void);
+void UART0_IRQHandler(void);
 void DMA0_IRQHandler();
 #ifdef __cplusplus
 }  /* extern "C" */

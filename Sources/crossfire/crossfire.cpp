@@ -34,7 +34,7 @@ uint8_t telemetryRxBuffer[TELEMETRY_RX_PACKET_SIZE];   // Receive buffer. 9 byte
 uint8_t telemetryRxBufferCount = 0;
 
 CrossfirePulsesData g_crossfire={{0},0};
-uint32_t telemetryErrors=0;
+//uint32_t telemetryErrors=0;
 //bool g_crsf_inited =0;
 //int g_crossfile_baudrate_index =4; 
 
@@ -261,61 +261,9 @@ uint16_t ModuleSyncStatus::getAdjustedRefreshRate()
 //  return 0;
 //}
 
- static  uint8_t idx_to_afhds2a [] ={
-FST_IDX_ERR, //RX_RSSI1_INDEX,
-FST_IDX_NOISE,// RX_RSSI2_INDEX,
-FST_IDX_RSSI, // RX_QUALITY_INDEX,
-FST_IDX_SNR, // RX_SNR_INDEX,
- 0xff,// RX_ANTENNA_INDEX,
-FST_IDX_S86, // RF_MODE_INDEX,
-FST_IDX_S87, // TX_POWER_INDEX,
-FST_IDX_TSSI, // TX_RSSI_INDEX,
-FST_IDX_S88, // TX_QUALITY_INDEX,
-FST_IDX_S89,// TX_SNR_INDEX,
- 0xff,// RX_RSSI_PERC_INDEX,
-FST_IDX_TX_V, // RX_RF_POWER_INDEX,
- 0xff,// TX_RSSI_PERC_INDEX,
-FST_IDX_S8a, // TX_RF_POWER_INDEX,
- FST_IDX_S85,// TX_FPS_INDEX,
- FST_IDX_INTV,// BATT_VOLTAGE_INDEX,
- FST_IDX_BAT_CURR,// BATT_CURRENT_INDEX,
- FST_IDX_THRCAP,// BATT_CAPACITY_INDEX,
- FST_IDX_FUEL,// BATT_REMAINING_INDEX,
- FST_IDX_GPS_LAT,// GPS_LATITUDE_INDEX,
- FST_IDX_GPS_LON,// GPS_LONGITUDE_INDEX,
- FST_IDX_GROUND_SPEED,// GPS_GROUND_SPEED_INDEX,
- FST_IDX_CMP_HEAD,// GPS_HEADING_INDEX,
- FST_IDX_GPS_ALT,// GPS_ALTITUDE_INDEX,
- FST_IDX_GPS_STATUS,// GPS_SATELLITES_INDEX,
- FST_IDX_PITCH,// ATTITUDE_PITCH_INDEX,
- FST_IDX_ROLL, // ATTITUDE_ROLL_INDEX,
- FST_IDX_YAW,// ATTITUDE_YAW_INDEX,
- FST_IDX_FLIGHT_MODE,// FLIGHT_MODE_INDEX,
- FST_IDX_VERTICAL_SPEED,// VERTICAL_SPEED_INDEX,
- // UNKNOWN_INDEX,
- };
-
-void processCrossfireTelemetryValue(uint8_t index, int32_t value) {
-  int tidx = 0;
-   if(index < UNKNOWN_INDEX && (tidx =idx_to_afhds2a[index]) !=0xff)
-   {
-        AFHDS2A_tel_data[tidx] = value;
-       AFHDS2A_tel_status |= 1<<tidx;
-   }
-  //const CrossfireSensor &sensor = crossfireSensors[index];
-  //setTelemetryValue(TELEM_PROTO_CROSSFIRE, sensor.id, 0, sensor.subId, value, sensor.unit, sensor.precision);
-
-}
-
-bool checkCrossfireTelemetryFrameCRC() {
-  uint8_t len = telemetryRxBuffer[1];
-  uint8_t crc = crc8(&telemetryRxBuffer[2], len - 1);
-
-  return (crc == telemetryRxBuffer[len + 1]);
-}
 
 
-
+ 
 bool getCrossfireTelemetryValue(uint8_t index, int32_t &value, int N) {
   bool result = false;
   uint8_t *byte = &telemetryRxBuffer[index];
@@ -330,125 +278,158 @@ bool getCrossfireTelemetryValue(uint8_t index, int32_t &value, int N) {
   return result;
 }
 
+#define scale_methoed_mul  0
+#define scale_methoed_div  1
+#define scale_methoed_add  2
+
+void processCrossfireTelemetryValue(int data_index , int data_size, uint8_t index, int scale, int scaleMethod) {
+   
+   if(index==0xff) return ; 
+   int tidx = 0;
+   int32_t value;
+   if(!getCrossfireTelemetryValue(data_index,value, data_size)) 
+      return;
+   if(scaleMethod ==1)
+     value += scale;
+   else if(scaleMethod ==0)
+     value *=scale;
+   else
+     value /=scale;
+  
+  AFHDS2A_tel_data[tidx] = value;
+  AFHDS2A_tel_status |= 1<<tidx;
+
+}
+
+bool checkCrossfireTelemetryFrameCRC() {
+  uint8_t len = telemetryRxBuffer[1];
+  uint8_t crc = crc8(&telemetryRxBuffer[2], len - 1);
+
+  return (crc == telemetryRxBuffer[len + 1]);
+}
+
+/*
+
+#define GPS_ID                         0x02
+#define CF_VARIO_ID                    0x07
+#define BATTERY_ID                     0x08
+#define LINK_ID                        0x14
+#define CHANNELS_ID                    0x16
+#define LINK_RX_ID                     0x1C
+#define LINK_TX_ID                     0x1D
+#define ATTITUDE_ID                    0x1E
+#define FLIGHT_MODE_ID                 0x21
+#define PING_DEVICES_ID                0x28
+#define DEVICE_INFO_ID                 0x29
+#define REQUEST_SETTINGS_ID            0x2A
+#define COMMAND_ID                     0x32
+#define RADIO_ID                       0x3A
+*/
+
+
+
+
+
+short vv_pp[]={
+3,2,FST_IDX_VERTICAL_SPEED,1,scale_methoed_mul,
+//};
+//int vv_pp_gps[]={
+3,4,FST_IDX_GPS_LAT,10,scale_methoed_div,
+7,4,FST_IDX_GPS_LON,10,scale_methoed_div,
+11,2,FST_IDX_GROUND_SPEED,1,scale_methoed_mul,
+13,2,FST_IDX_CMP_HEAD,1,scale_methoed_mul,
+15,2,FST_IDX_GPS_ALT,-1000,scale_methoed_add,
+17,1,FST_IDX_GPS_STATUS,1,scale_methoed_mul,
+//};
+
+//int vv_pp_link_id[] = {
+3,1, FST_IDX_ERR,1,scale_methoed_mul,
+4,1, FST_IDX_NOISE,1,scale_methoed_mul,
+5,1, FST_IDX_RSSI,1,scale_methoed_mul,
+6,1, FST_IDX_SNR,1,scale_methoed_mul,
+7,1, 0xff/*RX_ANTENNA_INDEX*/,1,scale_methoed_mul,
+8,1,FST_IDX_S86 /*RF_MODE_INDEX*/,1,scale_methoed_mul,
+9,1, FST_IDX_S87 /*TX_POWER_INDEX*/,1,scale_methoed_mul,
+10,1,  FST_IDX_TSSI/*TX_RSSI_INDEX*/,1,scale_methoed_mul,
+11,1, FST_IDX_S88 /*TX_QUALITY_INDEX*/,1,scale_methoed_mul,
+12,1, FST_IDX_S89 /*TX_SNR_INDEX*/,1,scale_methoed_mul,
+//};
+
+//int vv_pp_rx_link[] = {
+ 4,1, 0xff/*RX_RSSI_PERC_INDEX*/, 1,scale_methoed_mul,
+ 7,1, FST_IDX_TX_V , 1,scale_methoed_mul,
+//};
+
+//int vv_pp_tx_link[] = {
+ 4,1, 0xff/*TX_RSSI_PERC_INDEX*/, 1,scale_methoed_mul,
+ 7,1, FST_IDX_S8a/*TX_RF_POWER_INDEX*/, 1,scale_methoed_mul,
+ 8,1, FST_IDX_S85/*TX_FPS_INDEX*/, 1,scale_methoed_mul,
+//};
+
+//int vv_pp_bat[] = {
+ 3,2, FST_IDX_INTV , 1,scale_methoed_mul,
+ 5,2, FST_IDX_BAT_CURR, 1,scale_methoed_mul,
+ 7,3, FST_IDX_THRCAP, 1,scale_methoed_mul,
+ 8,1, FST_IDX_FUEL, 1,scale_methoed_mul,
+//};
+
+
+//int vv_pp_att[] = {
+ 3,2, FST_IDX_PITCH, 1,scale_methoed_mul,
+ 5,2, FST_IDX_ROLL, 1,scale_methoed_mul,
+ 7,2, FST_IDX_YAW, 1,scale_methoed_mul,
+};
+
+
+short cc_pp[] = {
+CF_VARIO_ID, 1,
+GPS_ID, 6,
+LINK_ID,10,
+LINK_RX_ID,2,
+LINK_TX_ID,3,
+BATTERY_ID,4,
+ATTITUDE_ID,3,
+};
+
+
 
 void processCrossfireTelemetryFrame() {
 
 
   if (!checkCrossfireTelemetryFrameCRC()) {
     TRACE("[XF] CRC error");
-    telemetryErrors++;
+    //telemetryErrors++;
     return;
   }
 
           uint8_t id = telemetryRxBuffer[2];
-  int32_t value;
-  switch (id) {
-#if 1
-    case CF_VARIO_ID:
-      if (getCrossfireTelemetryValue(3, value,2))
-          processCrossfireTelemetryValue(VERTICAL_SPEED_INDEX, value);
-     break;
+         int offset = 0;
+         bool got_id = false;
+         for(int  i=0;i<sizeof(cc_pp)/sizeof(cc_pp[0])/2;i+=2)
+         {
+              int ni = cc_pp[i+1];
+             if(id == cc_pp[i])
+             {
+                for(int j=0;i<ni;j++)
+                {
+                    processCrossfireTelemetryValue(
+                    vv_pp[offset+j*5],
+                    vv_pp[offset+j*5+1],
+                    vv_pp[offset+j*5+2],
+                    vv_pp[offset+j*5+3],
+                    vv_pp[offset+j*5+4]);
+                }
+                got_id  = true;
+                break;
+             }
 
-    case GPS_ID:
-      if (getCrossfireTelemetryValue(3, value,4))
-        processCrossfireTelemetryValue(GPS_LATITUDE_INDEX, value / 10);
-      if (getCrossfireTelemetryValue(7, value,4))
-        processCrossfireTelemetryValue(GPS_LONGITUDE_INDEX, value / 10);
-      if (getCrossfireTelemetryValue(11, value,2))
-        processCrossfireTelemetryValue(GPS_GROUND_SPEED_INDEX, value);
-      if (getCrossfireTelemetryValue(13, value,2))
-        processCrossfireTelemetryValue(GPS_HEADING_INDEX, value);
-      if (getCrossfireTelemetryValue(15, value,2))
-        processCrossfireTelemetryValue(GPS_ALTITUDE_INDEX, value - 1000);
-      if (getCrossfireTelemetryValue(17, value,1))
-        processCrossfireTelemetryValue(GPS_SATELLITES_INDEX, value);
-      break;
+             offset += ni;
+         }
+         if(!got_id)
+         {
+            runCrossfireTelemetryCallback(telemetryRxBuffer[2], telemetryRxBuffer + 2, telemetryRxBuffer[1] - 1);
+         }
 
-    case LINK_ID:
-      for (unsigned int i = 0; i <= TX_SNR_INDEX; i++) {
-        if (getCrossfireTelemetryValue(3 + i, value,1)) {
-          if (i == TX_POWER_INDEX) {
-            static const int32_t power_values[] = {0, 10, 25, 100, 500, 1000, 2000, 250, 50};
-            value = ((unsigned)value < DIM(power_values) ? power_values[value] : 0);
-          }
-          processCrossfireTelemetryValue(i, value);
-          //if (i == RX_QUALITY_INDEX) {
-
-          //  if (value) {
-          //   //  telemetryData.rssi.set(value);
-          //   //  telemetryStreaming = TELEMETRY_TIMEOUT10ms;
-          //  } else {
-          //   // telemetryData.rssi.reset();
-          //  //  telemetryStreaming = 0;
-          //  }
-     
-          //}
-        }
-      }
-      break;
-
-    case LINK_RX_ID:
-      if (getCrossfireTelemetryValue(4, value,1))
-        processCrossfireTelemetryValue(RX_RSSI_PERC_INDEX, value);
-      if (getCrossfireTelemetryValue(7, value,1))
-        processCrossfireTelemetryValue(TX_RF_POWER_INDEX, value);
-      break;
-
-    case LINK_TX_ID:
-      if (getCrossfireTelemetryValue(4, value,1))
-        processCrossfireTelemetryValue(TX_RSSI_PERC_INDEX, value);
-      if (getCrossfireTelemetryValue(7, value,1))
-        processCrossfireTelemetryValue(RX_RF_POWER_INDEX, value);
-      if (getCrossfireTelemetryValue(8, value,1))
-        processCrossfireTelemetryValue(TX_FPS_INDEX, value * 10);
-      break;
-
-    case BATTERY_ID:
-      if (getCrossfireTelemetryValue(3, value,2))
-        processCrossfireTelemetryValue(BATT_VOLTAGE_INDEX, value*10);
-      if (getCrossfireTelemetryValue(5, value,2))
-        processCrossfireTelemetryValue(BATT_CURRENT_INDEX, value*10);
-      if (getCrossfireTelemetryValue(7, value,3))
-        processCrossfireTelemetryValue(BATT_CAPACITY_INDEX, value*10);
-      if (getCrossfireTelemetryValue(10, value,1))
-        processCrossfireTelemetryValue(BATT_REMAINING_INDEX, value*10);
-      break;
-
-    case ATTITUDE_ID:
-      if (getCrossfireTelemetryValue(3, value,2))
-        processCrossfireTelemetryValue(ATTITUDE_PITCH_INDEX, value / 10);
-      if (getCrossfireTelemetryValue(5, value,2))
-        processCrossfireTelemetryValue(ATTITUDE_ROLL_INDEX, value / 10);
-      if (getCrossfireTelemetryValue(7, value,2))
-        processCrossfireTelemetryValue(ATTITUDE_YAW_INDEX, value / 10);
-      break;
-
-    case FLIGHT_MODE_ID: {
-    #if 0   //TODO
-      const CrossfireSensor &sensor = crossfireSensors[FLIGHT_MODE_INDEX];
-      int textLength = min<int>(16, telemetryRxBuffer[1]);
-      telemetryRxBuffer[textLength] = '\0';
-      setTelemetryText(TELEM_PROTO_CROSSFIRE, sensor.id, 0, sensor.subId, (const char *)telemetryRxBuffer + 3);
-   #endif
-     break;
-    }
- #endif
-
-    case RADIO_ID:
-      if (telemetryRxBuffer[3] == 0xEA     // radio address
-          && telemetryRxBuffer[5] == 0x10  // timing correction frame
-      ) {
-        getCrossfireTelemetryValue(6, (int32_t &)g_elrs_update_rate,4);
-        getCrossfireTelemetryValue(10, g_elrs_lag,4);
-      }
-      break;
-
-    default:
-      // <Device address 0><Frame length 1><Type 2><Payload 3><CRC>
-      // destination address and CRC are skipped
-      runCrossfireTelemetryCallback(telemetryRxBuffer[2], telemetryRxBuffer + 2, telemetryRxBuffer[1] - 1);
-      break;
-  }
 
 }
 
@@ -459,14 +440,14 @@ bool isCrossfireOutputBufferAvailable() {
 int processCrossfireTelemetryData(uint8_t data) {
   if (telemetryRxBufferCount == 0 && data != RADIO_ADDRESS) {
     TRACE("[XF] address 0x%02X error", data);
-    telemetryErrors++;
+   // telemetryErrors++;
     return 0;
   }
 
   if (telemetryRxBufferCount == 1 && (data < 2 || data > TELEMETRY_RX_PACKET_SIZE - 2)) {
     TRACE("[XF] length 0x%02X error", data);
     telemetryRxBufferCount = 0;
-    telemetryErrors++;
+   // telemetryErrors++;
     return 0 ;
   }
 
@@ -475,7 +456,7 @@ int processCrossfireTelemetryData(uint8_t data) {
   } else {
     TRACE("[XF] array size %d error", telemetryRxBufferCount);
     telemetryRxBufferCount = 0;
-    telemetryErrors++;
+ //   telemetryErrors++;
   }
 
   if (telemetryRxBufferCount > 4) {
@@ -492,59 +473,6 @@ int processCrossfireTelemetryData(uint8_t data) {
 
   return 0;
 }
-
-//void crossfireSetDefault(int index, uint8_t id, uint8_t subId) {
-
-//#if 0
-
-//  TelemetrySensor &telemetrySensor = g_model.telemetrySensors[index];
-
-//  telemetrySensor.id = id;
-//  telemetrySensor.instance = subId;
-
-//  const CrossfireSensor &sensor = getCrossfireSensor(id, subId);
-//  TelemetryUnit unit = sensor.unit;
-//  if (unit == UNIT_GPS_LATITUDE || unit == UNIT_GPS_LONGITUDE)
-//    unit = UNIT_GPS;
-//  uint8_t prec = min<uint8_t>(2, sensor.precision);
-//  telemetrySensor.init(sensor.name, unit, prec);
-//  if (id == LINK_ID) {
-//    telemetrySensor.logs = true;
-//  }
-
-//  storageDirty(EE_MODEL);
-//#endif
-
-//}
-
-/**
- * Skip luaInputTelemetryFifo and luaCrossfireTelemetryPop() to save RAM and provide synchronous API instead
- */
-/*
-void (*crossfireTelemetryCallback)(uint8_t, uint8_t*, uint8_t);
-
-void registerCrossfireTelemetryCallback(void (*callback)(uint8_t, uint8_t*, uint8_t)) {
-  crossfireTelemetryCallback = callback;
-}
-*/
-
-
-//inline void runCrossfireTelemetryCallback(uint8_t command, uint8_t* data, uint8_t length) {
-
-//  if (command == 0x29) {
-//    parseDeviceInfoMessage(data);
-//  } else if (command == 0x2B) {
-//    parseParameterInfoMessage(data, length);
-//    if (allParamsLoaded < 1 || statusComplete == 0) {
-//      fieldTimeout = 0; 
-//    }
-//  } else if (command == 0x2E) {
-//    parseElrsInfoMessage(data);
-//  }
-//  //if (crossfireTelemetryCallback != 0) {
-//  //  crossfireTelemetryCallback(command, data, length);
-//  //}
-//}
 
 
 bool crossfireTelemetryPush(uint8_t command, uint8_t *data, uint8_t length) {
@@ -626,4 +554,5 @@ void crsf_action()
    //
 
 }
+
 

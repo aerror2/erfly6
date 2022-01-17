@@ -16,7 +16,7 @@
 #include "../lcd.h"
 #include "../menus.h"
 #include "../en.h"
-
+#include "../voice.h"
 
 struct FieldProps {
   uint16_t nameOffset;     
@@ -85,18 +85,26 @@ static uint16_t reusableBufferOffset = 0;
 
 void crossfireTelemetryPush4(const uint8_t cmd, const uint8_t third, const uint8_t fourth) {
   //TRACE("crsf push %x", cmd);
-  uint8_t crsfPushData[4] =  { deviceId, isV1x?0xEA:handsetId, third, fourth };
+
+  uint8_t crsfPushData[4] =  { deviceId, 
+  
+  #ifdef PROTO_ELRS1
+  isV1x?0xEA:
+  #endif
+  handsetId, third, fourth };
+  
   crossfireTelemetryPush(cmd, crsfPushData, 4);
 }
 
 
 void crossfireTelemetryPing(){
-
+#ifdef PROTO_ELRS1
    if(isV1x)
    {
       crossfireTelemetryPush4(0x2D, 0x0, 0x0);
    }
    else
+#endif
    {
       uint8_t crsfPushData[2] = { 0x00, 0xEA };
       crossfireTelemetryPush(0x28, crsfPushData, 2);
@@ -115,7 +123,7 @@ void parseDeviceInfoMessage(uint8_t* data) {
       if(fields_count==0)
       {
         crossfireTelemetryPush4(0x2C, curfieldId, curFieldChunk); 
-        fieldTimeout   = g_tmr10ms+50;
+        fieldTimeout   = g_tmr10ms+1;
       }
       fields_count = data[offset+12];
       
@@ -133,7 +141,7 @@ void parseDeviceInfoMessage(uint8_t* data) {
 
 void parseParameterInfoMessage(uint8_t* data, uint8_t length)
 {
-
+#if 1
  if (data[2] != deviceId || data[3] != curfieldId) {
     fieldDataLen = 0; 
     curFieldChunk = 0;
@@ -244,21 +252,21 @@ void parseParameterInfoMessage(uint8_t* data, uint8_t length)
 
            int len=strlen((char*)&fieldData[offset]);
 
-           if(field->valuesLength ==0)
-           {
+           //if(field->valuesLength ==0)
+           //{
             int flen = len;
-                 if(flen>COL2_CHAR_LEN)
-                   flen = COL2_CHAR_LEN;
-                field->valuesOffset = reusableBufferOffset;
-                memcpy(&reusableBuffer[reusableBufferOffset], &fieldData[offset], flen);
-                reusableBufferOffset+=flen;
-                field->valuesLength = flen;
-           }
-           else
-           {
-               memcpy(&reusableBuffer[field->valuesOffset], &fieldData[offset], field->valuesLength);
+            if(flen>COL2_CHAR_LEN)
+               flen = COL2_CHAR_LEN;
+            field->valuesOffset = reusableBufferOffset;
+            memcpy(&reusableBuffer[reusableBufferOffset], &fieldData[offset], flen);
+            reusableBufferOffset+=flen;
+            field->valuesLength = flen;
+           //}
+           //else
+           //{
+           //    memcpy(&reusableBuffer[field->valuesOffset], &fieldData[offset], field->valuesLength);
 
-           }
+           //}
            offset += len + 1;
            curNumSelection ++;
        }
@@ -282,6 +290,7 @@ void parseParameterInfoMessage(uint8_t* data, uint8_t length)
     statusComplete = 1;
     fieldDataLen = 0; 
   }
+  #endif
 }
 #ifdef SHOW_ELRS_FLAGS
 void parseElrsInfoMessage(uint8_t* data)
@@ -311,13 +320,15 @@ void runCrossfireTelemetryCallback(uint8_t command, uint8_t* data, uint8_t lengt
     if (allParamsLoaded < 1 || statusComplete == 0) {
       fieldTimeout = 0; 
     }
-  } else if (command == 0x2E) {
-  
-#ifdef SHOW_ELRS_FLAGS
-    parseElrsInfoMessage(data);
-    #endif 
   }
+ #ifdef SHOW_ELRS_FLAGS
+   else if (command == 0x2E) {
+  
 
+    parseElrsInfoMessage(data);
+
+  }
+#endif 
 #ifdef PROTO_ELRS1
   else if (command ==0x2D && isV1x)
   {
@@ -557,6 +568,7 @@ void crossfileMenu(MState2 &mstate2,uint8_t  event, uint8_t sub,  uint8_t subN, 
                                  crossfireTelemetryPush4(0x2D, field->id, field->value);
                                  curselectIdx = i;
                                  pushMenu(executeMenu);
+                                 play_voice(voice_cat_ground_speed,2,0,0); 
                               }
                         }
                     }

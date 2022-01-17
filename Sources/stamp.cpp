@@ -9,7 +9,7 @@
 #define SUB_VERS  10
 #define SVN_VERS "1.0.4"
 #define MOD_VERS "FlySky-I6 Base"
-#define AUTOR    "Kotello,Aerror2"
+#define AUTOR    "Kotello,Aerror"
 
 const char Stamps[] = "VERS: V" DEFNUMSTR(VERS) "." DEFNUMSTR(SUB_VERS) " -" AUTOR "\037"\
 " MOD: " MOD_VERS;

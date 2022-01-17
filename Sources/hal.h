@@ -199,14 +199,14 @@ extern const uint8_t AFHDS_A7105_regs[];
 extern void ISR_TIMER0_COMP_vect(void);
 extern void ISR_TIMER2_OVF_vect(void);
 extern void ISR_TIMER1_COMPA_vect(void);
-extern void ISR_TIMER3_CAPT_vect(void);
+//extern void ISR_TIMER3_CAPT_vect(void);
 extern void ActionAFHDS2A();
 
 uint8_t i2c_master(uint8_t mode, uint16_t slave_address);
 /*---------------------PPM Timer------------------------------------------------*/
 void EnablePPMTim(void);
 void DisablePPMTim(void);
-uint16_t GetPPMTimCapture(void);
+//uint16_t GetPPMTimCapture(void);
 void SetPPMTimCompare(uint16_t val);
 uint16_t GetPPMTimCompare(void);
 uint32_t GetPPMTimCompareInterruptFlag(void);
@@ -226,6 +226,10 @@ void sei(void);
 void cli(void);
 
 void   switch_elrs_tx(int val);
+
+void  init_voice_serial();
+void send_voice_cmd(uint8_t *buf, uint32_t len);
+
 #ifdef __cplusplus
 }  /* extern "C" */
 #endif 

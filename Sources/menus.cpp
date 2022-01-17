@@ -4971,7 +4971,7 @@ NOINLINE void serialVoiceBlockSend(uint8_t *data, uint8_t length) {
 
 NOINLINE uint8_t serialVoiceWaitByte(uint8_t byte) {
   uint8_t b;
-  while ((b = getSvFifo()) != 0xFF) {
+  while ((b = getSvFifo()) != 0xFF) {,  
     if (b == byte) {
       return 1;
     }
@@ -11185,6 +11185,7 @@ void menuProcModelIndex(uint8_t event)
 		break ;
 		case M_PROTOCOL :
       pushMenu(menuProcProtocol) ;
+
 		break ;
 
 	}

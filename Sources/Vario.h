@@ -2,7 +2,7 @@
 #define SOURCES_VARIO_H_
 #include <stdint.h>
 #include "er9x.h"
-
+#ifdef VARIO
 typedef struct Vario_SilenceZone_t{
 int16_t Lo;     /*Vspeed*100*/
 int16_t Hi;     /*Vspeed*100*/
@@ -22,5 +22,7 @@ Vario_data_t Data[12];
 
 void Vario_play(int32_t Vspeed, bool play);
 void Vario_driver(void);
+
+#endif
 
 #endif //SOURCES_VARIO_H_

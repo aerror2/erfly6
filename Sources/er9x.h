@@ -21,7 +21,7 @@
 #define NOVOICE_SW
 //#define MINIMISE_CODE        
 #define NOSAFETY_A_OR_V
-#define VARIO
+//#define VARIO
 
 //#define  FRSKY
 //#define  HUB

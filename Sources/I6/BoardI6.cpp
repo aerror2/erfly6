@@ -213,7 +213,8 @@ void HW_Init(void) {
   
   // PTE->PDDR |= 1<<16; 
 
-  PORTE->PCR[16] |= PORT_PCR_MUX(0x03);
+  PORTE->PCR[16] |= PORT_PCR_MUX(0x03); //CONFIG AS TX2
+  PORTE->PCR[17] |= PORT_PCR_MUX(0x03);//CONFIG AS RX2
 
   /*-----------------------LD_DATA_HI_Init--------------------------------------*/
   PTC->PDDR |= GPIO_PDDR_PDD(0x0F00);
@@ -312,9 +313,12 @@ void HW_Init(void) {
   TPM2->MOD = TPM_MOD_MOD(0xFFFF);      
   TPM2->CONTROLS[0].CnSC = 0x00;// (TPM_CnSC_CHIE_MASK | TPM_CnSC_MSA_MASK | TPM_CnSC_ELSA_MASK); // Compare
   TPM2->CONTROLS[0].CnV = TPM_CnV_VAL(0xEA60);      
-  TPM2->CONTROLS[1].CnSC = (TPM_CnSC_CHIE_MASK | TPM_CnSC_ELSB_MASK); // Capture
+  //TPM2->CONTROLS[1].CnSC = (TPM_CnSC_CHIE_MASK | TPM_CnSC_ELSB_MASK); // Capture
   PORTA->PCR[1] = (uint32_t)(PORT_PCR_MUX(0x03));
-  PORTA->PCR[2] = (uint32_t)(PORT_PCR_MUX(0x03));
+  
+  SIM->SOPT2 |= (SIM_SOPT2_UART0SRC(0x01)); //01 MCGFLLCLK clock, SIM_SOPT2_PLLFLLSEL_MASK  DIVIDED BY 2
+  PORTA->PCR[2] = (uint32_t)(PORT_PCR_MUX(0x02)); //config as UART0  TX
+
   NVIC_SetPriority(TPM2_IRQn, 2);
   NVIC_EnableIRQ(TPM2_IRQn);
   TPM2->SC = 0x00; 
@@ -689,9 +693,9 @@ uint8_t i2c_master(uint8_t mode, uint16_t slave_address) {
   return I2C_OK;
 }
 /*-----------------------PPM Timer---------------------------------------------*/
-uint16_t GetPPMTimCapture(void) {
-  return (uint16_t)TPM2->CONTROLS[1].CnV;
-}
+//uint16_t GetPPMTimCapture(void) {
+//  return (uint16_t)TPM2->CONTROLS[1].CnV;
+//}
 uint32_t GetPPMOutState(void) {
   return PTA->PDIR & 0x02;
 }
@@ -850,10 +854,10 @@ void SPI0_IRQHandler(void) {
       ISR_TIMER1_COMPA_vect();
     }
 
-    if (TPM2->CONTROLS[1].CnSC & TPM_CnSC_CHF_MASK) {    // Capture PPM-IN
-      TPM2->CONTROLS[1].CnSC |= TPM_CnSC_CHF_MASK;
-      ISR_TIMER3_CAPT_vect();
-    }
+    //if (TPM2->CONTROLS[1].CnSC & TPM_CnSC_CHF_MASK) {    // Capture PPM-IN
+    //  TPM2->CONTROLS[1].CnSC |= TPM_CnSC_CHF_MASK;
+    //    ISR_TIMER3_CAPT_vect();
+    //}
   }
 
 
@@ -1015,13 +1019,13 @@ void prepare_UART_dma_receive()
         DMAMUX0->CHCFG[TX_DMA_CHANNEL] = ((DMAMUX0->CHCFG[TX_DMA_CHANNEL] & ~DMAMUX_CHCFG_SOURCE_MASK) | DMAMUX_CHCFG_SOURCE(6)); //SET TO RX
         DMAMUX0->CHCFG[TX_DMA_CHANNEL] |= DMAMUX_CHCFG_ENBL_MASK;
     
-        DMA0->DMA[TX_DMA_CHANNEL].SAR = (uint32_t)&UART2->D ;
+        DMA0->DMA[TX_DMA_CHANNEL].SAR = (uint32_t)&UART0->D ;
         DMA0->DMA[TX_DMA_CHANNEL].DAR  = (uint32_t)crsf_rx_buf; 
 }
 
 void start_UART_DMA_receive()
 {
-        DMA0->DMA[TX_DMA_CHANNEL].SAR = (uint32_t)&UART2->D ;
+        DMA0->DMA[TX_DMA_CHANNEL].SAR = (uint32_t)&UART0->D ;
         DMA0->DMA[TX_DMA_CHANNEL].DAR  = (uint32_t)crsf_rx_buf;
     
     
@@ -1042,8 +1046,8 @@ void start_UART_DMA_receive()
 
 
          //ENABLE TX INTERRUPT
-         UART2->C4 |= UART_C4_RDMAS_MASK;
-         UART2->C2 |= UART_C2_RIE_MASK;
+         UART0->C4 |= UART_C4_RDMAS_MASK;
+         UART0->C2 |= UART_C2_RIE_MASK;
 }
 
 
@@ -1062,14 +1066,14 @@ void setup_crsf_serial_port(uint32_t baud,crsf_read_cb_t read_cb)
     NVIC_EnableIRQ(DMA0_IRQn);
     
     //uart_single_init(bdrate,DEFAULT_SYSTEM_CLOCK,bdrate);//Set single wire mode.
-    SIM->SCGC4 |= SIM_SCGC4_UART2_MASK;// Enable the clock to the selected UART
+    SIM->SCGC4 |= SIM_SCGC4_UART0_MASK;// Enable the clock to the selected UART
 
     /*
     Make sure that the transmitter and receiver are disabled while we 
        * change settings.*/
-    UART2->C2 &= ~(UART_C2_TE_MASK|UART_C2_RE_MASK);
+    UART0->C2 &= ~(UART_C2_TE_MASK|UART_C2_RE_MASK);
       /* Configure single wire ,  8-bit mode, no parity*/
-    UART2->C1  |= (UART_C1_LOOPS_MASK | UART_C1_RSRC_MASK);    
+    UART0->C1  |= (UART_C1_LOOPS_MASK | UART_C1_RSRC_MASK);    
 
     /* Calculate baud settings */
     uint16_t  sbr = (uint16_t)(DEFAULT_SYSTEM_CLOCK/2/(baud *16));
@@ -1077,22 +1081,22 @@ void setup_crsf_serial_port(uint32_t baud,crsf_read_cb_t read_cb)
   /* Save off the current value of the UARTx_BDH except for the SBR field */
     /* Save off the current value of the UARTx_BDH except for the SBR field */
 
-    uint8_t temp =   UART2->BDH & (~UART_BDH_SBR(0x1F)); 
-    UART2->BDH= temp |  UART_BDH_SBR(((sbr & 0x1F00) >> 8));
-    UART2->BDL = (uint8_t)(sbr & UART_BDL_SBR_MASK);
+    uint8_t temp =   UART0->BDH & (~UART_BDH_SBR(0x1F)); 
+    UART0->BDH= temp |  UART_BDH_SBR(((sbr & 0x1F00) >> 8));
+    UART0->BDL = (uint8_t)(sbr & UART_BDL_SBR_MASK);
 
     //uart inverted 
-    UART2->C3 |= UART_C3_TXINV_MASK;
-    UART2->S2 |= UART_S2_RXINV_MASK;
+    UART0->C3 |= UART_C3_TXINV_MASK;
+    UART0->S2 |= UART_S2_RXINV_MASK;
 
     //enable 
-    //UART2->C4 |= UART_C4_RDMAS_MASK|UART_C4_TDMAS_MASK;
+    //UART0->C4 |= UART_C4_RDMAS_MASK|UART_C4_TDMAS_MASK;
 
     ///* Enable receiver and transmitter, and enable receive */
-    //UART2->C2 |= (UART_C2_TE_MASK|UART_C2_RE_MASK|UART_C2_TIE_MASK|UART_C2_RIE_MAS);
+    //UART0->C2 |= (UART_C2_TE_MASK|UART_C2_RE_MASK|UART_C2_TIE_MASK|UART_C2_RIE_MAS);
    
     //CHANGE TO READ
-    //UART2->C3 &=~UART_C3_TXDIR_MASK;
+    //UART0->C3 &=~UART_C3_TXDIR_MASK;
 
     //prepare_UART_dma_receive();
     //start_UART_DMA_receive();
@@ -1107,8 +1111,8 @@ bool stop_dma_receive()
       bool ret =  DMA0->DMA[TX_DMA_CHANNEL].DCR & DMA_DCR_EINT_MASK;
       if(ret)
       {
-        UART2->C4 &= ~UART_C4_RDMAS_MASK;
-        UART2->C2 &= ~UART_C2_RIE_MASK;
+        UART0->C4 &= ~UART_C4_RDMAS_MASK;
+        UART0->C2 &= ~UART_C2_RIE_MASK;
         DMA0->DMA[TX_DMA_CHANNEL].DCR &= ~DMA_DCR_EINT_MASK;
       }
       return ret;
@@ -1139,7 +1143,7 @@ void crsf_send_data(uint8_t *buf, uint32_t len)
 
 
     //SET DIR
-    UART2->C3 |= UART_C3_TXDIR_MASK;
+    UART0->C3 |= UART_C3_TXDIR_MASK;
     
     //RESET?
  #if 0
@@ -1163,7 +1167,7 @@ void crsf_send_data(uint8_t *buf, uint32_t len)
     DMAMUX0->CHCFG[TX_DMA_CHANNEL] |= DMAMUX_CHCFG_ENBL_MASK;
 
     DMA0->DMA[TX_DMA_CHANNEL].SAR = (uint32_t)buf;
-    DMA0->DMA[TX_DMA_CHANNEL].DAR  = (uint32_t)&UART2->D;
+    DMA0->DMA[TX_DMA_CHANNEL].DAR  = (uint32_t)&UART0->D;
    
    /* Set transfer bytes */
      DMA0->DMA[TX_DMA_CHANNEL].DSR_BCR = DMA_DSR_BCR_BCR(len);
@@ -1182,8 +1186,8 @@ void crsf_send_data(uint8_t *buf, uint32_t len)
 
 
      //ENABLE TX INTERRUPT
-     UART2->C4 |= UART_C4_TDMAS_MASK;
-     UART2->C2 |= UART_C2_TIE_MASK;
+     UART0->C4 |= UART_C4_TDMAS_MASK;
+     UART0->C2 |= UART_C2_TIE_MASK;
 }
 
 
@@ -1197,16 +1201,16 @@ void DMA0_IRQHandler()
     //DMA_DisableInterrupts(handle->base, handle->channel);
 
   
-   // if(UART2->C3 &UART_C3_TXDIR_MASK)
+   // if(UART0->C3 &UART_C3_TXDIR_MASK)
     {
       
 
-        UART2->C4 &= ~UART_C4_TDMAS_MASK;
-        UART2->C2 &= ~UART_C2_TIE_MASK;
+        UART0->C4 &= ~UART_C4_TDMAS_MASK;
+        UART0->C2 &= ~UART_C2_TIE_MASK;
         DMA0->DMA[TX_DMA_CHANNEL].DCR &= ~DMA_DCR_EINT(1);
         DMA0->DMA[TX_DMA_CHANNEL].DCR &= ~DMA_DCR_ERQ_MASK;
         //CHANGE TO READ
-        //UART2->C3 &=~UART_C3_TXDIR_MASK;
+        //UART0->C3 &=~UART_C3_TXDIR_MASK;
         //prepare_UART_dma_receive();
         //start_UART_DMA_receive();
         
@@ -1226,13 +1230,13 @@ void shutdown_crsf_serial_port()
   if(  g_crsf_read_callback != NULL)
   {
      g_crsf_read_callback = NULL;
-     UART2->C4 &= ~UART_C4_TDMAS_MASK;
-     UART2->C2 &= ~UART_C2_TIE_MASK;
+     UART0->C4 &= ~UART_C4_TDMAS_MASK;
+     UART0->C2 &= ~UART_C2_TIE_MASK;
      DMA0->DMA[TX_DMA_CHANNEL].DCR &= ~DMA_DCR_EINT_MASK;
      NVIC_DisableIRQ(DMA0_IRQn);
      SIM->SCGC7 &= ~SIM_SCGC7_DMA_MASK;//DISABLE DMA
      SIM->SCGC6 &= ~SIM_SCGC6_DMAMUX_MASK; //DISABLE DMA MUX
-     SIM->SCGC4 &=~SIM_SCGC4_UART2_MASK;
+     SIM->SCGC4 &=~SIM_SCGC4_UART0_MASK;
   }
 }
 
@@ -1247,70 +1251,70 @@ void setup_crsf_serial_port(uint32_t baud,crsf_read_cb_t read_cb)
         switch_elrs_tx(1);
         g_crsf_read_callback = read_cb;
       //uart_single_init(bdrate,DEFAULT_SYSTEM_CLOCK,bdrate);//Set single wire mode.
-      SIM->SCGC4 |= SIM_SCGC4_UART2_MASK;// Enable the clock to the selected UART
+      SIM->SCGC4 |= SIM_SCGC4_UART0_MASK;// Enable the clock to the selected UART
   
       /*
       Make sure that the transmitter and receiver are disabled while we 
          * change settings.*/
-      UART2->C2 &= ~(UART_C2_TE_MASK|UART_C2_RE_MASK);
+      UART0->C2 &= ~(UART_C2_TE_MASK|UART_C2_RE_MASK);
         /* Configure single wire ,  8-bit mode, no parity*/
-      UART2->C1  |= (UART_C1_LOOPS_MASK | UART_C1_RSRC_MASK);    
+      UART0->C1  |= (UART_C1_LOOPS_MASK | UART_C1_RSRC_MASK);    
    
       /* Calculate baud settings */
-      uint16_t  sbr = (uint16_t)(DEFAULT_SYSTEM_CLOCK/2/(baud *16));
+      uint16_t  sbr = (uint16_t)(DEFAULT_SYSTEM_CLOCK/(baud *16));
   
       /* Save off the current value of the UARTx_BDH except for the SBR field */
         /* Save off the current value of the UARTx_BDH except for the SBR field */
 
-        uint8_t temp =   UART2->BDH & (~UART_BDH_SBR(0x1F)); 
-        UART2->BDH= temp |  UART_BDH_SBR(((sbr & 0x1F00) >> 8));
-        UART2->BDL = (uint8_t)(sbr & UART_BDL_SBR_MASK);
+        uint8_t temp =   UART0->BDH & (~UART_BDH_SBR(0x1F)); 
+        UART0->BDH= temp |  UART_BDH_SBR(((sbr & 0x1F00) >> 8));
+        UART0->BDL = (uint8_t)(sbr & UART_BDL_SBR_MASK);
 
         #if 0
         /* Determine if a fractional divider is needed to get closer to the baud rate */
         uint16_t brfa = (((DEFAULT_SYSTEM_CLOCK*32000)/(baud * 16)) - (sbr * 32));
 
         /* Save off the current value of the UARTx_C4 register except for the BRFA field */
-        temp = UART2->C4 & ~(0x1F);
-        UART2->C4 = temp |  brfa;    
+        temp = UART0->C4 & ~(0x1F);
+        UART0->C4 = temp |  brfa;    
         #endif
 
         /* Enable receiver and transmitter, and enable receive */
-        UART2->C2 |= (UART_C2_TE_MASK|UART_C2_RE_MASK);
+        UART0->C2 |= (UART_C2_TE_MASK|UART_C2_RE_MASK);
     
         //uart inverted 
-        UART2->C3 |= UART_C3_TXINV_MASK;
-        UART2->S2 |= UART_S2_RXINV_MASK;
-        NVIC_EnableIRQ(UART2_IRQn);
+        UART0->C3 |= UART_C3_TXINV_MASK;
+        UART0->S2 |= UART_S2_RXINV_MASK;
+        NVIC_EnableIRQ(UART0_IRQn);
     }
     
 }
 bool uart_clear_error()
 {
    bool has_error = false;
-  if(UART2->S1 & UART_S1_OR_MASK  )
+  if(UART0->S1 & UART_S1_OR_MASK  )
     {
         //To clear OR,write a logic 1 to the OR flag.
-        UART2->S1  |= UART_S1_OR_MASK;
+        UART0->S1  |= UART_S1_OR_MASK;
         has_error = true ;
     }
     //clear all 
-    if(  UART2->S1 & UART_S1_FE_MASK  )
+    if(  UART0->S1 & UART_S1_FE_MASK  )
     {
-        UART2->S1  |= UART_S1_FE_MASK;
-         has_error = true ;
+        UART0->S1  |= UART_S1_FE_MASK;
+      //   has_error = true ;
     }
 
-   if(  UART2->S1 & UART_S1_PF_MASK  )
+   if(  UART0->S1 & UART_S1_PF_MASK  )
     {
-        UART2->S1  |= UART_S1_PF_MASK;
+        UART0->S1  |= UART_S1_PF_MASK;
          has_error = true ;
     }
 
     
-   if(  UART2->S1 & UART_S1_NF_MASK  )
+   if(  UART0->S1 & UART_S1_NF_MASK  )
     {
-        UART2->S1  |=UART_S1_NF_MASK;
+        UART0->S1  |=UART_S1_NF_MASK;
          has_error = true ;
     }
     return has_error;
@@ -1327,60 +1331,60 @@ void crsf_send_data(uint8_t *buf, uint32_t len)
 
 uint8_t dat;
   cli();
-    //while(!(UART2->S1&UART_S1_TDRE_MASK));
-    //while(!(UART2->S1 & UART_S1_TC_MASK));
+    //while(!(UART0->S1&UART_S1_TDRE_MASK));
+    //while(!(UART0->S1 & UART_S1_TC_MASK));
   //  PTE->PDDR |= 1<<16; 
-    UART2->C2 &=~(UART_C2_RIE_MASK);
-    UART2->C3 &=~(UART_C3_ORIE_MASK);
+    UART0->C2 &=~(UART_C2_RIE_MASK);
+    UART0->C3 &=~(UART_C3_ORIE_MASK);
 
 
-    UART2->C3 |= UART_C3_TXDIR_MASK;
+    UART0->C3 |= UART_C3_TXDIR_MASK;
 #if USE_IE_UART_TX
     g_crsf_send_buf = buf;
     g_crsf_send_len = len;
     g_crsf_send_pos =0;
-    UART2->C2 |= UART_C2_TIE_MASK;
+    UART0->C2 |= UART_C2_TIE_MASK;
 #else
     for(int i=0;i<len;i++)
     {
-      while(!(UART2->S1&UART_S1_TDRE_MASK));
-      UART2->D = buf[i];
+      while(!(UART0->S1&UART_S1_TDRE_MASK));
+      UART0->D = buf[i];
     
     }
     
-    while(!(UART2->S1 & UART_S1_TC_MASK))
+    while(!(UART0->S1 & UART_S1_TC_MASK))
     {
     }
     
    
-     UART2->C3 &= ~UART_C3_TXDIR_MASK;
+     UART0->C3 &= ~UART_C3_TXDIR_MASK;
     /* Configure the module1 TXD pin as an input */
  //   PTE->PDDR &= ~(1<<16); 
- //   UART2->C3 &= ~UART_C3_TXDIR_MASK;
-    UART2->C2 |=UART_C2_RIE_MASK;
+ //   UART0->C3 &= ~UART_C3_TXDIR_MASK;
+    UART0->C2 |=UART_C2_RIE_MASK;
  #endif
-    // UART_EnableInterrupts(UART2, kUART_RxDataRegFullInterruptEnable| kUART_RxOverrunInterruptEnable);
+    // UART_EnableInterrupts(UART0, kUART_RxDataRegFullInterruptEnable| kUART_RxOverrunInterruptEnable);
      sei();
 }
 
 #if 1
-void UART2_IRQHandler(void )
+void UART0_IRQHandler(void )
 {
 #if USE_IE_UART_TX
-     if(!UART2->C3 & UART_C3_TXDIR_MASK)
+     if(!UART0->C3 & UART_C3_TXDIR_MASK)
   #endif
     {
       uint8_t dat;
       if(uart_clear_error())
       {
-        dat = UART2->D;
+        dat = UART0->D;
         return;
       }
     }
 
-    if(UART2->S1 & UART_S1_RDRF_MASK)
+    if(UART0->S1 & UART_S1_RDRF_MASK)
     {
-        uint8_t dat = UART2->D;
+        uint8_t dat = UART0->D;
         if(g_crsf_read_callback)
         {
             (*g_crsf_read_callback)(dat);
@@ -1388,20 +1392,20 @@ void UART2_IRQHandler(void )
 
     }
  #if USE_IE_UART_TX
-    else if(UART2->S1 & UART_S1_TDRE_MASK)
+    else if(UART0->S1 & UART_S1_TDRE_MASK)
     {
          if(g_crsf_send_pos < g_crsf_send_len)
          {
-            UART2->D = g_crsf_send_buf[g_crsf_send_pos++];
+            UART0->D = g_crsf_send_buf[g_crsf_send_pos++];
          }
          else{
-             while(!(UART2->S1 & UART_S1_TC_MASK))
+             while(!(UART0->S1 & UART_S1_TC_MASK))
             {
             }
     
-           UART2->C2 &=  ~UART_C2_TIE_MASK;
-           UART2->C3 &= ~UART_C3_TXDIR_MASK;
-           UART2->C2 |=UART_C2_RIE_MASK;
+           UART0->C2 &=  ~UART_C2_TIE_MASK;
+           UART0->C3 &= ~UART_C3_TXDIR_MASK;
+           UART0->C2 |=UART_C2_RIE_MASK;
          }
        
     }
@@ -1417,10 +1421,10 @@ void shutdown_crsf_serial_port()
   {
      switch_elrs_tx(0);
      g_crsf_read_callback = NULL;
-     UART2->C2 &= ~(UART_C2_RE_MASK|UART_C2_RIE_MASK|UART_C2_TE_MASK|UART_C2_TIE_MASK);
-     UART2->C3 &=~(UART_C3_ORIE_MASK);
-     NVIC_DisableIRQ(UART2_IRQn);
-     SIM->SCGC4 &=~SIM_SCGC4_UART2_MASK;
+     UART0->C2 &= ~(UART_C2_RE_MASK|UART_C2_RIE_MASK|UART_C2_TE_MASK|UART_C2_TIE_MASK);
+     UART0->C3 &=~(UART_C3_ORIE_MASK);
+     NVIC_DisableIRQ(UART0_IRQn);
+     SIM->SCGC4 &=~SIM_SCGC4_UART0_MASK;
   }
 }
 #endif
@@ -1428,9 +1432,9 @@ void shutdown_crsf_serial_port()
 #if USE_IE_UART_TX ||USE_DMA_UART
 int  crsf_is_sending()
 {
-    if(UART2->C3 & UART_C3_TXDIR_MASK)
-        return 1;
-    return 0;Logic level 1
+  //  if(UART2->C3 & UART_C3_TXDIR_MASK)
+   //     return 1;
+    return 0;//Logic level 1
 }
 #endif
 
@@ -1444,4 +1448,57 @@ if(val)
 else
   FPTD->PCOR = LORA_SCN_PORT_MASK;
 
+}
+
+
+void  init_voice_serial()
+{
+    //uart_single_init(bdrate,DEFAULT_SYSTEM_CLOCK,bdrate);//Set single wire mode.
+      SIM->SCGC4 |= SIM_SCGC4_UART2_MASK;// Enable the clock to the selected UART
+      
+      /*
+      Make sure that the transmitter and receiver are disabled while we 
+         * change settings.*/
+      UART2->C2 &= ~(UART_C2_TE_MASK|UART_C2_RE_MASK);
+        /* Configure single wire ,  8-bit mode, no parity*/
+       UART2->C1  |= (UART_C1_LOOPS_MASK);    
+    //  UART2->C1   = 0;
+
+      /* Calculate baud settings */
+      uint16_t  sbr = (uint16_t)(DEFAULT_SYSTEM_CLOCK/2/(9600 *16));
+  
+      /* Save off the current value of the UARTx_BDH except for the SBR field */
+        /* Save off the current value of the UARTx_BDH except for the SBR field */
+
+        uint8_t temp =   UART2->BDH & (~UART_BDH_SBR(0x1F)); 
+        UART2->BDH= temp |  UART_BDH_SBR(((sbr & 0x1F00) >> 8));
+        UART2->BDL = (uint8_t)(sbr & UART_BDL_SBR_MASK);
+
+        /* Enable receiver and transmitter, and enable receive */
+        UART2->C2 |= (UART_C2_TE_MASK|UART_C2_RE_MASK);
+    
+
+        NVIC_EnableIRQ(UART2_IRQn);
+}
+
+void send_voice_cmd(uint8_t *buf, uint32_t len)
+{
+    for(int i=0;i<len;i++)
+    {
+      while(!(UART2->S1&UART_S1_TDRE_MASK));
+      UART2->D = buf[i];
+    
+    }
+    
+    while(!(UART2->S1 & UART_S1_TC_MASK))
+    {
+    }
+}
+
+void UART2_IRQHandler(void)
+{
+    if(UART2->S1 & UART_S1_RDRF_MASK)
+    {
+        uint8_t dat = UART2->D;
+    }
 }

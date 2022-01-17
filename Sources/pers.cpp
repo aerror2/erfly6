@@ -368,7 +368,9 @@ void eeLoadModel(uint8_t id) {
   ptConfig->tmrDir = g_model.tmr2Dir;
 #endif // nV2
 
+#ifdef VARIO
   Vario_play(0, false);
+#endif
   resetTimer1();
   resetTimer2();
 

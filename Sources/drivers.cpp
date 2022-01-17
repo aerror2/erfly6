@@ -1111,7 +1111,7 @@ void startSerialVoice() {
 #ifndef SERIAL_VOICE_ONLY
 	if (g_eeGeneral.MegasoundSerial == 0)
 #endif
-			{
+	{
 		serialVoiceInit();
 	}
 
@@ -1135,6 +1135,8 @@ void stopSerialVoice() {
 	 Backup_RestoreRunning = 0 ;
 	 startPulses() ;*/
 }
+
+
 #if USE_DFPLAYER
 void serialVoiceTx(uint8_t byte) {
 	/*	while ( ( UCSR1A & ( 1 << UDRE1 ) ) == 0 )
@@ -1165,20 +1167,20 @@ int16_t getSvFifo() {
 
 //uint16_t SerialVoiceDebug ;
 
-void ISR_USART1_RX_vect(void) {
-	/*	UCSR1B &= ~(1 << RXCIE1); // disable Interrupt
-	 sei() ;
-	 //SerialVoiceDebug += 1 ;
-	 struct t_fifo16 *pfifo = &SvFifo ;
-	 uint8_t next = (pfifo->in + 1) & 0x0f ;
-	 uint8_t data = UDR1 ;
-	 if ( next != pfifo->out )
-	 {
-	 pfifo->fifo[pfifo->in] = data ;
-	 pfifo->in = next ;
-	 }
-	 cli() ;
-	 UCSR1B |= (1 << RXCIE1); // enable Interrupt*/
-}
+//void ISR_USART1_RX_vect(void) {
+//	/*	UCSR1B &= ~(1 << RXCIE1); // disable Interrupt
+//	 sei() ;
+//	 //SerialVoiceDebug += 1 ;
+//	 struct t_fifo16 *pfifo = &SvFifo ;
+//	 uint8_t next = (pfifo->in + 1) & 0x0f ;
+//	 uint8_t data = UDR1 ;
+//	 if ( next != pfifo->out )
+//	 {
+//	 pfifo->fifo[pfifo->in] = data ;
+//	 pfifo->in = next ;
+//	 }
+//	 cli() ;
+//	 UCSR1B |= (1 << RXCIE1); // enable Interrupt*/
+//}
 
 #endif
