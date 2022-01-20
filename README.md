@@ -34,7 +34,7 @@ Here is the manual for flashing firmware from Kotello : https://github.com/aerro
 3. AFDHS2A
 4. CROSSFIRE FOR ELRS TX 2.0
 
-<font color="green">  ## Contents below work with the latest firmware only. </font>
+## Contents below work with the latest firmware only. 
 
 ## How to connect the ELRS TX  and the VoiceModule
    It is very simple to  connect ELRS TX, there is no hardware modification. Just:
