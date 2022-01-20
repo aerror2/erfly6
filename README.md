@@ -6,6 +6,7 @@
 3.A voice Module Driven by UART 
 
 
+
 This was forked from  https://KotelloRC/erfly6.git
 
 Firstly ,thanks to Mr Kotello,  without his efforts  there simply would not have been this project .
@@ -32,6 +33,8 @@ Here is the manual for flashing firmware from Kotello : https://github.com/aerro
 2. AFDHS
 3. AFDHS2A
 4. CROSSFIRE FOR ELRS TX 2.0
+
+Contents below work with the latest firmware only.
 
 ## How to connect the ELRS TX  and the VoiceModule
    It is very simple to  connect ELRS TX, there is no hardware modification. Just:
