@@ -1,9 +1,9 @@
 
-## Here is a project mainly writting for flysky I6 to add two features for it:
+## Here is a project mainly writting for flysky I6 to add three features for it:
 
 1. crossfire for ELRS TX for FSI6
 2. SPI for 127X for implement ELRS TX embeded for FSI6
-
+3.A voice Module Driven by UART 
 
 
 This was forked from  https://KotelloRC/erfly6.git
@@ -33,7 +33,7 @@ Here is the manual for flashing firmware from Kotello : https://github.com/aerro
 3. AFDHS2A
 4. CROSSFIRE FOR ELRS TX 2.0
 
-## How to connect the ELRS TX 
+## How to connect the ELRS TX  and the VoiceModule
    It is very simple to  connect ELRS TX, there is no hardware modification. Just:
    1. connect the SPORT and  GROUND WIRE to your ELRX TX, like the picture below. 
    2. Choose ELRS2 in the Menu :  MODEL SETUP -> PROTOCOL 
@@ -42,8 +42,22 @@ Here is the manual for flashing firmware from Kotello : https://github.com/aerro
 <img src="https://github.com/aerror2/erfly6/blob/main/docimg/tx_sport.jpg">
    
 	
-   It is support  ELRS v2.0 mainly, v1.1 is tested but not maintain yet.
+   It is support  ELRS v2.0 mainly, v1.1 is tested but not maintain any more.
    
+##How to enable Voice module . 
+
+  1. firstly buy a DFPlayer  https://aliexpress.ru/item/1005003438237036.html 
+   
+  2. Connect it to FSI6  as the picture shown below
+  <img src="https://github.com/aerror2/erfly6/blob/main/docimg/voice_mp3_module.jpg">
+  
+  3. prepare a TF Card, plug it to the computer, then create a foled named "mp3" in the TF card
+  4. copy  the voice files from https://github.com/aerror2/erfly6/tree/main/VoicePackEr9x-22Khz_16bit-Sharon-Eng into the "mp3" folder
+  5. unplug the TF Card from computer, plug it into the DFPlayer
+  6. Power up you DFPlayer by 3.3V , and connect it to a speaker.
+  7. open FSi6 transmitter, go to menu  "radio setup"->"AudioHaptic"->"Sound Mode", choose any item other than "Beeper",  for example PiSpkrVoice.
+  8. Turn off the FSi6 transmitter, then turn it on, you should hear "welcome to ER9X " from your speaker
+     
 
 
 
@@ -86,7 +100,7 @@ II.software:
 <img src="https://github.com/aerror2/erfly6/blob/main/docimg/tx_schm.png" >
 
 ###  IV. TX and FSI6 Transmitter wiring:
-<img src="https://github.com/aerror2/erfly6/blob/main/docimg/tx_wiring.jpeg" >
+<img src="https://github.com/aerror2/erfly6/blob/main/docimg/tx_wiring.jpg" >
 The completed TX only needs to connect 3 wires to the transmitter FSI6, a signal wire (SPORT), a 3.3V power supply, and a ground wire, as shown in the figure below
 
 
