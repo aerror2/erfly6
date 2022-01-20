@@ -44,7 +44,7 @@ Here is the manual for flashing firmware from Kotello : https://github.com/aerro
 	
    It is support  ELRS v2.0 mainly, v1.1 is tested but not maintain any more.
    
-##How to enable Voice module . 
+## How To Enable Voice module . 
 
   1. firstly buy a DFPlayer  https://aliexpress.ru/item/1005003438237036.html 
    
