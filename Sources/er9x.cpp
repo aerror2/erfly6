@@ -122,8 +122,7 @@ uint8_t ppmInAvailable = 0 ;
 struct t_rotary Rotary ;
 
 uint8_t Tevent ;
-//uint16_t MenuTimer ;
-uint8_t Backup_RestoreRunning ;		// Used when accessing serial to Megasound
+
 
 #ifndef V2
 TimerMode TimerConfig[2] ;
@@ -223,11 +222,10 @@ const uint8_t csTypeTable[] =
 #endif
 #endif // V2
 
-uint16_t get_tmr10ms()
+uint32_t get_tmr10ms()
 {
-    uint16_t time  ;
-    time = g_tmr10ms ;
-    return time ;
+
+    return g_tmr10ms ;
 }
 
 uint8_t CS_STATE( uint8_t x)
@@ -2758,22 +2756,7 @@ inline bool checkSlaveMode()
 #endif
 }
 
-#if defined(COP328)
-uint8_t CfgVc;  // received voice card feature
-uint8_t Cfg9x;  // sent 9x config bits
 
-static uint8_t getCfg9x()
-{
-  uint8_t cfg = 0;
-  if ((g_eeGeneral.speakerMode & 4) && g_eeGeneral.MegasoundSerial)
-    cfg |= VB_MEGASOUND;
-	if ( !g_eeGeneral.pb7backlight )
-    cfg |= VB_BACKLIGHT;
-	if ( !g_eeGeneral.LVTrimMod )
-    cfg |= VB_TRIM_LV;
-  return cfg;
-}
-#endif
 
 void backlightKey()
 {
@@ -2803,335 +2786,6 @@ void doBackLightVoice(uint8_t evt)
     check_backlight_voice();
 }
 
-void putVoiceQueueUpper( uint8_t value )
-{
-	putVoiceQueueLong( value + 260 ) ;
-}
-
-
-void putVoiceQueue( uint8_t value )
-{
-	putVoiceQueueLong( value ) ;
-}
-
-void setVolume( uint8_t value )
-{
-	CurrentVolume = value ;
-	putVoiceQueueLong( value + 0xFFF0 ) ;
-//	putVoiceQueueLong( value | VQ_VOLUME ) ;
-}
-
-void putVoiceQueueLong( uint16_t value )
-{
-	struct t_voice *vptr ;
-	vptr = &Voice ;
-	FORCE_INDIRECT(vptr) ;
-
-	if ( vptr->VoiceQueueCount < VOICE_Q_LENGTH )
-	{
-		vptr->VoiceQueue[vptr->VoiceQueueInIndex++] = value ;
-		if (vptr->VoiceQueueInIndex > ( VOICE_Q_LENGTH - 1 ) )
-		{
-			vptr->VoiceQueueInIndex = 0 ;
-		}
-		vptr->VoiceQueueCount += 1 ;
-	}
-}
-
-#if defined(COP328)
-// send 9x config info
-void sendCfg9x( uint8_t cfg )
-{
-  Cfg9x = cfg;
-	putVoiceQueueLong( cfg | VQ_CONFIG ) ;
-}
-#endif
-
-void t_voice::voice_process(void)
-{
-/*
-	if ( g_eeGeneral.speakerMode & 2 )
-	{
-#ifdef SERIAL_VOICE
-#ifndef SERIAL_VOICE_ONLY
-		if ( g_eeGeneral.MegasoundSerial )
-#endif
-		{
-			int16_t rx ;
-			while ( (rx = getSvFifo() ) != -1 )
-			{
-				uint8_t x = rx ;
-				if ( VoiceSerialRxState == V_WAIT_RX )
-				{
-#if defined(COP328)
-          VoiceSerialCommand = x;
-					if ( x == XCMD_STATUS || x == XCMD_FEATURE )
-#else
-//					if ( x == XCMD_STATUS )
-					if ( x == 0x1F )
-#endif
-					{
-						VoiceSerialRxState = V_RECEIVING_COUNT ;
-					}
-				}
-				else if ( VoiceSerialRxState == V_RECEIVING_COUNT )
-				{ // Assume count is 1
-//					VoiceDebug = x ;
-					VoiceSerialRxState = V_RECEIVING_VALUE ;
-				}
-				else if ( VoiceSerialRxState == V_RECEIVING_VALUE )
-				{
-#if defined(COP328)
-          if (VoiceSerialCommand == XCMD_FEATURE)
-            CfgVc = x | VC_RECEIVED;    // Voice module's alive!
-          else
-#endif
-					  VoiceSerialValue = x ;
-					VoiceSerialRxState = V_WAIT_RX ;
-				}
-			}
-
-			if ( VoiceState == V_IDLE )
-			{
-				if ( VoiceQueueCount )
-				{
-					uint8_t t = VoiceQueueOutIndex ;
-					uint16_t lvoiceSerial = VoiceQueue[t] ;
-					if (++t > ( VOICE_Q_LENGTH - 1 ) )
-					{
-						t = 0 ;
-					}
-					VoiceQueueOutIndex = t ;
-					VoiceQueueCount -= 1 ;
-					if ( SystemOptions & SYS_OPT_MUTE )
-					{
-						return ;
-					}
-					VoiceTimer = 17 ;
-//					if ( (lvoiceSerial & VQ_CMDMASK) == VQ_VOLUME )	// Looking for Volume setting
-					if ( lvoiceSerial & 0x8000 )	// Looking for Volume setting
-					{
-						VoiceTimer = 40 ;
-					}
-					VoiceSerialData[0] = VCMD_PLAY ;
-					VoiceSerialData[1] = 2 ;
-					VoiceSerialData[2] = lvoiceSerial ;
-					VoiceSerialData[3] = lvoiceSerial >> 8 ;
-					VoiceSerialIndex = 0 ;
-					VoiceSerialCount = 4 ;
-					VoiceState = V_CLOCKING ;
-				}
-			}
-			else if ( VoiceState == V_STARTUP )
-			{
-				if ( g_blinkTmr10ms > 60 )					// Give module 1.4 secs to initialise
-				{
-					VoiceState = V_WAIT_START_BUSY_OFF ;
-				}
-			}
-			else if ( VoiceState != V_CLOCKING )
-			{
-				uint8_t busy ;
-				busy = (VoiceSerialValue & 0x80) ;
-				// The next bit guarantees the backlight output gets clocked out
-				if ( VoiceState == V_WAIT_BUSY_ON )	// check for busy processing here
-				{
-					if ( busy == 0 )									// Busy is active
-					{
-						VoiceState = V_WAIT_BUSY_OFF ;
-					}
-					else
-					{
-						if ( --VoiceTimer == 0 )
-						{
-							VoiceState = V_WAIT_BUSY_OFF ;
-						}
-					}
-				}
-				else if (	VoiceState == V_WAIT_BUSY_OFF)	// check for busy processing here
-				{
-					if ( busy )									// Busy is inactive
-					{
-						VoiceTimer = 3 ;
-						VoiceState = V_WAIT_BUSY_DELAY ;
-					}
-				}
-				else if (	VoiceState == V_WAIT_BUSY_DELAY)
-				{
-					if ( --VoiceTimer == 0 )
-					{
-						VoiceState = V_IDLE ;
-					}
-				}
-				else if (	VoiceState == V_WAIT_START_BUSY_OFF)	// check for busy processing here
-				{
-					if ( busy )									// Busy is inactive
-					{
-						VoiceTimer = 20 ;
-						VoiceState = V_WAIT_BUSY_DELAY ;
-					}
-				}
-			}
-
-#ifdef XSW_MOD
-      if ( g_eeGeneral.pb7backlight )
-        goto pb7_backlight;
-#endif
-			if ( VoiceState != V_CLOCKING )
-	  	{ // Send backlight, 0x1D, 0x01, backlight
-				if ( ++VoiceBacklightCount > 9 )
-				{
-					VoiceBacklightCount = 0 ;
-					VoiceSerialData[0] = VCMD_BACKLIGHT ;
-					VoiceSerialData[1] = 1 ;
-					VoiceSerialData[2] = Backlight ? 1 : 0 ;
-					VoiceSerialIndex = 0 ;
-					VoiceSerialCount = 3 ;
-				}
-			}
-		}
-#ifndef SERIAL_VOICE_ONLY
-		else
-#endif
-#endif
-#ifndef SERIAL_VOICE_ONLY
-		{
-			if ( Backlight )
-			{
-				VoiceLatch |= BACKLIGHT_BIT ;
-			}
-			else
-			{
-				VoiceLatch &= ~BACKLIGHT_BIT ;
-			}
-
-			if ( VoiceState == V_IDLE )
-			{
-				PORTB |= (1<<OUT_B_LIGHT) ;				// Latch clock high
-				if ( VoiceQueueCount )
-				{
-					VoiceSerial = VoiceQueue[VoiceQueueOutIndex++] ;
-					if (VoiceQueueOutIndex > ( VOICE_Q_LENGTH - 1 ) )
-					{
-						VoiceQueueOutIndex = 0 ;
-					}
-					VoiceQueueCount -= 1 ;
-					if ( SystemOptions & SYS_OPT_MUTE )
-					{
-						return ;
-					}
-					VoiceTimer = 17 ;
-					if ( VoiceSerial & 0x8000 )	// Looking for Volume setting
-					{
-						VoiceTimer = 40 ;
-					}
-					VoiceLatch &= ~VOICE_CLOCK_BIT & ~VOICE_DATA_BIT ;
-					if ( VoiceSerial & 0x8000 )
-					{
-						VoiceLatch |= VOICE_DATA_BIT ;
-					}
-					PORTA_LCD_DAT = VoiceLatch ;			// Latch data set
-					PORTB &= ~(1<<OUT_B_LIGHT) ;			// Latch clock low
-					VoiceCounter = 31 ;
-					VoiceState = V_CLOCKING ;
-				}
-				else
-				{
-					PORTA_LCD_DAT = VoiceLatch ;			// Latch data set
-					PORTB &= ~(1<<OUT_B_LIGHT) ;			// Latch clock low
-				}
-			}
-			else if ( VoiceState == V_STARTUP )
-			{
-				PORTB |= (1<<OUT_B_LIGHT) ;				// Latch clock high
-				VoiceLatch |= VOICE_CLOCK_BIT | VOICE_DATA_BIT ;
-				PORTA_LCD_DAT = VoiceLatch ;			// Latch data set
-				if ( g_blinkTmr10ms > 60 )					// Give module 1.4 secs to initialise
-				{
-					VoiceState = V_WAIT_START_BUSY_OFF ;
-				}
-				PORTB &= ~(1<<OUT_B_LIGHT) ;			// Latch clock low
-			}
-			else if ( VoiceState != V_CLOCKING )
-			{
-				uint8_t busy ;
-				PORTA_LCD_DAT = VoiceLatch ;			// Latch data set
-				PORTB |= (1<<OUT_B_LIGHT) ;				// Drive high,pullup enabled
-				DDRB &= ~(1<<OUT_B_LIGHT) ;				// Change to input
-				asm(" rjmp 1f") ;
-				asm("1:") ;
-				asm(" nop") ;											// delay to allow input to settle
-				asm(" rjmp 1f") ;
-				asm("1:") ;
-				busy = PINB() & 0x80 ;
-
-				DDRB |= (1<<OUT_B_LIGHT) ;				// Change to output
-				// The next bit guarantees the backlight output gets clocked out
-				if ( VoiceState == V_WAIT_BUSY_ON )	// check for busy processing here
-				{
-					if ( busy == 0 )									// Busy is active
-					{
-						VoiceState = V_WAIT_BUSY_OFF ;
-					}
-					else
-					{
-						if ( --VoiceTimer == 0 )
-						{
-							VoiceState = V_WAIT_BUSY_OFF ;
-						}
-					}
-				}
-				else if (	VoiceState == V_WAIT_BUSY_OFF)	// check for busy processing here
-				{
-					if ( busy )									// Busy is inactive
-					{
-						VoiceTimer = 3 ;
-						VoiceState = V_WAIT_BUSY_DELAY ;
-					}
-				}
-				else if (	VoiceState == V_WAIT_BUSY_DELAY)
-				{
-					if ( --VoiceTimer == 0 )
-					{
-						VoiceState = V_IDLE ;
-					}
-				}
-				else if (	VoiceState == V_WAIT_START_BUSY_OFF)	// check for busy processing here
-				{
-					if ( busy )									// Busy is inactive
-					{
-						VoiceTimer = 20 ;
-						VoiceState = V_WAIT_BUSY_DELAY ;
-					}
-				}
-				PORTB &= ~(1<<OUT_B_LIGHT) ;			// Latch clock low
-			}
-		}
-#endif
-	}
-	else// no voice, put backlight control out
-	{
-#ifdef XSW_MOD
-		if ( g_eeGeneral.pb7backlight )
-#else
-		if ( g_eeGeneral.pb7Input == 0)
-#endif
-		{
-#if defined(SERIAL_VOICE) && defined(XSW_MOD)
-  pb7_backlight:
-#endif
-			if ( Backlight ^ g_eeGeneral.blightinv )
-			{
-				PORTB |= (1<<OUT_B_LIGHT) ;				// Drive high,pullup enabled
-			}
-			else
-			{
-				PORTB &= ~(1<<OUT_B_LIGHT) ;			// Latch clock low
-			}
-		}
-	}
-*/
-}
 
 const static uint8_t rate[8] = { 0, 0, 100, 40, 16, 7, 3, 1 } ;
 
@@ -3167,139 +2821,6 @@ uint8_t calcStickScroll( uint8_t index )
 }
 
 
-#ifdef V2
-#ifdef USE_ADJUSTERS
-static void	processAdjusters()
-{
-  static uint8_t GvAdjLastSw[NUM_GVAR_ADJUST][2] ;
-	for ( CPU_UINT i = 0 ; i < NUM_GVAR_ADJUST ; i += 1 )
-	{
-		GvarAdjust *pgvaradj ;
-		pgvaradj = &g_model.gvarAdjuster[i] ;
-		FORCE_INDIRECT(pgvaradj) ;
-
-		uint8_t idx = pgvaradj->gvarIndex ;
-
-		int8_t sw0 = pgvaradj->swtch ;
-		int8_t sw1 = 0 ;
-		uint8_t switch1ON = 0 ;
-		uint8_t switch2ON = 0 ;
-		int8_t value = g_model.gvars[idx].gvar ;
-		uint8_t *pgLastSw = &GvAdjLastSw[i][0] ;
-		if ( sw0 )
-		{
-			sw0 = getSwitch00(sw0) ;
-			if ( !*pgLastSw && sw0 )
-			{
-    		switch1ON = 1 ;
-			}
-			*pgLastSw = sw0 ;
-		}
-		if ( pgvaradj->function > 5 )
-		{
-			sw1 = pgvaradj->switch_value ;
-			if ( sw1 )
-			{
-				sw1 = getSwitch00(sw1) ;
-				if ( !pgLastSw[1] && sw1 )
-				{
-    			switch2ON = 1 ;
-				}
-				pgLastSw[1] = sw1 ;
-			}
-		}
-
-		switch ( pgvaradj->function )
-		{
-			case 1 :	// Add
-				if ( switch1ON )
-				{
-     			value += pgvaradj->switch_value ;
-				}
-			break ;
-
-			case 2 :
-				if ( switch1ON )
-				{
-     			value = pgvaradj->switch_value ;
-				}
-			break ;
-
-			case 3 :
-				if ( switch1ON )
-				{
-     			value += 1 ;
-					if ( value > pgvaradj->switch_value )
-					{
-						value = pgvaradj->switch_value ;
-					}
-				}
-			break ;
-
-			case 4 :
-				if ( switch1ON )
-				{
-     			value -= 1 ;
-					if ( value < pgvaradj->switch_value )
-					{
-						value = pgvaradj->switch_value ;
-					}
-				}
-			break ;
-
-			case 5 :
-				if ( switch1ON )
-				{
-					if ( pgvaradj->switch_value == 5 )	// REN
-					{
-						value = Rotary.RotaryControl ;	// Adjusted elsewhere
-					}
-					else
-					{
-						value = getGvarSourceValue( pgvaradj->switch_value ) ;
-					}
-				}
-			break ;
-
-			case 6 :
-				if ( switch1ON )
-				{
-     			value += 1 ;
-				}
-				if ( switch2ON )
-				{
-     			value -= 1 ;
-				}
-			break ;
-
-			case 7 :
-				if ( switch1ON )
-				{
-     			value += 1 ;
-				}
-				if ( switch2ON )
-				{
-     			value = 0 ;
-				}
-			break ;
-
-			case 8 :
-				if ( switch1ON )
-				{
-     			value -= 1 ;
-				}
-				if ( switch2ON )
-				{
-     			value = 0 ;
-				}
-			break ;
-
-		}
-		g_model.gvars[idx].gvar = validatePlusMinus125( value ) ;
-	}
-}
-#endif // 128/2561
-#endif // V2
 
 struct t_inactivity Inactivity = {0} ;
 extern uint8_t s_noHi ;
@@ -3349,9 +2870,6 @@ int8_t getGvarSourceValue( uint8_t src )
 	if ( src <= 4 )
 	{
 		value = getTrimValue( CurrentPhase, src - 1 ) ;
-
-//						GvarSource[src-1] = 1 ;
-
 	}
 	else if ( src <= 9 )	// Stick
 	{
@@ -3411,14 +2929,8 @@ static void perMain()
 	tick10ms = t10ms - lastTMR;
 	lastTMR = t10ms;
 
-		if ( Backup_RestoreRunning == 0 )
-		{
-    	perOutPhase(g_chans512, 0);
-		}
-		else
-		{
-			wdt_reset() ;
-		}
+		perOutPhase(g_chans512, 0);
+		
     if(tick10ms == 0) return ; //make sure the rest happen only every 10ms.
 
 		inactivityCheck() ;
@@ -3438,7 +2950,6 @@ static void perMain()
     lcd_clear();
     uint8_t evt=getEvent();
 
-		if ( Backup_RestoreRunning == 0 )
 		{
 			evt = checkTrim(evt);
 			if ( ( evt == 0 ) || ( evt == EVT_KEY_REPT(KEY_MENU) ) )
@@ -3562,12 +3073,9 @@ static void perMain()
 					}
 					else
 					{
-#ifdef V2
-						v = g_model.gvars[g_model.anaVolume-4].gvar + 125 ;
-#else
+
 						v = g_model.gvars[g_model.anaVolume-4+3].gvar + 125 ;	// +3 to get to GV4-GV7
-#endif // V2
-						divisor = 250 ;
+                              			divisor = 250 ;
 					}
 					requiredVolume = v * (NUM_VOL_LEVELS-1) / divisor ;
 				}
@@ -3577,14 +3085,6 @@ static void perMain()
 				setVolume( requiredVolume ) ;
 			}
 
-#if defined(COP328)
-  #if defined(CPUM128) || defined(CPUM2561)
-      uint8_t cfg = getCfg9x();
-      if (cfg != Cfg9x) {
-        sendCfg9x(cfg);
-      }
-  #endif
-#endif
 			if ( g_eeGeneral.stickScroll && StickScrollAllowed )
 			{
 			 	if ( StickScrollTimer )
@@ -3926,9 +3426,12 @@ extern uint8_t serialDat0 ;
 
 
 
-init_voice_serial();
+#ifdef SERIAL_VOICE
+	{
+		serialVoiceInit(on_voice_cb) ;
 
-	
+	}
+#endif
 
 
 
@@ -4117,18 +3620,8 @@ init_voice_serial();
 
 		checkQuickSelect();
 
-#ifdef SWITCH_MAPPING
-	createSwitchMapping() ;
-#endif
 
-#ifdef SERIAL_VOICE
-#ifndef SERIAL_VOICE_ONLY
-	if ( g_eeGeneral.MegasoundSerial )
-#endif
-	{
-		serialVoiceInit() ;
-	}
-#endif
+
 
 #ifdef XSW_MOD
 #if defined(CPUM128) || defined(CPUM2561)
@@ -4152,7 +3645,7 @@ init_voice_serial();
 	}
  // moved here and logic added to only play statup tone if splash screen enabled.
  // that way we save a bit, but keep the option for end users!
-	setVolume(g_eeGeneral.volume+7) ;
+	setVolume(g_eeGeneral.volume) ;
 #if defined(COP328)
   CfgVc = 0;
   sendCfg9x(getCfg9x());
@@ -5247,6 +4740,8 @@ void mainSequence()
 			}
 #endif // NOSAFETY_A_OR_V
 #endif // nV2
+
+
 	// New switch voices
 	// New entries, Switch, (on/off/both), voice file index
 

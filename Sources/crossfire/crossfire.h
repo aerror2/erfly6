@@ -212,12 +212,13 @@ typedef  uint8_t event_t;
 
 
 #define CROSSFIRE_CHANNELS_COUNT        16
+#define  HIGH_UART
 #ifdef  HIGH_UART 
 #define CROSSFIRE_BAUDRATE       400000
 #define CROSSFIRE_PERIOD         4 /* us; 250 Hz */
 #else
 #define CROSSFIRE_BAUDRATE       115200
-#define CROSSFIRE_PERIOD         8  /* us; 62 Hz */
+#define CROSSFIRE_PERIOD         16  /* us; 62 Hz */
 #endif
 
 

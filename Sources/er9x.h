@@ -13,7 +13,6 @@
 //*****************************************************************************
 #include "hal.h"
 
-
 #define REMOVE_FROM_64FRSKY
 #define FAILSAFE
 #define NO_TEMPLATES
@@ -62,9 +61,8 @@ void eeprom_read_block (void *pointer_ram, const void *pointer_eeprom, size_t n)
 #define VERSION3  1
 #define VERSION4  1
 
-#ifdef V2
-#define XSW_MOD		1
-#endif
+
+
 
 // Multi protocol feature
 //#ifndef NMEA
@@ -73,29 +71,18 @@ void eeprom_read_block (void *pointer_ram, const void *pointer_eeprom, size_t n)
 
 //#define STACK_TRACE				1
 
-// Remove features from M64-FrSky version
-#if ( defined(CPUM64) && defined(FRSKY) )
- #define NOPOTSCROLL          1
- #define NOSAFETY_A_OR_V      1
-// #define NOVOICE_SW						1
- #define MINIMISE_CODE        1
- #define SWITCH_MAPPING       1
- #ifdef SERVOICEONLY
-  #define SERIAL_VOICE_ONLY   1
-  #define SERIAL_VOICE        1
- #endif
- #define REMOVE_FROM_64FRSKY  1
-#else
+
+
 //#define QUICK_SELECT         1
-//#define SERIAL_VOICE         1
+#define SERIAL_VOICE         1
  #define CHECK_MOVED_SWITCH   1
 // #define SWITCH_MAPPING       1
-#endif
-//#define NOGPSALT	1
 
-#ifdef XSW_MOD
-#undef	SWITCH_MAPPING
-#endif
+
+
+//#ifdef XSW_MOD
+//#undef	SWITCH_MAPPING
+//#endif
 
 //#define USE_ADJUSTERS			1
 
@@ -309,7 +296,6 @@ uint8_t menuPressed( void ) ;
 #endif
 
 extern uint8_t SlaveMode ;
-extern uint8_t Backup_RestoreRunning ;
 
 extern const char Str_Chans_Gv[] ;
 
@@ -1153,6 +1139,9 @@ template<class t> inline t min(t a, t b){ return a<b?a:b; }
 template<class t> inline t max(t a, t b){ return a>b?a:b; }
 template<class t> inline int8_t sgn(t a){ return a>0 ? 1 : (a < 0 ? -1 : 0); }
 template<class t> inline t limit(t mi, t x, t ma){ return min(max(mi,x),ma); }
+inline int32_t imap(int32_t x, int32_t in_min, int32_t in_max, int32_t out_min, int32_t out_max) {
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
 
 /// Markiert einen EEPROM-Bereich als dirty. der Bereich wird dann in
 /// eeCheck ins EEPROM zurueckgeschrieben.
@@ -1231,7 +1220,7 @@ extern volatile uint32_t g_tmr10ms;
 //extern volatile uint8_t g8_tmr10ms;
 
 //extern inline uint16_t get_tmr10ms()
-extern uint16_t get_tmr10ms( void ) ;
+extern uint32_t get_tmr10ms( void ) ;
 //{
 //    uint16_t time  ;
 //    cli();
@@ -1418,6 +1407,7 @@ extern void putVoiceQueue( uint8_t value ) ;
 extern void putVoiceQueueLong( uint16_t value ) ;
 extern void putVoiceQueueUpper( uint8_t value ) ;
 void voice_numeric( int16_t value, uint8_t num_decimals, uint8_t units_index ) ;
+void play_voice(int category, int value,int nfrac,int unit);
 extern void voice_telem_item( uint8_t index ) ;
 extern void backlightKey(void) ;
 
@@ -1586,17 +1576,14 @@ extern uint8_t StepSize ;
 extern TimerMode TimerConfig[2] ;
 //extern uint16_t MenuTimer ;
 
-void serialVoiceInit( void ) ;
-void startSerialVoice( void ) ;
-void stopSerialVoice( void ) ;
-int16_t getSvFifo( void ) ;
+typedef   void (*voice_serial_read_cb_t)(uint8_t *buf , uint8_t x);
+void serialVoiceInit( voice_serial_read_cb_t ) ;
+//void stopSerialVoice( void ) ;
+//int16_t getSvFifo( void ) ;
 
-#define USE_DFPLAYER 0
-#if USE_DFPLAYER
-void serialVoiceTx( uint8_t byte ) ;
-#else
-#define  serialVoiceTx(x) while(0){}
-#endif
+void sendSerialVoiceData(uint8_t *buf, uint32_t len);
+
+
 uint8_t throttleReversed( void ) ;
 void displayOneSwitch( uint8_t x, uint8_t y, uint8_t index ) ;
 //todo ?

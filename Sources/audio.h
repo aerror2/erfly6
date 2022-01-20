@@ -209,43 +209,20 @@ void audioEvent( uint8_t e, uint16_t f ) ;
 // Voice states
 #define V_STARTUP			  0
 #define V_IDLE				  1
-#define V_CLOCKING			  2
-#define V_WAIT_BUSY_ON		  3
-#define V_WAIT_BUSY_OFF		  4
-#define V_WAIT_BUSY_DELAY	  5
-#define V_WAIT_START_BUSY_OFF 6
-
-#define V_WAIT_RX				0
-#define V_RECEIVING_COUNT		1
-#define V_RECEIVING_VALUE		2
+#define V_WAITING			  2
 
 struct t_voice
 {
 	uint16_t VoiceQueue[VOICE_Q_LENGTH] ;
-	uint8_t Backlight ;
-	uint8_t VoiceLatch ;
-	uint8_t VoiceCounter ;
-	uint8_t VoiceTimer ;
-	uint16_t VoiceSerial ;
 	uint8_t VoiceState ;
-//	uint8_t VoiceShift ;
 	uint8_t VoiceQueueCount ;
 	uint8_t VoiceQueueInIndex ;
 	uint8_t VoiceQueueOutIndex ;
-	uint8_t VoiceSerialData[5] ;
-#if defined(COP328)
-	uint8_t VoiceSerialCommand ;
-#endif
-	uint8_t VoiceSerialCount ;
-	uint8_t VoiceSerialIndex ;
-	uint8_t VoiceSerialRxState ;
-	uint8_t VoiceSerialValue ;
-	uint8_t VoiceBacklightCount ;
-//	uint8_t VoiceDebug ;
+
 	void voice_process( void ) ;
 } ;
 
-extern struct t_voice *voiceaddress( void ) ;
+//extern struct t_voice *voiceaddress( void ) ;
 extern struct t_voice Voice ;
 
 
@@ -311,6 +288,6 @@ extern struct t_voice Voice ;
 #endif
 
 
-
-
+void play_voice(int category, int value,int nfrac,int unit);
+void on_voice_cb(uint8_t *buf, uint8_t dat);
 #endif /* SOURCES_AUDIO_H_ */

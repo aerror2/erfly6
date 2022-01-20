@@ -10,85 +10,8 @@
 #include "../LoRa/ELRS.h"
 #include "../crossfire/crossfire.h"
 #include "../pulses.h"
-
-
-
-/*!
- * @brief Structure for the DMA hardware request
- *
- * Defines the structure for the DMA hardware request collections. The user can configure the
- * hardware request into DMAMUX to trigger the DMA transfer accordingly. The index
- * of the hardware request varies according  to the to SoC.
- */
-//typedef enum _dma_request_source
-//{
-//    kDmaRequestMux0Disable          = 0|0x100U,    /**< Disable */
-//    kDmaRequestMux0Reserved1        = 1|0x100U,    /**< Reserved1 */
-//    kDmaRequestMux0UART0Rx          = 2|0x100U,    /**< UART0 receive complete */
-//    kDmaRequestMux0LPSCI0Rx         = 2|0x100U,    /**< UART0 receive complete */
-//    kDmaRequestMux0UART0Tx          = 3|0x100U,    /**< UART0 transmit complete */
-//    kDmaRequestMux0LPSCI0Tx         = 3|0x100U,    /**< UART0 transmit complete */
-//    kDmaRequestMux0UART1Rx          = 4|0x100U,    /**< UART1 receive complete */
-//    kDmaRequestMux0UART1Tx          = 5|0x100U,    /**< UART1 transmit complete */
-//    kDmaRequestMux0UART2Rx          = 6|0x100U,    /**< UART2 receive complete */
-//    kDmaRequestMux0UART2Tx          = 7|0x100U,    /**< UART2 transmit complete */
-//    kDmaRequestMux0Reserved8        = 8|0x100U,    /**< Reserved8 */
-//    kDmaRequestMux0Reserved9        = 9|0x100U,    /**< Reserved9 */
-//    kDmaRequestMux0Reserved10       = 10|0x100U,   /**< Reserved10 */
-//    kDmaRequestMux0Reserved11       = 11|0x100U,   /**< Reserved11 */
-//    kDmaRequestMux0Reserved12       = 12|0x100U,   /**< Reserved12 */
-//    kDmaRequestMux0Reserved13       = 13|0x100U,   /**< Reserved13 */
-//    kDmaRequestMux0I2S0Rx           = 14|0x100U,   /**< I2S0 receive complete */
-//    kDmaRequestMux0I2S0Tx           = 15|0x100U,   /**< I2S0 transmit complete */
-//    kDmaRequestMux0SPI0Rx           = 16|0x100U,   /**< SPI0 receive complete */
-//    kDmaRequestMux0SPI0Tx           = 17|0x100U,   /**< SPI0 transmit complete */
-//    kDmaRequestMux0SPI1Rx           = 18|0x100U,   /**< SPI1 receive complete */
-//    kDmaRequestMux0SPI1Tx           = 19|0x100U,   /**< SPI1 transmit complete */
-//    kDmaRequestMux0Reserved20       = 20|0x100U,   /**< Reserved20 */
-//    kDmaRequestMux0Reserved21       = 21|0x100U,   /**< Reserved21 */
-//    kDmaRequestMux0I2C0             = 22|0x100U,   /**< I2C0 transmission complete */
-//    kDmaRequestMux0I2C1             = 23|0x100U,   /**< I2C1 transmission complete */
-//    kDmaRequestMux0TPM0Channel0     = 24|0x100U,   /**< TPM0 channel 0 event (CMP or CAP) */
-//    kDmaRequestMux0TPM0Channel1     = 25|0x100U,   /**< TPM0 channel 1 event (CMP or CAP) */
-//    kDmaRequestMux0TPM0Channel2     = 26|0x100U,   /**< TPM0 channel 2 event (CMP or CAP) */
-//    kDmaRequestMux0TPM0Channel3     = 27|0x100U,   /**< TPM0 channel 3 event (CMP or CAP) */
-//    kDmaRequestMux0TPM0Channel4     = 28|0x100U,   /**< TPM0 channel 4 event (CMP or CAP) */
-//    kDmaRequestMux0TPM0Channel5     = 29|0x100U,   /**< TPM0 channel 5 event (CMP or CAP) */
-//    kDmaRequestMux0Reserved30       = 30|0x100U,   /**< Reserved30 */
-//    kDmaRequestMux0Reserved31       = 31|0x100U,   /**< Reserved31 */
-//    kDmaRequestMux0TPM1Channel0     = 32|0x100U,   /**< TPM1 channel 0 event (CMP or CAP) */
-//    kDmaRequestMux0TPM1Channel1     = 33|0x100U,   /**< TPM1 channel 1 event (CMP or CAP) */
-//    kDmaRequestMux0TPM2Channel0     = 34|0x100U,   /**< TPM2 channel 0 event (CMP or CAP) */
-//    kDmaRequestMux0TPM2Channel1     = 35|0x100U,   /**< TPM2 channel 1 event (CMP or CAP) */
-//    kDmaRequestMux0Reserved36       = 36|0x100U,   /**< Reserved36 */
-//    kDmaRequestMux0Reserved37       = 37|0x100U,   /**< Reserved37 */
-//    kDmaRequestMux0Reserved38       = 38|0x100U,   /**< Reserved38 */
-//    kDmaRequestMux0Reserved39       = 39|0x100U,   /**< Reserved39 */
-//    kDmaRequestMux0ADC0             = 40|0x100U,   /**< ADC0 conversion complete */
-//    kDmaRequestMux0Reserved41       = 41|0x100U,   /**< Reserved41 */
-//    kDmaRequestMux0CMP0             = 42|0x100U,   /**< CMP0 Output */
-//    kDmaRequestMux0Reserved43       = 43|0x100U,   /**< Reserved43 */
-//    kDmaRequestMux0Reserved44       = 44|0x100U,   /**< Reserved44 */
-//    kDmaRequestMux0DAC0             = 45|0x100U,   /**< DAC0 buffer pointer reaches upper or lower limit */
-//    kDmaRequestMux0Reserved46       = 46|0x100U,   /**< Reserved46 */
-//    kDmaRequestMux0Reserved47       = 47|0x100U,   /**< Reserved47 */
-//    kDmaRequestMux0Reserved48       = 48|0x100U,   /**< Reserved48 */
-//    kDmaRequestMux0PortA            = 49|0x100U,   /**< PORTA rising, falling or both edges */
-//    kDmaRequestMux0Reserved50       = 50|0x100U,   /**< Reserved50 */
-//    kDmaRequestMux0PortC            = 51|0x100U,   /**< PORTC rising, falling or both edges */
-//    kDmaRequestMux0PortD            = 52|0x100U,   /**< PORTD rising, falling or both edges */
-//    kDmaRequestMux0Reserved53       = 53|0x100U,   /**< Reserved53 */
-//    kDmaRequestMux0TPM0Overflow     = 54|0x100U,   /**< TPM0 overflow */
-//    kDmaRequestMux0TPM1Overflow     = 55|0x100U,   /**< TPM1 overflow */
-//    kDmaRequestMux0TPM2Overflow     = 56|0x100U,   /**< TPM2 overflow */
-//    kDmaRequestMux0TSI              = 57|0x100U,   /**< TSI0 event */
-//    kDmaRequestMux0Reserved58       = 58|0x100U,   /**< Reserved58 */
-//    kDmaRequestMux0Reserved59       = 59|0x100U,   /**< Reserved59 */
-//    kDmaRequestMux0AlwaysOn60       = 60|0x100U,   /**< Always enabled 60 */
-//    kDmaRequestMux0AlwaysOn61       = 61|0x100U,   /**< Always enabled 61 */
-//    kDmaRequestMux0AlwaysOn62       = 62|0x100U,   /**< Always enabled 62 */
-//    kDmaRequestMux0AlwaysOn63       = 63|0x100U,   /**< Always enabled 63 */
-//} dma_request_source_t;
+#include "../../drivers/fsl_uart_dma.h"
+#include "../../drivers/fsl_lpsci_dma.h"
 
 
 
@@ -985,73 +908,101 @@ void UART_DisableInterrupts(UART_Type *base, uint32_t mask)
 static crsf_read_cb_t g_crsf_read_callback = NULL;
 
 #if USE_DMA_UART
+
+
 #define crsf_rx_buf_size  64
+
 #define TX_DMA_CHANNEL 0
+#define VOICE_DMA_TX_CH 1
+#define VOICE_DMA_RX_CH 2
 
-/*! @brief DMA transfer size type*/
-typedef enum _dma_transfer_size
+
+static uint8_t g_crsf_rx_buf[crsf_rx_buf_size];
+
+lpsci_dma_handle_t  g_lpsci_dma_handle;
+dma_handle_t        g_lpsci_tx_dma_handle;
+dma_handle_t        g_lpsci_rx_dma_handle;
+lpsci_transfer_t    g_lpsci_transfer_rx ;
+
+void set_lpsci_direction(bool bTx)
 {
-    kDMA_Transfersize32bits = 0x0U, /*!< 32 bits are transferred for every read/write */
-    kDMA_Transfersize8bits,         /*!< 8 bits are transferred for every read/write */
-    kDMA_Transfersize16bits,        /*!< 16b its are transferred for every read/write */
-} dma_transfer_size_t;
-
-#define TX_DMA_CHANNEL 2
-#define DMA_DCR_DINC(x)                          (((uint32_t)(((uint32_t)(x)) << DMA_DCR_DINC_SHIFT)) & DMA_DCR_DINC_MASK)
-#define DMA_DCR_SINC(x)                          (((uint32_t)(((uint32_t)(x)) << DMA_DCR_SINC_SHIFT)) & DMA_DCR_SINC_MASK)
-#define DMA_DCR_EINT(x)                          (((uint32_t)(((uint32_t)(x)) << DMA_DCR_EINT_SHIFT)) & DMA_DCR_EINT_MASK)
-
-
-static uint8_t crsf_rx_buf[crsf_rx_buf_size];
-
-
-
-void prepare_UART_dma_receive()
-{
-
-
-        if(DMAMUX0->CHCFG[TX_DMA_CHANNEL]& DMAMUX_CHCFG_ENBL_MASK)
-        {
-           DMAMUX0->CHCFG[TX_DMA_CHANNEL] &=~DMAMUX_CHCFG_ENBL_MASK;
-        }
-
-    
-        DMAMUX0->CHCFG[TX_DMA_CHANNEL] = ((DMAMUX0->CHCFG[TX_DMA_CHANNEL] & ~DMAMUX_CHCFG_SOURCE_MASK) | DMAMUX_CHCFG_SOURCE(6)); //SET TO RX
-        DMAMUX0->CHCFG[TX_DMA_CHANNEL] |= DMAMUX_CHCFG_ENBL_MASK;
-    
-        DMA0->DMA[TX_DMA_CHANNEL].SAR = (uint32_t)&UART0->D ;
-        DMA0->DMA[TX_DMA_CHANNEL].DAR  = (uint32_t)crsf_rx_buf; 
-}
-
-void start_UART_DMA_receive()
-{
-        DMA0->DMA[TX_DMA_CHANNEL].SAR = (uint32_t)&UART0->D ;
-        DMA0->DMA[TX_DMA_CHANNEL].DAR  = (uint32_t)crsf_rx_buf;
-    
-    
-
-         /* Set transfer bytes */
-         DMA0->DMA[TX_DMA_CHANNEL].DSR_BCR = DMA_DSR_BCR_BCR(crsf_rx_buf_size);
-        /* Set DMA Control Register */
-        uint32_t tmpreg = DMA0->DMA[TX_DMA_CHANNEL].DCR;
-        tmpreg &= ~(DMA_DCR_DSIZE_MASK | DMA_DCR_DINC_MASK | DMA_DCR_SSIZE_MASK | DMA_DCR_SINC_MASK);
-        tmpreg |= (DMA_DCR_DSIZE(kDMA_Transfersize8bits) | DMA_DCR_DINC(1) |
-                   DMA_DCR_SSIZE(kDMA_Transfersize8bits) | DMA_DCR_SINC(0)) 
-              //ENABLE INTERRUPT         
-              | DMA_DCR_EINT(1);
-        DMA0->DMA[TX_DMA_CHANNEL].DCR = tmpreg;
-    
-        //START TRANSFER
-         DMA0->DMA[TX_DMA_CHANNEL].DCR |= DMA_DCR_ERQ_MASK;
-
-
-         //ENABLE TX INTERRUPT
-         UART0->C4 |= UART_C4_RDMAS_MASK;
-         UART0->C2 |= UART_C2_RIE_MASK;
+    DMAMUX_DisableChannel(DMAMUX0,TX_DMA_CHANNEL);
+    DMAMUX_SetSource(DMAMUX0,TX_DMA_CHANNEL,bTx?kDmaRequestMux0UART0Tx:kDmaRequestMux0UART0Rx);
+    if(bTx)
+    {
+         DMAMUX_EnablePeriodTrigger(DMAMUX0,TX_DMA_CHANNEL);
+     }
+     else
+     {
+        DMAMUX_DisablePeriodTrigger(DMAMUX0,TX_DMA_CHANNEL);
+     }
+    DMAMUX_EnableChannel(DMAMUX0,TX_DMA_CHANNEL);
+    if(bTx)
+    {
+        UART0->C3 |= UART_C3_TXDIR_MASK;
+        LPSCI_EnableTx(UART0,true);
+        LPSCI_EnableRx(UART0,false);
+    }
+    else 
+    {
+        UART0->C3 &= ~(UART_C3_TXDIR_MASK); //SET AS READ DIR
+        LPSCI_EnableTx(UART0,false);
+        LPSCI_EnableRx(UART0,true);
+    }
 }
 
 
-void setup_crsf_serial_port(uint32_t baud,crsf_read_cb_t read_cb)
+
+void submit_and_start_dma_transfer(DMA_Type * base, int channel, uint32_t src, uint32_t dst, uint32_t len, bool sinc, bool dinc)
+{
+    
+    /* clear all status bit */
+    base->DMA[channel].DSR_BCR |= DMA_DSR_BCR_DONE(true);
+    /* clear all registers */
+    base->DMA[channel].SAR = 0;
+    base->DMA[channel].DAR = 0;
+    base->DMA[channel].DSR_BCR = 0;
+    /* enable cycle steal and enable auto disable channel request */
+    base->DMA[channel].DCR = DMA_DCR_D_REQ(true) | DMA_DCR_CS(true);
+
+
+      uint32_t tmpreg;
+
+    /* Set source address */
+    base->DMA[channel].SAR = src;
+    /* Set destination address */
+    base->DMA[channel].DAR =  dst;
+    /* Set transfer bytes */
+    base->DMA[channel].DSR_BCR = DMA_DSR_BCR_BCR(len);
+    /* Set DMA Control Register */
+    tmpreg = base->DMA[channel].DCR;
+    tmpreg &= ~(DMA_DCR_DSIZE_MASK | DMA_DCR_DINC_MASK | DMA_DCR_SSIZE_MASK | DMA_DCR_SINC_MASK);
+    tmpreg |= (DMA_DCR_DSIZE(kDMA_Transfersize8bits) | DMA_DCR_DINC(dinc) |
+               DMA_DCR_SSIZE(kDMA_Transfersize8bits) | DMA_DCR_SINC(sinc));
+    base->DMA[channel].DCR = tmpreg;
+
+    base->DMA[channel].DCR |= DMA_DCR_EINT(true);
+    
+    base->DMA[channel].DCR |= DMA_DCR_ERQ_MASK;   
+}
+
+void start_lpsci_DMA_receive()
+{
+    set_lpsci_direction(false);
+  
+   
+
+     submit_and_start_dma_transfer(DMA0,TX_DMA_CHANNEL,(uint32_t)&UART0->D,(uint32_t)g_crsf_rx_buf,sizeof(g_crsf_rx_buf),0,1);
+        
+    /* Enable LPSCI TX DMA. */
+    LPSCI_EnableRxDMA(UART0, true);
+
+
+}
+
+
+
+void setup_crsf_serial_port(uint32_t baudRate_Bps,crsf_read_cb_t read_cb)
 {
     if(g_crsf_read_callback!=0)
     {
@@ -1059,61 +1010,98 @@ void setup_crsf_serial_port(uint32_t baud,crsf_read_cb_t read_cb)
     }
 
     g_crsf_read_callback = read_cb;
-    SIM->SCGC7 |= SIM_SCGC7_DMA_MASK;
-    SIM->SCGC6 |= SIM_SCGC6_DMAMUX_MASK; //ENABLE DMA MUX
+   
+    uint8_t temp;
+    uint16_t sbr = 0;
+    uint16_t sbrTemp;
+    uint32_t osr = 0;
+    uint32_t osrTemp;
+    uint32_t tempDiff, calculatedBaud, baudDiff;
 
+    /* This LPSCI instantiation uses a slightly different baud rate calculation
+     * The idea is to use the best OSR (over-sampling rate) possible
+     * Note, OSR is typically hard-set to 16 in other LPSCI instantiations
+     * loop to find the best OSR value possible, one that generates minimum baudDiff
+     * iterate through the rest of the supported values of OSR */
 
-    NVIC_EnableIRQ(DMA0_IRQn);
-    
-    //uart_single_init(bdrate,DEFAULT_SYSTEM_CLOCK,bdrate);//Set single wire mode.
+    baudDiff = baudRate_Bps;
+    for (osrTemp = 4; osrTemp <= 32; osrTemp++)
+    {
+        /* calculate the temporary sbr value   */
+        sbrTemp = (DEFAULT_SYSTEM_CLOCK / (baudRate_Bps * osrTemp));
+        /* set sbrTemp to 1 if the sourceClockInHz can not satisfy the desired baud rate */
+        if (sbrTemp == 0)
+        {
+            sbrTemp = 1;
+        }
+        /* Calculate the baud rate based on the temporary OSR and SBR values */
+        calculatedBaud = (DEFAULT_SYSTEM_CLOCK / (osrTemp * sbrTemp));
+
+        tempDiff = calculatedBaud - baudRate_Bps;
+
+        /* Select the better value between srb and (sbr + 1) */
+        if (tempDiff > (baudRate_Bps - (DEFAULT_SYSTEM_CLOCK / (osrTemp * (sbrTemp + 1)))))
+        {
+            tempDiff = baudRate_Bps - (DEFAULT_SYSTEM_CLOCK / (osrTemp * (sbrTemp + 1)));
+            sbrTemp++;
+        }
+
+        if (tempDiff <= baudDiff)
+        {
+            baudDiff = tempDiff;
+            osr = osrTemp; /* update and store the best OSR value calculated*/
+            sbr = sbrTemp; /* update store the best SBR value calculated*/
+        }
+    }
+
+    /* Enable LPSCI clock */
     SIM->SCGC4 |= SIM_SCGC4_UART0_MASK;// Enable the clock to the selected UART
 
-    /*
-    Make sure that the transmitter and receiver are disabled while we 
-       * change settings.*/
-    UART0->C2 &= ~(UART_C2_TE_MASK|UART_C2_RE_MASK);
-      /* Configure single wire ,  8-bit mode, no parity*/
-    UART0->C1  |= (UART_C1_LOOPS_MASK | UART_C1_RSRC_MASK);    
+    /* Disable TX RX before setting. */
+    UART0->C2 &= ~(UART0_C2_TE_MASK | UART0_C2_RE_MASK);
 
-    /* Calculate baud settings */
-    uint16_t  sbr = (uint16_t)(DEFAULT_SYSTEM_CLOCK/2/(baud *16));
 
-  /* Save off the current value of the UARTx_BDH except for the SBR field */
-    /* Save off the current value of the UARTx_BDH except for the SBR field */
+    /* program the osr value (bit value is one less than actual value)*/
+    UART0->C4 = ((UART0->C4 & ~UART0_C4_OSR_MASK) | (osr - 1));
 
-    uint8_t temp =   UART0->BDH & (~UART_BDH_SBR(0x1F)); 
-    UART0->BDH= temp |  UART_BDH_SBR(((sbr & 0x1F00) >> 8));
-    UART0->BDL = (uint8_t)(sbr & UART_BDL_SBR_MASK);
+    /* program the sbr (divider) value obtained above*/
+    UART0->BDH = ((UART0->C4 & ~UART0_BDH_SBR_MASK) | (uint8_t)(sbr >> 8));
+    UART0->BDL = (uint8_t)sbr;
 
+    /* set parity mode */
+    temp = UART0->C1 & ~(UART0_C1_PE_MASK | UART0_C1_PT_MASK | UART0_C1_M_MASK);
+    /* set stop bit per char */
+    UART0->BDH &= ~UART0_BDH_SBNS_MASK;
+
+    /* Configure single wire ,  8-bit mode, no parity*/
+    UART0->C1  = (UART_C1_LOOPS_MASK | UART_C1_RSRC_MASK);    
     //uart inverted 
     UART0->C3 |= UART_C3_TXINV_MASK;
-    UART0->S2 |= UART_S2_RXINV_MASK;
+    UART0->S2 |= UART_S2_RXINV_MASK; 
 
-    //enable 
-    //UART0->C4 |= UART_C4_RDMAS_MASK|UART_C4_TDMAS_MASK;
+    SIM->SCGC7 |= SIM_SCGC7_DMA_MASK;   //ENABLE DMA
+    SIM->SCGC6 |= SIM_SCGC6_DMAMUX_MASK; //ENABLE DMA MUX
 
-    ///* Enable receiver and transmitter, and enable receive */
-    //UART0->C2 |= (UART_C2_TE_MASK|UART_C2_RE_MASK|UART_C2_TIE_MASK|UART_C2_RIE_MAS);
-   
-    //CHANGE TO READ
-    //UART0->C3 &=~UART_C3_TXDIR_MASK;
-
-    //prepare_UART_dma_receive();
-    //start_UART_DMA_receive();
-
+    NVIC_EnableIRQ(DMA0_IRQn);
   
+    NVIC_SetPriority(DMA0_IRQn,0);
 
 }
 
 
 bool stop_dma_receive()
 {
-      bool ret =  DMA0->DMA[TX_DMA_CHANNEL].DCR & DMA_DCR_EINT_MASK;
+      bool ret = UART0->C5 & UART0_C5_RDMAE_MASK;
       if(ret)
       {
-        UART0->C4 &= ~UART_C4_RDMAS_MASK;
-        UART0->C2 &= ~UART_C2_RIE_MASK;
-        DMA0->DMA[TX_DMA_CHANNEL].DCR &= ~DMA_DCR_EINT_MASK;
+          /* Disable LPSCI TX DMA. */
+          LPSCI_EnableRxDMA(UART0, false);
+
+          /* Stop transfer. */
+          DMA0->DMA[TX_DMA_CHANNEL].DCR &= ~DMA_DCR_ERQ_MASK;
+           /* clear all status bit */
+          DMA0->DMA[TX_DMA_CHANNEL].DSR_BCR |= DMA_DSR_BCR_DONE(true);
+
       }
       return ret;
 }
@@ -1122,121 +1110,78 @@ bool stop_dma_receive()
 
 void process_read_dma_data()
 {
-   int nRead =crsf_rx_buf_size -   (DMA0->DMA[TX_DMA_CHANNEL].DSR_BCR & DMA_DSR_BCR_BCR_MASK) >> DMA_DSR_BCR_BCR_SHIFT;
+   int nread = crsf_rx_buf_size - DMA_GetRemainingBytes(DMA0, TX_DMA_CHANNEL);
 
-    for(int i=0;i<nRead ;i++)
-    {
-        g_crsf_read_callback(crsf_rx_buf[i]);
-    }
+  if(nread > 0)
+  {
+      for(int i=0;i<nread ;i ++)
+      {
+          g_crsf_read_callback(g_crsf_rx_buf[i]);
+      }
+  }
 }
+
+
 
 void crsf_send_data(uint8_t *buf, uint32_t len)
 {
 
 
-   
-
-    //if(stop_dma_receive())
-    //{
-    //    process_read_dma_data();
-    //}
-
-
-    //SET DIR
-    UART0->C3 |= UART_C3_TXDIR_MASK;
-    
-    //RESET?
- #if 0
-     base->DMA[channel].DSR_BCR |= DMA_DSR_BCR_DONE(true);
-    /* clear all registers */
-    base->DMA[channel].SAR = 0;
-    base->DMA[channel].DAR = 0;
-    base->DMA[channel].DSR_BCR = 0;
-    /* enable cycle steal and enable auto disable channel request */
-    base->DMA[channel].DCR = DMA_DCR_D_REQ(true) | DMA_DCR_CS(true);
-#endif
-
-    //SET DMA MUX
-    if(DMAMUX0->CHCFG[TX_DMA_CHANNEL]& DMAMUX_CHCFG_ENBL_MASK)
+    if(stop_dma_receive())
     {
-     DMAMUX0->CHCFG[TX_DMA_CHANNEL] &=~DMAMUX_CHCFG_ENBL_MASK;
+        process_read_dma_data();
     }
 
-    DMAMUX0->CHCFG[TX_DMA_CHANNEL] = ((DMAMUX0->CHCFG[TX_DMA_CHANNEL] & ~DMAMUX_CHCFG_SOURCE_MASK) | DMAMUX_CHCFG_SOURCE(7));
-     //ENABLE DMA MUX
-    DMAMUX0->CHCFG[TX_DMA_CHANNEL] |= DMAMUX_CHCFG_ENBL_MASK;
+    
+    //SET DIR
+    set_lpsci_direction(true);
 
-    DMA0->DMA[TX_DMA_CHANNEL].SAR = (uint32_t)buf;
-    DMA0->DMA[TX_DMA_CHANNEL].DAR  = (uint32_t)&UART0->D;
-   
-   /* Set transfer bytes */
-     DMA0->DMA[TX_DMA_CHANNEL].DSR_BCR = DMA_DSR_BCR_BCR(len);
-    /* Set DMA Control Register */
-    uint32_t tmpreg = DMA0->DMA[TX_DMA_CHANNEL].DCR;
-    tmpreg &= ~(DMA_DCR_DSIZE_MASK | DMA_DCR_DINC_MASK | DMA_DCR_SSIZE_MASK | DMA_DCR_SINC_MASK);
-    tmpreg |= (DMA_DCR_DSIZE(kDMA_Transfersize8bits) | DMA_DCR_DINC(0) |
-               DMA_DCR_SSIZE(kDMA_Transfersize8bits) | DMA_DCR_SINC(1));
-      
-    DMA0->DMA[TX_DMA_CHANNEL].DCR = tmpreg; 
-    //ENABLE INTERRUPT         
+    submit_and_start_dma_transfer(DMA0,TX_DMA_CHANNEL,(uint32_t)buf, (uint32_t)&UART0->D,len,1,0);
 
-    DMA0->DMA[TX_DMA_CHANNEL].DCR |= DMA_DCR_EINT(1);
-    //START TRANSFER
-     DMA0->DMA[TX_DMA_CHANNEL].DCR |= DMA_DCR_ERQ_MASK;
+        /* Enable LPSCI TX DMA. */
+    LPSCI_EnableTxDMA(UART0, true);
 
 
-     //ENABLE TX INTERRUPT
-     UART0->C4 |= UART_C4_TDMAS_MASK;
-     UART0->C2 |= UART_C2_TIE_MASK;
 }
-
-
 
 void DMA0_IRQHandler()
 {
-        /* Disable UART TX DMA. */
-    //UART_EnableTxDMA(uartPrivateHandle->base, false);
-
-    ///* Disable interrupt. */
-    //DMA_DisableInterrupts(handle->base, handle->channel);
-
-  
-   // if(UART0->C3 &UART_C3_TXDIR_MASK)
+     DMA0->DMA[TX_DMA_CHANNEL].DSR_BCR |= DMA_DSR_BCR_DONE(true);
+    if(crsf_is_sending())
     {
-      
+     
+        /* Disable LPSCI TX DMA. */
+        LPSCI_EnableTxDMA(UART0, false);
 
-        UART0->C4 &= ~UART_C4_TDMAS_MASK;
-        UART0->C2 &= ~UART_C2_TIE_MASK;
-        DMA0->DMA[TX_DMA_CHANNEL].DCR &= ~DMA_DCR_EINT(1);
-        DMA0->DMA[TX_DMA_CHANNEL].DCR &= ~DMA_DCR_ERQ_MASK;
-        //CHANGE TO READ
-        //UART0->C3 &=~UART_C3_TXDIR_MASK;
-        //prepare_UART_dma_receive();
-        //start_UART_DMA_receive();
+        /* Disable interrupt. */
+        DMA_DisableInterrupts(DMA0, TX_DMA_CHANNEL);
+
         
     }
-    //else 
+    else
     {
-        //stop_dma_receive();
-        //process_read_dma_data();
-        //prepare_UART_dma_receive();
-        //start_UART_DMA_receive();
-
+           /* Disable LPSCI RX DMA. */
+        LPSCI_EnableRxDMA(UART0, false);
+          /* Disable interrupt. */
+        DMA_DisableInterrupts(DMA0, TX_DMA_CHANNEL);
+        process_read_dma_data();
     }
-    
+     
+     start_lpsci_DMA_receive();
+
 }
 void shutdown_crsf_serial_port()
 {
   if(  g_crsf_read_callback != NULL)
   {
      g_crsf_read_callback = NULL;
-     UART0->C4 &= ~UART_C4_TDMAS_MASK;
-     UART0->C2 &= ~UART_C2_TIE_MASK;
-     DMA0->DMA[TX_DMA_CHANNEL].DCR &= ~DMA_DCR_EINT_MASK;
-     NVIC_DisableIRQ(DMA0_IRQn);
-     SIM->SCGC7 &= ~SIM_SCGC7_DMA_MASK;//DISABLE DMA
-     SIM->SCGC6 &= ~SIM_SCGC6_DMAMUX_MASK; //DISABLE DMA MUX
-     SIM->SCGC4 &=~SIM_SCGC4_UART0_MASK;
+     //UART0->C4 &= ~UART_C4_TDMAS_MASK;
+     //UART0->C2 &= ~UART_C2_TIE_MASK;
+     //DMA0->DMA[TX_DMA_CHANNEL].DCR &= ~DMA_DCR_EINT_MASK;
+     //NVIC_DisableIRQ(DMA0_IRQn);
+     //SIM->SCGC7 &= ~SIM_SCGC7_DMA_MASK;//DISABLE DMA
+     //SIM->SCGC6 &= ~SIM_SCGC6_DMAMUX_MASK; //DISABLE DMA MUX
+     //SIM->SCGC4 &=~SIM_SCGC4_UART0_MASK;
   }
 }
 
@@ -1250,6 +1195,8 @@ void setup_crsf_serial_port(uint32_t baud,crsf_read_cb_t read_cb)
   {
         switch_elrs_tx(1);
         g_crsf_read_callback = read_cb;
+
+
       //uart_single_init(bdrate,DEFAULT_SYSTEM_CLOCK,bdrate);//Set single wire mode.
       SIM->SCGC4 |= SIM_SCGC4_UART0_MASK;// Enable the clock to the selected UART
   
@@ -1280,7 +1227,7 @@ void setup_crsf_serial_port(uint32_t baud,crsf_read_cb_t read_cb)
         #endif
 
         /* Enable receiver and transmitter, and enable receive */
-        UART0->C2 |= (UART_C2_TE_MASK|UART_C2_RE_MASK);
+        UART0->C2 |= (UART_C2_RE_MASK);
     
         //uart inverted 
         UART0->C3 |= UART_C3_TXINV_MASK;
@@ -1302,7 +1249,7 @@ bool uart_clear_error()
     if(  UART0->S1 & UART_S1_FE_MASK  )
     {
         UART0->S1  |= UART_S1_FE_MASK;
-      //   has_error = true ;
+         has_error = true ;
     }
 
    if(  UART0->S1 & UART_S1_PF_MASK  )
@@ -1334,9 +1281,9 @@ uint8_t dat;
     //while(!(UART0->S1&UART_S1_TDRE_MASK));
     //while(!(UART0->S1 & UART_S1_TC_MASK));
   //  PTE->PDDR |= 1<<16; 
-    UART0->C2 &=~(UART_C2_RIE_MASK);
-    UART0->C3 &=~(UART_C3_ORIE_MASK);
-
+    UART0->C2 &=~(UART_C2_RIE_MASK|UART_C2_RE_MASK);
+  //  UART0->C3 &=~(UART_C3_ORIE_MASK);
+    UART0->C2 |= (UART_C2_TE_MASK);
 
     UART0->C3 |= UART_C3_TXDIR_MASK;
 #if USE_IE_UART_TX
@@ -1358,10 +1305,11 @@ uint8_t dat;
     
    
      UART0->C3 &= ~UART_C3_TXDIR_MASK;
+      UART0->C2 &= ~(UART_C2_TE_MASK);
     /* Configure the module1 TXD pin as an input */
  //   PTE->PDDR &= ~(1<<16); 
  //   UART0->C3 &= ~UART_C3_TXDIR_MASK;
-    UART0->C2 |=UART_C2_RIE_MASK;
+    UART0->C2 |=UART_C2_RIE_MASK|UART_C2_RE_MASK;
  #endif
     // UART_EnableInterrupts(UART0, kUART_RxDataRegFullInterruptEnable| kUART_RxOverrunInterruptEnable);
      sei();
@@ -1422,7 +1370,7 @@ void shutdown_crsf_serial_port()
      switch_elrs_tx(0);
      g_crsf_read_callback = NULL;
      UART0->C2 &= ~(UART_C2_RE_MASK|UART_C2_RIE_MASK|UART_C2_TE_MASK|UART_C2_TIE_MASK);
-     UART0->C3 &=~(UART_C3_ORIE_MASK);
+  //   UART0->C3 &=~(UART_C3_ORIE_MASK);
      NVIC_DisableIRQ(UART0_IRQn);
      SIM->SCGC4 &=~SIM_SCGC4_UART0_MASK;
   }
@@ -1432,8 +1380,8 @@ void shutdown_crsf_serial_port()
 #if USE_IE_UART_TX ||USE_DMA_UART
 int  crsf_is_sending()
 {
-  //  if(UART2->C3 & UART_C3_TXDIR_MASK)
-   //     return 1;
+    if(UART2->C3 & UART_C3_TXDIR_MASK)
+        return 1;
     return 0;//Logic level 1
 }
 #endif
@@ -1451,17 +1399,136 @@ else
 }
 
 
-void  init_voice_serial()
+
+voice_serial_read_cb_t g_voice_cb = 0;
+
+
+#if USE_DMA_UART
+
+uint8_t voice_uart_recv_buf[10];
+
+
+void process_voice_read_dma_data()
 {
+   int nread = sizeof(voice_uart_recv_buf) - DMA_GetRemainingBytes(DMA0, VOICE_DMA_RX_CH);
+
+  if(nread > 0)
+  {
+      for(int i=0;i<nread ;i ++)
+      {
+          g_voice_cb(voice_uart_recv_buf,sizeof(voice_uart_recv_buf));
+      }
+  }
+}
+
+
+void start_uart_dma_receive()
+{
+    submit_and_start_dma_transfer(DMA0,VOICE_DMA_RX_CH,(uint32_t)&UART2->D,(uint32_t)voice_uart_recv_buf,sizeof(voice_uart_recv_buf),0,1);    
+     /* Enable LPSCI TX DMA. */
+    UART_EnableRxDMA(UART2, true);
+}
+void  serialVoiceInit(voice_serial_read_cb_t cb)
+{
+
+    if(g_voice_cb==0)
+    {
+       g_voice_cb = cb;
     //uart_single_init(bdrate,DEFAULT_SYSTEM_CLOCK,bdrate);//Set single wire mode.
       SIM->SCGC4 |= SIM_SCGC4_UART2_MASK;// Enable the clock to the selected UART
-      
       /*
       Make sure that the transmitter and receiver are disabled while we 
          * change settings.*/
       UART2->C2 &= ~(UART_C2_TE_MASK|UART_C2_RE_MASK);
         /* Configure single wire ,  8-bit mode, no parity*/
-       UART2->C1  |= (UART_C1_LOOPS_MASK);    
+      // UART2->C1  |= (UART_C1_LOOPS_MASK);    
+    //  UART2->C1   = 0;
+
+      /* Calculate baud settings */
+      uint16_t  sbr = (uint16_t)(DEFAULT_SYSTEM_CLOCK/2/(9600 *16));
+  
+      /* Save off the current value of the UARTx_BDH except for the SBR field */
+        /* Save off the current value of the UARTx_BDH except for the SBR field */
+
+        uint8_t temp =   UART2->BDH & (~UART_BDH_SBR(0x1F)); 
+        UART2->BDH= temp |  UART_BDH_SBR(((sbr & 0x1F00) >> 8));
+        UART2->BDL = (uint8_t)(sbr & UART_BDL_SBR_MASK);
+
+       
+
+        SIM->SCGC7 |= SIM_SCGC7_DMA_MASK;   //ENABLE DMA
+        SIM->SCGC6 |= SIM_SCGC6_DMAMUX_MASK; //ENABLE DMA MUX
+        
+
+       DMAMUX_DisableChannel(DMAMUX0,VOICE_DMA_RX_CH);
+       DMAMUX_DisableChannel(DMAMUX0,VOICE_DMA_TX_CH);
+       DMAMUX_SetSource(DMAMUX0,VOICE_DMA_RX_CH,kDmaRequestMux0UART2Rx);
+       DMAMUX_SetSource(DMAMUX0,VOICE_DMA_TX_CH,kDmaRequestMux0UART2Tx);
+
+       DMAMUX_EnablePeriodTrigger(DMAMUX0,VOICE_DMA_RX_CH);
+       DMAMUX_DisablePeriodTrigger(DMAMUX0,VOICE_DMA_RX_CH);
+       DMAMUX_EnableChannel(DMAMUX0,VOICE_DMA_RX_CH);
+       DMAMUX_EnableChannel(DMAMUX0,VOICE_DMA_TX_CH);
+
+      /* Enable receiver and transmitter, and enable receive */
+       UART2->C2 |= (UART_C2_TE_MASK|UART_C2_RE_MASK);
+
+       NVIC_EnableIRQ(DMA1_IRQn);
+       NVIC_EnableIRQ(DMA2_IRQn);
+
+       start_uart_dma_receive();
+   }
+}
+
+
+void DMA1_IRQHandler()
+{
+    DMA0->DMA[VOICE_DMA_TX_CH].DSR_BCR |= DMA_DSR_BCR_DONE(true);
+    /* Disable LPSCI TX DMA. */
+    UART_EnableTxDMA(UART2, false);
+    /* Disable interrupt. */
+    DMA_DisableInterrupts(DMA0, VOICE_DMA_TX_CH);
+
+  
+}
+
+
+void DMA2_IRQHandler()
+{
+  
+    DMA0->DMA[VOICE_DMA_RX_CH].DSR_BCR |= DMA_DSR_BCR_DONE(true);
+       /* Disable LPSCI RX DMA. */
+    UART_EnableRxDMA(UART2, false);
+      /* Disable interrupt. */
+    DMA_DisableInterrupts(DMA0, VOICE_DMA_RX_CH);
+    process_voice_read_dma_data();
+
+    //DO IT AGAIN
+    start_uart_dma_receive();
+}
+
+void sendSerialVoiceData(uint8_t *buf, uint32_t len)
+{
+     submit_and_start_dma_transfer(DMA0,VOICE_DMA_TX_CH,(uint32_t)buf, (uint32_t)&UART2->D,len,1,0);
+     UART_EnableTxDMA(UART2,true);
+}
+
+
+#else
+void  serialVoiceInit(voice_serial_read_cb_t cb)
+{
+
+    if(g_voice_cb==0)
+    {
+     g_voice_cb = cb;
+    //uart_single_init(bdrate,DEFAULT_SYSTEM_CLOCK,bdrate);//Set single wire mode.
+      SIM->SCGC4 |= SIM_SCGC4_UART2_MASK;// Enable the clock to the selected UART
+      /*
+      Make sure that the transmitter and receiver are disabled while we 
+         * change settings.*/
+      UART2->C2 &= ~(UART_C2_TE_MASK|UART_C2_RE_MASK);
+        /* Configure single wire ,  8-bit mode, no parity*/
+      // UART2->C1  |= (UART_C1_LOOPS_MASK);    
     //  UART2->C1   = 0;
 
       /* Calculate baud settings */
@@ -1475,30 +1542,84 @@ void  init_voice_serial()
         UART2->BDL = (uint8_t)(sbr & UART_BDL_SBR_MASK);
 
         /* Enable receiver and transmitter, and enable receive */
-        UART2->C2 |= (UART_C2_TE_MASK|UART_C2_RE_MASK);
+        UART2->C2 |= (UART_C2_TE_MASK|UART_C2_RE_MASK|UART_C2_RIE_MASK);
     
-
         NVIC_EnableIRQ(UART2_IRQn);
+    }
+
 }
 
-void send_voice_cmd(uint8_t *buf, uint32_t len)
+
+void stopSerialVoice( void )
 {
-    for(int i=0;i<len;i++)
-    {
-      while(!(UART2->S1&UART_S1_TDRE_MASK));
-      UART2->D = buf[i];
-    
-    }
-    
-    while(!(UART2->S1 & UART_S1_TC_MASK))
-    {
-    }
+
+  if(g_voice_cb)
+  {
+       g_voice_cb = NULL;
+      UART2->C2 &= ~(UART_C2_RE_MASK|UART_C2_RIE_MASK|UART_C2_TE_MASK|UART_C2_TIE_MASK);
+       UART2->C3 &=~(UART_C3_ORIE_MASK);
+       NVIC_DisableIRQ(UART2_IRQn);
+       SIM->SCGC4 &=~SIM_SCGC4_UART2_MASK;
+  }
 }
+
+void sendSerialVoiceData(uint8_t *buf, uint32_t len)
+{
+    //for(int i=0;i<len;i++)
+    //{
+    //  while(!(UART2->S1&UART_S1_TDRE_MASK));
+    //  UART2->D = buf[i];
+    
+    //}
+    
+    //while(!(UART2->S1 & UART_S1_TC_MASK))
+    //{
+      
+    //}
+}
+
+
+bool uart2_clear_error()
+{
+   bool has_error = false;
+  if(UART2->S1 & UART_S1_OR_MASK  )
+    {
+        //To clear OR,write a logic 1 to the OR flag.
+        UART2->S1  |= UART_S1_OR_MASK;
+        has_error = true ;
+    }
+    //clear all 
+    if(  UART2->S1 & UART_S1_FE_MASK  )
+    {
+        UART2->S1  |= UART_S1_FE_MASK;
+      //   has_error = true ;
+    }
+
+   if(  UART2->S1 & UART_S1_PF_MASK  )
+    {
+        UART2->S1  |= UART_S1_PF_MASK;
+         has_error = true ;
+    }
+
+    
+   if(  UART2->S1 & UART_S1_NF_MASK  )
+    {
+        UART2->S1  |=UART_S1_NF_MASK;
+         has_error = true ;
+    }
+    return has_error;
+}
+
 
 void UART2_IRQHandler(void)
 {
+    //uart2_clear_error();
+
     if(UART2->S1 & UART_S1_RDRF_MASK)
     {
         uint8_t dat = UART2->D;
+        if(g_voice_cb) g_voice_cb(dat);
     }
 }
+
+#endif

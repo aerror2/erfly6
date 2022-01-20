@@ -126,7 +126,7 @@ void LCD_DATA(uint8_t Data);
 #define LCD_RST_0 rst_0()
 
 #define USE_IE_UART_TX 0
-#define USE_DMA_UART  0
+#define USE_DMA_UART  1
 
 /******************************************************************************/
 /*                           Radio control                                    */
@@ -227,8 +227,7 @@ void cli(void);
 
 void   switch_elrs_tx(int val);
 
-void  init_voice_serial();
-void send_voice_cmd(uint8_t *buf, uint32_t len);
+
 
 #ifdef __cplusplus
 }  /* extern "C" */

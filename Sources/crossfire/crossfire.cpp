@@ -405,12 +405,12 @@ void processCrossfireTelemetryFrame() {
           uint8_t id = telemetryRxBuffer[2];
          int offset = 0;
          bool got_id = false;
-         for(int  i=0;i<sizeof(cc_pp)/sizeof(cc_pp[0])/2;i+=2)
+         for(int  i=0;i<7;i+=2)
          {
               int ni = cc_pp[i+1];
              if(id == cc_pp[i])
              {
-                for(int j=0;i<ni;j++)
+                for(int j=0;j<ni;j++)
                 {
                     processCrossfireTelemetryValue(
                     vv_pp[offset+j*5],
@@ -423,7 +423,7 @@ void processCrossfireTelemetryFrame() {
                 break;
              }
 
-             offset += ni;
+             offset += ni*5;
          }
          if(!got_id)
          {

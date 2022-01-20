@@ -439,7 +439,7 @@ void runCrossfireTelemetryCallback(uint8_t command, uint8_t* data, uint8_t lengt
 
 void executeMenu(uint8_t event)
 {
-FieldProps *field = &fields[curselectIdx];
+      FieldProps *field = &fields[curselectIdx];
       int y = 0; 
       lcdDrawSizedText(0, y,(char *)&reusableBuffer[field->nameOffset], field->nameLength, 0);
       y += FH;
@@ -467,15 +467,8 @@ void crossfileMenu(MState2 &mstate2,uint8_t  event, uint8_t sub,  uint8_t subN, 
     uint8_t attr =0;
     if( fields_count <=0)
     {
-           mstate2.check_columns(event, 1);
+         mstate2.check_columns(event, 1);
          lcd_putsAtt(0,y,PSTR(STR_LOADING),0);
-         /*
-           lcd_outdezAtt(10 * FW,y,field_count,0);
-          y += FH;
-          lcd_outdezAtt(0 * FW,y,g_elrs_update_rate,0);
-           y += FH;
-          lcd_outdezAtt(0 * FW,y,g_elrs_lag,0);
-         */
          if(linkstatTimeout < g_tmr10ms )
          {
             linkstatTimeout = g_tmr10ms + 10;
@@ -568,7 +561,8 @@ void crossfileMenu(MState2 &mstate2,uint8_t  event, uint8_t sub,  uint8_t subN, 
                                  crossfireTelemetryPush4(0x2D, field->id, field->value);
                                  curselectIdx = i;
                                  pushMenu(executeMenu);
-                                 play_voice(voice_cat_ground_speed,2,0,0); 
+                              //   play_voice(voice_cat_ground_speed,2,0,0); 
+                                
                               }
                         }
                     }

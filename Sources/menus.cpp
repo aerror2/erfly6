@@ -444,20 +444,12 @@ void voice_telem_item( uint8_t indexIn )
 		break ;
 		 
 		case BATTERY:
-#ifdef FRSKY
-		case FR_VOLTS :
-		case FR_CELLS_TOT :
-#endif
+
 			unit = V_VOLTS ;			
 			num_decimals = 1 ;
 		break ;
 
-#ifdef FRSKY
-		case FR_CELL_MIN:
-			unit = V_VOLTS ;			
-			num_decimals = 2 ;
-		break ;
-#endif
+
 			
 		case TIMER1 :
 		case TIMER2 :
@@ -479,94 +471,7 @@ void voice_telem_item( uint8_t indexIn )
 		case V_GVAR7 :
 			value = g_model.gvars[index-V_GVAR1].gvar ;
 		break ;
-			 
-#ifdef FRSKY
-		case FR_A1_COPY:
-    case FR_A2_COPY:
-		{
-			value = scale_telem_value( value, index-FR_A1_COPY, &num_decimals ) ;
-			unit = V_VOLTS ;
-			if (Unit == 'A')
-			{
-				unit = V_AMPS ;
-			}
-			else if (Unit == 1)
-			{
-				unit = 0 ;
-			}
-		}
-		break ;
 
-//    case FR_RXV :
-//			value = convertRxv( value ) ;
-//			unit = V_VOLTS ;			
-//			num_decimals = 1 ;
-//		break ;
-
-		case FR_ALT_BARO:
-      unit = V_METRES ;
-			if (g_model.FrSkyUsrProto == 1)  // WS How High
-			{
-/*
-      	if ( g_model.FrSkyImperial )
-        	unit = V_FEET ;
-*/
-			}
-      else
-			{
-/*
-				if ( g_model.FrSkyImperial )
-      	{
-	        // m to ft *105/32
-  	      value = m_to_ft( value ) ;
-    	    unit = V_FEET ;
-      	}
-*/
-			}
-			if ( value < 1000 )
-			{
-				num_decimals = 1 ;
-			}
-			else
-			{
-				value /= 10 ;
-			}
-		break ;
-		 
-#if defined(CPUM128) || defined(CPUM2561)
-// Extra data for Mavlink via FrSky		 
-		case FR_WP_DIST:
-  		if ( g_model.FrSkyImperial )
-  		{
-				value = m_to_ft(value) ;
-			}
-		break ;
-// Extra data for Mavlink via FrSky
-#endif
-		case FR_CURRENT :
-			num_decimals = 1 ;
-      unit = V_AMPS ;
-		break ;
-			
-		case FR_TEMP1:
-		case FR_TEMP2:
-			unit = V_DEGREES ;			
- /* 		if ( g_model.FrSkyImperial )
-  		{
-				value = c_to_f(value) ;
-			}
-*/		break ;
-
-		case FR_WATT :
-			unit = V_WATTS ;
-		break ;
-
-		case FR_VSPD :
-			num_decimals = 1 ;
-			value /= 10 ;
-		break ;
-			
-#endif
 
 	}
 
@@ -810,14 +715,14 @@ uint8_t putsTelemetryChannel(uint8_t x, uint8_t y, int8_t channel, int32_t val, 
 #ifdef TELEMETRY
   if ((channel >= 0) & (channel <= FST_IDX_S8a)) {
 
-    unit = putsTelemValue((style & TELEM_VALUE_RIGHT) ? xbase + 61 : x - fieldW, y, val, channel, att | NO_UNIT /*|blink*/);
+    unit = putsTelemValue((style & TELEM_VALUE_RIGHT) ? xbase + 50 : x - fieldW, y, val, channel, att | NO_UNIT /*|blink*/);
     displayed = 1;
   }
 
 #endif
 
   if (!displayed) {
-    lcd_outdezAtt((style & TELEM_VALUE_RIGHT) ? xbase + 61 : x, y, val, att);
+    lcd_outdezAtt((style & TELEM_VALUE_RIGHT) ? xbase + 50 : x, y, val, att);
   }
   if (style & (TELEM_UNIT | TELEM_UNIT_LEFT)) {
     if (style & TELEM_UNIT_LEFT) {
@@ -913,10 +818,13 @@ static void DO_SQUARE(uint8_t x, uint8_t y, uint8_t w)
 #define TRIM_EXTENDED_MAX	500
 
 enum MainViews {
+
+#ifdef USE_MULTIPLE_MAIN_WINDOWS
     e_outputValues,
     e_outputBars,
     e_inputs1,
     e_timer2,
+#endif
 #ifdef TELEMETRY // (defined(FRSKY) | defined(HUB))
     e_telemetry,
 #endif
@@ -2193,7 +2101,9 @@ void menuProcTelemetry(uint8_t event) {
         subN++;
       }
       displayNext();
-    } else
+    } 
+    #ifdef VARIO
+    else
       /*-------------Page 3 Vario-------------------------------------------*/
       if (sub > 11) {
         y = FH;
@@ -2210,6 +2120,8 @@ void menuProcTelemetry(uint8_t event) {
         }
         g_model.varioData.swtch = edit_dr_switch(15 * FW, y + FH, g_model.varioData.swtch, attr, attr ? EDIT_DR_SWITCH_EDIT : 0);
       }
+    #endif 
+
 }
 
 #endif
@@ -3381,46 +3293,14 @@ int8_t edit_dr_switch( uint8_t x, uint8_t y, int8_t drswitch, uint8_t attr, uint
 	{
 		if ( flags & EDIT_DR_SWITCH_MOMENT )
 		{
-#ifdef XSW_MOD
-      int8_t offset = 0;
-			if ( drswitch > TOGGLE_INDEX ) {
-        drswitch -= TOGGLE_INDEX;
-        offset = (MaxSwitchIndex - 1);
-      }
-			drswitch = switchUnMap( drswitch ) + offset;
-  	  CHECK_INCDEC_H_MODELVAR( drswitch ,-(MaxSwitchIndex-1),2*(MaxSwitchIndex-1));
-      offset = 0;
-			if ( drswitch >= MaxSwitchIndex ) {
-				drswitch -= (MaxSwitchIndex - 1);
-        offset = TOGGLE_INDEX;
-			}
-			drswitch = switchMap( drswitch ) + offset;
-#else // !XSW_MOD
+
 			int16_t value = drswitch ;
-#ifdef SWITCH_MAPPING
-			if ( value > HSW_MAX )
-			{
-				value = switchUnMap( value - HSW_MAX ) + MaxSwitchIndex - 1 ;
-			}
-			else
-			{
-				value = switchUnMap( drswitch ) ;
-			}
-#endif
+
   	  CHECK_INCDEC_H_MODELVAR( value ,(1-MaxSwitchIndex),(-2+2*MaxSwitchIndex));
-#ifdef SWITCH_MAPPING
-			if ( value >= MaxSwitchIndex )
-			{
-				drswitch = switchMap( value - MaxSwitchIndex + 1 ) + HSW_MAX ;
-			}
-			else
-			{
-				drswitch = switchMap( value ) ;
-			}
-#else
+
 			drswitch = value ;
-#endif
-#endif  // XSW_MOD
+
+
 		}
 		else
 		{
@@ -4943,57 +4823,50 @@ void dispFlightModename( uint8_t x, uint8_t y, uint8_t mode )
 #define RESTORE_BACKUP_DONE	8
 #define RESTORE_LEAVING		9
 
-static uint8_t rxSerialBlock( struct t_backup_restore *rPtr, uint8_t length )
-{
-	int16_t w ;
+//static uint8_t rxSerialBlock( struct t_backup_restore *rPtr, uint8_t length )
+//{
+//	int16_t w ;
 	
-	while ( (	w = getSvFifo() ) != -1 )
-	{
-		( (uint8_t * )rPtr->restoreDirBuffer )[rPtr->byteCount++] = w ;
-		if ( rPtr->byteCount >= length )
-		{
-			return 1 ;
-		}
-	}
-	return 0 ;
-}
+//	while ( (	w = getSvFifo() ) != -1 )
+//	{
+//		( (uint8_t * )rPtr->restoreDirBuffer )[rPtr->byteCount++] = w ;
+//		if ( rPtr->byteCount >= length )
+//		{
+//			return 1 ;
+//		}
+//	}
+//	return 0 ;
+//}
 
 
 
-#if USE_DFPLAYER
+//NOINLINE void serialVoiceBlockSend(uint8_t *data, uint8_t length) {
+//  while (length) {
+//    serialVoiceTx(*data++);
+//    length -= 1;
+//  }
+//}
 
-NOINLINE void serialVoiceBlockSend(uint8_t *data, uint8_t length) {
-  while (length) {
-    serialVoiceTx(*data++);
-    length -= 1;
-  }
-}
 
-NOINLINE uint8_t serialVoiceWaitByte(uint8_t byte) {
-  uint8_t b;
-  while ((b = getSvFifo()) != 0xFF) {,  
-    if (b == byte) {
-      return 1;
-    }
-  }
-  return 0;
-}
+//NOINLINE uint8_t serialVoiceWaitByte(uint8_t byte) {
+//  uint8_t b;
+//  while ((b = getSvFifo()) != -1) {
+//    if (b == byte) {
+//      return 1;
+//    }
+//  }
+//  return 0;
+//}
 
 
 
 				
-void serialVoiceTxHeader( uint8_t len )
-{
-	serialVoiceTx( 0x01 ) ;
-	serialVoiceTx( 0 ) ;
-	serialVoiceTx( len ) ;
-}
-#else
-#define  serialVoiceTxHeader(...) while(0){}
-#define serialVoiceWaitByte(...) 1?0:1
-#define serialVoiceBlockSend(...) 1?0:1
-
-#endif
+//void serialVoiceTxHeader( uint8_t len )
+//{
+//	serialVoiceTx( 0x01 ) ;
+//	serialVoiceTx( 0 ) ;
+//	serialVoiceTx( len ) ;
+//}
 
 //static uint8_t RestoreState ;
 
@@ -5005,7 +4878,7 @@ void startGetNames()
 	rPtr->gpCount = 0 ;
 	rPtr->dirIndex = 0 ;
 	rPtr->restoreState = RESTORE_GET_NAMES ;
-	serialVoiceTx( 'D' ) ;
+	//serialVoiceTx( 'D' ) ;
 }
 
 void progressBar()
@@ -5018,298 +4891,298 @@ void brSubHead(const prog_char *s)
 	lcd_puts_P( 6*FW, 3*FH, s ) ;
 }
 
-void menuBackupRestore(uint8_t event)
-{
-	struct t_backup_restore *rPtr ;
-	static MState2 mstate2 ;
-	uint8_t  sub ;
+//void menuBackupRestore(uint8_t event)
+//{
+//	struct t_backup_restore *rPtr ;
+//	static MState2 mstate2 ;
+//	uint8_t  sub ;
 	
-	rPtr = &Xmem.restoreData ;
-	FORCE_INDIRECT ( rPtr ) ;
+//	rPtr = &Xmem.restoreData ;
+//	FORCE_INDIRECT ( rPtr ) ;
 
-	TITLEP( rPtr->type ? PSTR("Backup") : PSTR("Restore") ) ;
-	wdt_reset() ;
+//	TITLEP( rPtr->type ? PSTR("Backup") : PSTR("Restore") ) ;
+//	wdt_reset() ;
   
-	switch (event)
-	{
-	  case EVT_ENTRY :
-			startSerialVoice() ;
-			rPtr->restoreState = RESTORE_START ;
-			rPtr->dirOffset = 0 ;
-			mstate2.m_posVert = 0 ;
-		break ;
+//	switch (event)
+//	{
+//	  case EVT_ENTRY :
+//			//startSerialVoice() ;
+//			rPtr->restoreState = RESTORE_START ;
+//			rPtr->dirOffset = 0 ;
+//			mstate2.m_posVert = 0 ;
+//		break ;
 
-   	case EVT_KEY_FIRST(KEY_EXIT) :
-			serialVoiceTx( 'Z' ) ;
-      eeLoadModel(g_eeGeneral.currModel) ;
-			rPtr->restoreState = RESTORE_LEAVING ;
-			s_editMode = 0 ;
-			killEvents(event) ;
-		break ;
-	}
+//   	case EVT_KEY_FIRST(KEY_EXIT) :
+//			serialVoiceTx( 'Z' ) ;
+//                        eeLoadModel(g_eeGeneral.currModel) ;
+//			rPtr->restoreState = RESTORE_LEAVING ;
+//			s_editMode = 0 ;
+//			killEvents(event) ;
+//		break ;
+//	}
 
-	sub = mstate2.m_posVert ;
-  switch (rPtr->restoreState)
-	{
-		case RESTORE_START :
-			serialVoiceTx( VCMD_BOOTREASON/*0x1B*/ ) ;
-			serialVoiceTx( VOP_BACKUP     /*0x1B*/ ) ;
-			rPtr->byteCount = 0 ;
-			rPtr->gpCount = 0 ;
-			rPtr->restoreState = RESTORE_WAIT1 ;
-		break ;
+//	sub = mstate2.m_posVert ;
+//  switch (rPtr->restoreState)
+//	{
+//		case RESTORE_START :
+//			serialVoiceTx( VCMD_BOOTREASON/*0x1B*/ ) ;
+//			serialVoiceTx( VOP_BACKUP     /*0x1B*/ ) ;
+//			rPtr->byteCount = 0 ;
+//			rPtr->gpCount = 0 ;
+//			rPtr->restoreState = RESTORE_WAIT1 ;
+//		break ;
 
-		case RESTORE_WAIT1 :
-		{
-			if ( rPtr->gpCount < 5 )
-			{
-				// Wait for this with timeout
-				serialVoiceWaitByte( '>' ) ;
-				rPtr->gpCount += 1 ;
-			}
-			else
-			{
-				if ( rPtr->type )
-				{
-					rPtr->subState = 0 ;
-					rPtr->restoreState = RESTORE_BACKUP ;
-					serialVoiceTx( 'B' ) ;
-				}
-				else
-				{
-					startGetNames() ;
-				}
-			}
-		}
-		break ;
+//		case RESTORE_WAIT1 :
+//		{
+//			if ( rPtr->gpCount < 5 )
+//			{
+//				// Wait for this with timeout
+//				serialVoiceWaitByte( '>' ) ;
+//				rPtr->gpCount += 1 ;
+//			}
+//			else
+//			{
+//				if ( rPtr->type )
+//				{
+//					rPtr->subState = 0 ;
+//					rPtr->restoreState = RESTORE_BACKUP ;
+//					serialVoiceTx( 'B' ) ;
+//				}
+//				else
+//				{
+//					startGetNames() ;
+//				}
+//			}
+//		}
+//		break ;
 
-		case RESTORE_GET_NAMES :
-		{	
-			uint8_t b ;
-static uint16_t count = 0 ;
-//static uint8_t last ;
-			rPtr->dirOffset = ( sub / 7) * 7 ;
-			brSubHead( PSTR(STR_LOADING) ) ;
-//lcd_outhex4( 0, 4*FH, last ) ;
-//lcd_outhex4( 0, 5*FH, count ) ;
-			while ( (	b = getSvFifo() ) != 0xFF )
-			{
-				count += 1 ;
-//				last = b ;
-				if ( b == 3 )
-				{
-					rPtr->restoreState = RESTORE_DISPLAY_NAMES ;
-					break ;
-				}
-				if ( b == '\r' )
-				{
-					b = '\0' ;
-				}
-				rPtr->restoreDirBuffer[rPtr->dirIndex][rPtr->byteCount] = b ;
-				if ( b == '\0' )
-				{
-					if ( rPtr->gpCount >= rPtr->dirOffset )
-					{
-						if ( ++rPtr->dirIndex > 7 )
-						{
-							serialVoiceTx( 'X' ) ;
-							rPtr->restoreState = RESTORE_DISPLAY_NAMES ;
-							break ;
-						}
-						else
-						{
-							serialVoiceTx( 'N' ) ;
-						}
-					}
-					else
-					{
-						serialVoiceTx( 'N' ) ;
-					}
-					rPtr->gpCount += 1 ;
-					rPtr->byteCount = 0 ;
-				}
-				else
-				{
-					if ( ++rPtr->byteCount > 10 )
-					{
-						rPtr->byteCount = 10 ;
-					}
-				}
-			}
-		}
-		break ;
+//		case RESTORE_GET_NAMES :
+//		{	
+//			uint8_t b ;
+//static uint16_t count = 0 ;
+////static uint8_t last ;
+//			rPtr->dirOffset = ( sub / 7) * 7 ;
+//			brSubHead( PSTR(STR_LOADING) ) ;
+////lcd_outhex4( 0, 4*FH, last ) ;
+////lcd_outhex4( 0, 5*FH, count ) ;
+//			while ( (	b = getSvFifo() ) != -1 )
+//			{
+//				count += 1 ;
+////				last = b ;
+//				if ( b == 3 )
+//				{
+//					rPtr->restoreState = RESTORE_DISPLAY_NAMES ;
+//					break ;
+//				}
+//				if ( b == '\r' )
+//				{
+//					b = '\0' ;
+//				}
+//				rPtr->restoreDirBuffer[rPtr->dirIndex][rPtr->byteCount] = b ;
+//				if ( b == '\0' )
+//				{
+//					if ( rPtr->gpCount >= rPtr->dirOffset )
+//					{
+//						if ( ++rPtr->dirIndex > 7 )
+//						{
+//							serialVoiceTx( 'X' ) ;
+//							rPtr->restoreState = RESTORE_DISPLAY_NAMES ;
+//							break ;
+//						}
+//						else
+//						{
+//							serialVoiceTx( 'N' ) ;
+//						}
+//					}
+//					else
+//					{
+//						serialVoiceTx( 'N' ) ;
+//					}
+//					rPtr->gpCount += 1 ;
+//					rPtr->byteCount = 0 ;
+//				}
+//				else
+//				{
+//					if ( ++rPtr->byteCount > 10 )
+//					{
+//						rPtr->byteCount = 10 ;
+//					}
+//				}
+//			}
+//		}
+//		break ;
 
-		case RESTORE_DISPLAY_NAMES :
-		{
-			uint8_t b ;
-			uint8_t i ;
-			int8_t j ;
-			uint8_t y = FH ;
+//		case RESTORE_DISPLAY_NAMES :
+//		{
+//			uint8_t b ;
+//			uint8_t i ;
+//			int8_t j ;
+//			uint8_t y = FH ;
 
-			b = rPtr->dirIndex ;
-			if ( b > 7 )
-			{
-				b = 7 ;
-			}
-			mstate2.check_columns(event, rPtr->dirOffset + rPtr->dirIndex-1 ) ;
+//			b = rPtr->dirIndex ;
+//			if ( b > 7 )
+//			{
+//				b = 7 ;
+//			}
+//			mstate2.check_columns(event, rPtr->dirOffset + rPtr->dirIndex-1 ) ;
 
-			j = sub - rPtr->dirOffset ;
-			if ( ( j < 0 ) || ( j > 6 ) )
-			{
-				// Need to display next page
-//				rPtr->dirOffset += 7 ;
-				startGetNames() ;
-			}
-			else
-			{
-				for ( i= 0 ; i < b ; i += 1 )
-				{
-					uint8_t attr = j == i ? INVERS : 0 ;
-      	  lcd_putsAtt(  2*FW, y, (char *)rPtr->restoreDirBuffer[i], BSS | attr ) ;
-					y += FH ;
-				}
-   			if ( event ==  EVT_KEY_FIRST(KEY_MENU) )
-				{
-					// Do the restore, filename = rPtr->restoreDirBuffer[mstate2.m_posVert]
-					serialVoiceTx( 'R' ) ;
-					rPtr->subState = 0 ;
-					rPtr->restoreState = RESTORE_FILE_START ;
-				}
-			}
+//			j = sub - rPtr->dirOffset ;
+//			if ( ( j < 0 ) || ( j > 6 ) )
+//			{
+//				// Need to display next page
+////				rPtr->dirOffset += 7 ;
+//				startGetNames() ;
+//			}
+//			else
+//			{
+//				for ( i= 0 ; i < b ; i += 1 )
+//				{
+//					uint8_t attr = j == i ? INVERS : 0 ;
+//      	  lcd_putsAtt(  2*FW, y, (char *)rPtr->restoreDirBuffer[i], BSS | attr ) ;
+//					y += FH ;
+//				}
+//   			if ( event ==  EVT_KEY_FIRST(KEY_MENU) )
+//				{
+//					// Do the restore, filename = rPtr->restoreDirBuffer[mstate2.m_posVert]
+//					serialVoiceTx( 'R' ) ;
+//					rPtr->subState = 0 ;
+//					rPtr->restoreState = RESTORE_FILE_START ;
+//				}
+//			}
 
-		}
-		break ;
+//		}
+//		break ;
 
-		case RESTORE_FILE_START :
-			brSubHead( PSTR("RESTORING" ) ) ;
-			if ( rPtr->subState == 0 )
-			{
-				rPtr->size = 0 ;
-				if ( serialVoiceWaitByte( 'r' ) )
-				{
-					serialVoiceTxHeader( 13 ) ;
-					uint8_t *p = rPtr->restoreDirBuffer[sub - rPtr->dirOffset] ;
-					p[11] = (uint8_t)sizeof(g_model) ;
-					p[12] = sizeof(g_model) >> 8 ;
-					serialVoiceBlockSend( p, 13 ) ;
-					rPtr->byteCount = 0 ;
-					rPtr->subState = 1 ;
-				}
-			}
-			else if ( rPtr->subState == 1 )
-			{
-				if ( rxSerialBlock( rPtr, 15 ) )
-				{
-					uint16_t count = sizeof(g_model) - rPtr->size ;
-					if ( count > 12 )
-					{
-						count = 12 ;
-					}
+//		case RESTORE_FILE_START :
+//			brSubHead( PSTR("RESTORING" ) ) ;
+//			if ( rPtr->subState == 0 )
+//			{
+//				rPtr->size = 0 ;
+//				//if ( serialVoiceWaitByte( 'r' ) )
+//				{
+//					serialVoiceTxHeader( 13 ) ;
+//					uint8_t *p = rPtr->restoreDirBuffer[sub - rPtr->dirOffset] ;
+//					p[11] = (uint8_t)sizeof(g_model) ;
+//					p[12] = sizeof(g_model) >> 8 ;
+//					serialVoiceBlockSend( p, 13 ) ;
+//					rPtr->byteCount = 0 ;
+//					rPtr->subState = 1 ;
+//				}
+//			}
+//			else if ( rPtr->subState == 1 )
+//			{
+//				//if ( rxSerialBlock( rPtr, 15 ) )
+//				{
+//					uint16_t count = sizeof(g_model) - rPtr->size ;
+//					if ( count > 12 )
+//					{
+//						count = 12 ;
+//					}
 
-  				memcpy(&((uint8_t *)&g_model)[rPtr->size],
-								 &((uint8_t * )Xmem.restoreData.restoreDirBuffer )[3], count ) ;
-					rPtr->size += count ;
-					if ( rPtr->size >= sizeof(g_model) )
-					{
-						rPtr->restoreState = RESTORE_FILE_SAVING ;
-						serialVoiceTx( 'e' ) ;
-					}
-					else
-					{
-						serialVoiceTx( 'n' ) ;
-					}
-					rPtr->byteCount = 0 ;
-				}
-			}
-			progressBar() ;
-//			lcd_outdez( 50, 5*FH, rPtr->size ) ;
-		break ;
+//                                        memcpy(&((uint8_t *)&g_model)[rPtr->size],
+//								 &((uint8_t * )Xmem.restoreData.restoreDirBuffer )[3], count ) ;
+//					rPtr->size += count ;
+//					if ( rPtr->size >= sizeof(g_model) )
+//					{
+//						rPtr->restoreState = RESTORE_FILE_SAVING ;
+//						serialVoiceTx( 'e' ) ;
+//					}
+//					else
+//					{
+//						serialVoiceTx( 'n' ) ;
+//					}
+//					rPtr->byteCount = 0 ;
+//				}
+//			}
+//			progressBar() ;
+////			lcd_outdez( 50, 5*FH, rPtr->size ) ;
+//		break ;
 
-		case RESTORE_FILE_SAVING :
-			brSubHead( PSTR("SAVING" ) ) ;
-			if ( modelSave( rPtr->modelIndex ) )
-			{
-				rPtr->restoreState = RESTORE_FILE_DONE ;
-			}
-		break ;
+//		case RESTORE_FILE_SAVING :
+//			brSubHead( PSTR("SAVING" ) ) ;
+//			if ( modelSave( rPtr->modelIndex ) )
+//			{
+//				rPtr->restoreState = RESTORE_FILE_DONE ;
+//			}
+//		break ;
 
-		case RESTORE_FILE_DONE :
-			brSubHead( PSTR("RESTORED" ) ) ;
-		break ;
+//		case RESTORE_FILE_DONE :
+//			brSubHead( PSTR("RESTORED" ) ) ;
+//		break ;
 
-		case RESTORE_BACKUP :
-			brSubHead( PSTR("BACKUP" ) ) ;
+//		case RESTORE_BACKUP :
+//			brSubHead( PSTR("BACKUP" ) ) ;
 			
-			if ( rPtr->subState == 0 )
-			{
-				rPtr->size = 0 ;
-				if ( serialVoiceWaitByte( 'b' ) )
-				{
-	    	  eeLoadModelForBackup(rPtr->modelIndex) ;
-					serialVoiceTxHeader( 13 ) ;
-					serialVoiceBlockSend( (uint8_t *)g_model.name, 10 ) ;
-					serialVoiceTx( MDVERS ) ;
-					serialVoiceTx( (uint8_t) sizeof(g_model) ) ;
-					serialVoiceTx( sizeof(g_model) >> 8 ) ;
-					rPtr->subState = 1 ;
-				}
-			}
-			else if ( rPtr->subState == 1 )
-			{
-				if ( serialVoiceWaitByte( 'c' ) )
-				{
-					rPtr->subState = 2 ;
-					rPtr->size = 0 ;
-				}
-			}
-			else if ( rPtr->subState == 2 )
-			{
-				if ( rPtr->size >= sizeof(g_model) )
-				{
-					serialVoiceTx( 0x03 ) ;
-					rPtr->subState = 4 ;
-				}
-				else
-				{
-					serialVoiceTxHeader( 12 ) ;
-					serialVoiceBlockSend( &((uint8_t *)&g_model)[rPtr->size], 12 ) ;
-					rPtr->subState = 3 ;
-					rPtr->size += 12 ;
-				}
-			}
-			else if ( rPtr->subState == 3 )
-			{
-				if ( serialVoiceWaitByte( 'd' ) )
-				{
-					rPtr->subState = 2 ;
-				}
-			}
-			else
-			{
-				if ( serialVoiceWaitByte( 0x06 ) )
-				{
-					rPtr->restoreState = RESTORE_BACKUP_DONE ;
-				}
-			}
-			progressBar() ;
-//			lcd_outdez( 50, 5*FH, rPtr->size ) ;
-		break ;
+//			if ( rPtr->subState == 0 )
+//			{
+//				rPtr->size = 0 ;
+//				if ( serialVoiceWaitByte( 'b' ) )
+//				{
+//                                        eeLoadModelForBackup(rPtr->modelIndex) ;
+//					serialVoiceTxHeader( 13 ) ;
+//					serialVoiceBlockSend( (uint8_t *)g_model.name, 10 ) ;
+//					serialVoiceTx( MDVERS ) ;
+//					serialVoiceTx( (uint8_t) sizeof(g_model) ) ;
+//					serialVoiceTx( sizeof(g_model) >> 8 ) ;
+//					rPtr->subState = 1 ;
+//				}
+//			}
+//			else if ( rPtr->subState == 1 )
+//			{
+//				if ( serialVoiceWaitByte( 'c' ) )
+//				{
+//					rPtr->subState = 2 ;
+//					rPtr->size = 0 ;
+//				}
+//			}
+//			else if ( rPtr->subState == 2 )
+//			{
+//				if ( rPtr->size >= sizeof(g_model) )
+//				{
+//					serialVoiceTx( 0x03 ) ;
+//					rPtr->subState = 4 ;
+//				}
+//				else
+//				{
+//					serialVoiceTxHeader( 12 ) ;
+//					serialVoiceBlockSend( &((uint8_t *)&g_model)[rPtr->size], 12 ) ;
+//					rPtr->subState = 3 ;
+//					rPtr->size += 12 ;
+//				}
+//			}
+//			else if ( rPtr->subState == 3 )
+//			{
+//				if ( serialVoiceWaitByte( 'd' ) )
+//				{
+//					rPtr->subState = 2 ;
+//				}
+//			}
+//			else
+//			{
+//				if ( serialVoiceWaitByte( 0x06 ) )
+//				{
+//					rPtr->restoreState = RESTORE_BACKUP_DONE ;
+//				}
+//			}
+//			progressBar() ;
+////			lcd_outdez( 50, 5*FH, rPtr->size ) ;
+//		break ;
 		
-		case RESTORE_BACKUP_DONE :
-			brSubHead( PSTR("BACKUP DONE" ) ) ;
-		break ;
+//		case RESTORE_BACKUP_DONE :
+//			brSubHead( PSTR("BACKUP DONE" ) ) ;
+//		break ;
 
 
-		case RESTORE_LEAVING :
-			if ( serialVoiceWaitByte( 'z' ) )
-			{
-				stopSerialVoice() ;
-				popMenu(false) ;
-			}
-		break ;
-	}
-	asm("") ;
-}
+//		case RESTORE_LEAVING :
+//			if ( serialVoiceWaitByte( 'z' ) )
+//			{
+//				stopSerialVoice() ;
+//				popMenu(false) ;
+//			}
+//		break ;
+//	}
+//	asm("") ;
+//}
 
 
 void menuModelPhases(uint8_t event)
@@ -5507,21 +5380,21 @@ void menuProcModelSelect(uint8_t event)
  	        pushMenu(menuDeleteDupModel);
 				}
 			}
-			else if( popidx == 6 )	// backup
-			{
-				Xmem.restoreData.type = 1 ;
-				Xmem.restoreData.modelIndex = sub ;
-        pushMenu(menuBackupRestore) ; 
-			}
-			else if( popidx == 7 )	// restore
-			{
-				Xmem.restoreData.type = 0 ;
-				Xmem.restoreData.modelIndex = sub ;
-        pushMenu(menuBackupRestore) ; 
-			}
+			//else if( popidx == 6 )	// backup
+			//{
+			//	Xmem.restoreData.type = 1 ;
+			//	Xmem.restoreData.modelIndex = sub ;
+   //                             pushMenu(menuBackupRestore) ; 
+			//}
+			//else if( popidx == 7 )	// restore
+			//{
+			//	Xmem.restoreData.type = 0 ;
+			//	Xmem.restoreData.modelIndex = sub ;
+   //                             pushMenu(menuBackupRestore) ; 
+			//}
 			else // Move (4)
 			{
- 	    	sel_editMode = true ;
+                              sel_editMode = true ;
 			}
 		}
 	}
@@ -6584,14 +6457,15 @@ void switchDisplay( uint8_t j, uint8_t a )
 void dispInVExVDbl( uint8_t y )
 {
       lcd_puts_Pleft( y, PSTR("InV"));
-      putsTelemValue( 3*FW, y-FH, (int16_t)AFHDS2A_tel_data[FST_IDX_INTV], FST_IDX_INTV, DBLSIZE|LEFT|NO_UNIT);
+      putsTelemValue( 3*FW, y-FH, (int16_t)AFHDS2A_tel_data[FST_IDX_INTV], FST_IDX_INTV, LEFT|NO_UNIT);
       lcd_puts_P(11*FW-2, y, PSTR("ExV"));
-      putsTelemValue( 14*FW - 2, y-FH, (int16_t)AFHDS2A_tel_data[FST_IDX_EXTV], FST_IDX_EXTV, DBLSIZE|LEFT|NO_UNIT);
+      putsTelemValue( 14*FW - 2, y-FH, (int16_t)AFHDS2A_tel_data[FST_IDX_EXTV], FST_IDX_EXTV, LEFT|NO_UNIT);
 }
 void dispSignalQality( uint8_t y){
-      lcd_puts_P(FW, y, PSTR("Err="));
+
+      lcd_puts_P(2+FW, y, PSTR("Err"));
       putsTelemValue(8 * FW, y, (int16_t)AFHDS2A_tel_data[FST_IDX_ERR], FST_IDX_ERR, NO_UNIT);
-      lcd_puts_P(FW * 13, y, PSTR("SNR="));
+      lcd_puts_P(FW * 13, y, PSTR("SNR"));
       putsTelemValue( FW * 20, y, (int16_t)AFHDS2A_tel_data[FST_IDX_SNR], FST_IDX_SNR, NO_UNIT);
 }
 
@@ -6605,7 +6479,7 @@ void dispSignalQality( uint8_t y){
 #define TEL_PAGE_3	0x30
 #define TEL_PAGE_4	0x40
 
-
+#define TRIMBAR_WIDTH 8
 void menuProc0(uint8_t event)
 {
     static uint8_t trimSwLock;
@@ -6621,106 +6495,26 @@ void menuProc0(uint8_t event)
     case EVT_KEY_BREAK(KEY_MENU):
 		case EVT_KEY_BREAK(BTN_RE):
 #ifdef TELEMETRY
-					if ( view == e_telemetry )
-					{
-						PopupData.PopupActive = 1 ;
-						PopupData.PopupIdx = 0 ;
-      			killEvents(event) ;
-						Tevent = 0 ;
-					}
+                  if ( view == e_telemetry )
+                  {
+                          PopupData.PopupActive = 1 ;
+                          PopupData.PopupIdx = 0 ;
+                           killEvents(event) ;
+                          Tevent = 0 ;
+                  }
 #endif // TELEMETRY
-#ifdef NMEA_EXTRA
-#if (defined(FRSKY) | defined(HUB))                                    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	  if (longpress == 1) {
-		 longpress=0;
-		 break;
-	  }
-#ifdef V2
-	  if (( view == e_telemetry) && (( tview & 0x70) == 0x30) ) 	
-#else
-	  if (( view == e_telemetry) && (( tview & 0x30) == 0x20) ) 	
-#endif
-	  {
-		if (AltOffset == 0)
-			AltOffset = -HomeSave ;
-		else
-		{
-			HomeSave = -AltOffset ;
-			AltOffset = 0 ;
-		}
-	  }
-#endif
-#endif
+
         break;
 		
 		case  EVT_KEY_LONG(BTN_RE):// go to last menu
     case  EVT_KEY_LONG(KEY_MENU):// go to last menu
-//#if defined(CPUM128) || defined(CPUM2561)
-#if 1
-#else
-#ifdef TELEMETRY
-#ifdef V2
-        if( (view == e_telemetry) && ((tview & 0x70) == 0x30 ) )
-#else
-        if( (view == e_telemetry) && ((tview & 0x30) == 0x20 ) )
-#endif
-        {
-            AltOffset = -getTelemetryValue(FR_ALT_BARO) ;
-#ifdef NMEA_EXTRA
-#if (defined(FRSKY) | defined(HUB))								//!!!!!!!!!!!!!!!!!
-		HomeSave = AltMax = getTelemetryValue(FR_GPS_ALT) ;				//!!!!!!!!!!!!!!!!!!
-#endif
-#endif
-        }
-#ifdef V2
-        else if( (view == e_telemetry) && ((tview & 0x70) == 0 ) )
-#else
-        else if( (view == e_telemetry) && ((tview & 0x30) == 0 ) )
-#endif
-        {
-            if ( g_model.frsky.channels[0].opt.alarm.type == 3 )		// Current (A)
-						{
-				      frskyTelemetry[0].setoffset() ;
-						}
-            if ( g_model.frsky.channels[1].opt.alarm.type == 3 )		// Current (A)
-						{
-				      frskyTelemetry[1].setoffset() ;
-						}
-        }
-        else if( (view == e_telemetry) && ((tview & 0x70) == 0x40 ) )	// GPS
-				{
-					struct t_hub_max_min *maxMinPtr = &FrskyHubMaxMin ;
-					FORCE_INDIRECT( maxMinPtr) ;
-			
-					maxMinPtr->hubMax[FR_GPS_SPEED] = 0 ;
-					maxMinPtr->hubMax[FR_GPS_ALT] = 0 ;
-				}
-        else
-        {
-#endif
-#endif
-//#if defined(CPUM128) || defined(CPUM2561)
-#if 1
+
 					PopupData.PopupActive = 2 ;
 					PopupData.PopupIdx = 0 ;
       		killEvents(event) ;
 					event = 0 ;
 					Tevent = 0 ;
-#else    
-		case  EVT_KEY_LONG(BTN_RE):// go to last menu
-#ifndef NOPOTSCROLL
-		        scroll_disabled = 1;
-#endif            
-						pushMenu(lastPopMenu());
-            killEvents(event);
-#endif	// 1      128/2561
-//#if defined(CPUM128) || defined(CPUM2561)
-#if 1
-#else
-#ifdef FRSKY
-        }
-#endif
-#endif
+
         break;
     case EVT_KEY_LONG(KEY_RIGHT):
 #ifndef NOPOTSCROLL
@@ -6730,53 +6524,22 @@ void menuProc0(uint8_t event)
         killEvents(event);
         break;
     case EVT_KEY_BREAK(KEY_RIGHT):
-#if defined(CPUM128) || defined(CPUM2561)
-        if(view <= e_inputs1)
-#else
+
+#ifdef USE_MULTIPLE_MAIN_WINDOWS
         if(view == e_inputs1)
+        {
+                int8_t x ;
+                x = inputs_subview ;
+
+                if ( ++x > 2 ) x = 0 ;
+                inputs_subview = x ;
+        }	
 #endif
-				{
-					int8_t x ;
-					x = inputs_subview ;
-#if defined(CPUM128) || defined(CPUM2561)
-					if ( ++x > ((view == e_inputs1) ? 3 : 1) ) x = 0 ;
-#else
- #ifdef V2
-					if ( ++x > 3 ) x = 0 ;
- #else
-					if ( ++x > 2 ) x = 0 ;
- #endif
-#endif
-					inputs_subview = x ;
-				}	
 #ifdef TELEMETRY
         if(view == e_telemetry)
-				{
-#ifdef V2
-					tview += 0x10 ;
-					if ( tview > 0x50 )
-					{
-						tview = 0 ;
-					}
-          g_eeGeneral.view = e_telemetry | tview ;
-#else
-
-#if defined(CPUM128) || defined(CPUM2561)
-					uint8_t t_limit = 0x30 ;
-					tview += 0x10 ;
-					if ( ( g_model.telemetryProtocol == TELEMETRY_ARDUPILOT ) || ( g_model.telemetryProtocol == 2 ) )
-					{
-						t_limit = 0x40 ;
-					}
-					if ( tview > t_limit )
-					{
-						tview = 0 ;
-					}
-          g_eeGeneral.view = e_telemetry | tview ;
-#else
+	{
           g_eeGeneral.view = e_telemetry | ( ( tview + 0x10) & 0x30 ) ;
-#endif
-#endif
+
           //            STORE_GENERALVARS;     //eeWriteGeneral();
           //            eeDirty(EE_GENERAL);
           audioDefevent(AU_MENUS);
@@ -6784,52 +6547,24 @@ void menuProc0(uint8_t event)
 #endif
         break;
     case EVT_KEY_BREAK(KEY_LEFT):
-#if defined(CPUM128) || defined(CPUM2561)
-        if(view <= e_inputs1)
-#else
+
+    
+#ifdef USE_MULTIPLE_MAIN_WINDOWS
         if(view == e_inputs1)
-#endif
 				{
 					int8_t x ;
 					x = inputs_subview ;
-#if defined(CPUM128) || defined(CPUM2561)
-					if ( --x < 0 ) x = (view == e_inputs1) ? 3 : 1 ;
-#else
- #ifdef V2
-					if ( --x < 0 ) x = 3 ;
- #else
+
 					if ( --x < 0 ) x = 2 ;
- #endif
-#endif
+ 
 					inputs_subview = x ;
 				}	
+ #endif
+
+
 #ifdef TELEMETRY
-        if(view == e_telemetry)
-				{
-#ifdef V2
-					tview -= 0x10 ;
-					if ( tview > 0x60 )
-					{
-						tview = 0x50 ;
-					}
-          g_eeGeneral.view = e_telemetry | tview ;
-#else
-#if defined(CPUM128) || defined(CPUM2561)
-					tview -= 0x10 ;
-					uint8_t t_limit = 0x30 ;
-					if ( g_model.telemetryProtocol == TELEMETRY_ARDUPILOT )
-					{
-						t_limit = 0x40 ;
-					}
-					if ( tview > 0x60 )
-					{
-						tview = t_limit ;
-					}
-          g_eeGeneral.view = e_telemetry | tview ;
-#else
+        if(view == e_telemetry){
           g_eeGeneral.view = e_telemetry | ( ( tview - 0x10) & 0x30 );
-#endif
-#endif
           //            STORE_GENERALVARS;     //eeWriteGeneral();
           //            eeDirty(EE_GENERAL);
           audioDefevent(AU_MENUS);
@@ -6867,16 +6602,8 @@ void menuProc0(uint8_t event)
 				return ;
         break;
     case EVT_KEY_LONG(KEY_DOWN):
-#if defined(JETI)
-        JETI_EnableRXD(); // enable JETI-Telemetry reception
-        chainMenu(menuProcJeti);
-#elif defined(ARDUPILOT)
-        ARDUPILOT_EnableRXD(); // enable ArduPilot-Telemetry reception
-        chainMenu(menuProcArduPilot);
-#elif defined(NMEA)
-        NMEA_EnableRXD(); // enable NMEA-Telemetry reception
-        chainMenu(menuProcNMEA);
-#elif defined(TELEMETRY)
+
+#if defined(TELEMETRY)
 				view = e_telemetry ;
 				g_eeGeneral.view = view | tview ;
         audioDefevent(AU_MENUS);
@@ -6893,11 +6620,6 @@ void menuProc0(uint8_t event)
 #ifdef TELEMETRY
 //        else if (view == e_telemetry) {
         if (view == e_telemetry) {
-#ifdef NMEA_EXTRA
-#if (defined(FRSKY) | defined(HUB))							//!!!!!!!!!!!!!!!!
-		AltMax = 0 ;								//!!!!!!!!!!!!!!!!
-#endif
-#endif
             audioDefevent(AU_MENUS);
         }
 #endif
@@ -6905,13 +6627,7 @@ void menuProc0(uint8_t event)
     case EVT_KEY_LONG(KEY_EXIT):
         resetTimer1();
         resetTimer2();
-#ifdef TELEMETRY
-#ifdef NMEA_EXTRA
-#if (defined(FRSKY) | defined(HUB))							//!!!!!!!!!!!!!!!!
-  	  AltOffset = AltMax = HomeSave = 0 ;					//!!!!!!!!!!!!!!!!
-#endif
-#endif
-#endif
+
         audioDefevent(AU_MENUS);
         break;
     case EVT_ENTRY:
@@ -6933,66 +6649,41 @@ void menuProc0(uint8_t event)
 		}
 
 #ifdef TELEMETRY
-    if (view != e_telemetry) {
+    if (view != e_telemetry) 
+    
 //#else
 //		if ( tview == 0 ) {
 #endif
+    {
+
         uint8_t x=FW*2;
         uint8_t att = (g_vbat100mV < g_eeGeneral.vBatWarn ? BLINK : 0) | DBLSIZE;
-				uint8_t i ;
+	uint8_t i ;
 
-				putsDblSizeName( 0 ) ;
+        putsDblSizeName( 0 ) ;
 
         putsVBat( 6*FW+1, 2*FH, att|NO_UNIT);
         lcd_putc( 6*FW+2, 3*FH, 'V');
 
-#ifdef SMALL_DBL
-					displayTimer( x+14*FW-3+2, FH*2, 0, DBLSIZE ) ;
-#else
-					displayTimer( x+14*FW-3, FH*2, 0, DBLSIZE ) ;
-#endif // SMALL_DBL
-          putsTmrMode(x+7*FW-FW/2,FH*3,0,0);
 
-				i = getFlightPhase() ;
-				if ( i )
-				{
-#ifdef V2
- #if defined(CPUM128) || defined(CPUM2561)
-					if ( g_model.phaseData[i-1].name[0] != ' ' )
-					{
-						lcd_putsnAtt( 6*FW+2, 2*FH, (prog_char *)g_model.phaseData[i-1].name, 6, BSS ) ;
-					}
-					else
-					{
-						dispFlightModename( 6*FW+2, 2*FH, i ) ;
-					}
- #else
-					dispFlightModename( 6*FW+2, 2*FH, i ) ;
- #endif
-#else
- #if defined(CPUM128) || defined(CPUM2561)
-					if ( g_model.phaseNames[i-1][0] != ' ' )
-					{
-						lcd_putsnAtt( 6*FW+2, 2*FH, (prog_char *)g_model.phaseNames[i-1], 6, BSS ) ;
-					}
-					else
-					{
-						dispFlightModename( 6*FW+2, 2*FH, i ) ;
-					}
- #else
-					dispFlightModename( 6*FW+2, 2*FH, i ) ;
- #endif
-#endif
-					lcd_rect( 6*FW+1, 2*FH-1, 6*FW+2, 9 ) ;
-				}
-				else
-				{
+	displayTimer( x+14*FW-3, FH*2, 0, DBLSIZE ) ;
+        putsTmrMode(x+7*FW-FW/2,FH*3,0,0);
+
+        i = getFlightPhase() ;
+        if ( i )
+        {
+
+                dispFlightModename( 6*FW+2, 2*FH, i ) ;
+
+                lcd_rect( 6*FW+1, 2*FH-1, 6*FW+2, 9 ) ;
+        }
+        else
+        {
         	lcd_putsAttIdx( 6*FW+2,     2*FH,PSTR(STR_TRIM_OPTS),g_model.trimInc, 0);
-//					if ( g_model.thrTrim )
-//					{
-//						lcd_puts_P(x+8*FW-FW/2-1,2*FH,PSTR(STR_TTM));
-//					}
-				}
+
+        }
+
+   }
         //trim sliders
         for(uint8_t i=0; i<4; i++)
         {
@@ -7006,31 +6697,31 @@ const static prog_uint8_t APM xt[4] = {128*1/4+2, 4, 128-4, 128*3/4-2};
 //						uint8_t centre = (valt == 0) ;
 
             int8_t val = valt/4 ;
-						if ( val == 0 )
-						{
-							if ( valt > 0 )
-							{
-								val += 1 ;
-							}
-							if ( valt < 0 )
-							{
-								val -= 1 ;
-							}
-						}
-						if ( val > TL+1 )
-						{
-							val = TL+1 ;
-						}
-						else
-						{
-							if ( val < -(TL+1) )
-							{
-								val = -(TL+1) ;
-							}
-						}
+              if ( val == 0 )
+              {
+                      if ( valt > 0 )
+                      {
+                              val += 1 ;
+                      }
+                      if ( valt < 0 )
+                      {
+                              val -= 1 ;
+                      }
+              }
+              if ( val > TL+1 )
+              {
+                      val = TL+1 ;
+              }
+              else
+              {
+                      if ( val < -(TL+1) )
+                      {
+                              val = -(TL+1) ;
+                      }
+              }
 //            int8_t val = max((int8_t)-(TL+1),min((int8_t)(TL+1),(int8_t)(valt/4)));
-						if( (i == 1) || ( i == 2 ))
-						{
+            if( (i == 1) || ( i == 2 ))
+            {
               ym=31;
               lcd_vline(xm,   ym-TL, TL*2);
 
@@ -7041,52 +6732,39 @@ const static prog_uint8_t APM xt[4] = {128*1/4+2, 4, 128-4, 128*3/4-2};
               }
               ym -= val;
             }
-						else
-						{
+            else
+            {
               ym=59;
               lcd_hline(xm-TL,ym,    TL*2);
               lcd_hline(xm-1, ym-1,  3);
               lcd_hline(xm-1, ym+1,  3);
               xm += val;
             }
+        
 						lcd_rect_xor( xm-3, ym-3, 7, 7 ) ;
-//            DO_SQUARE(xm,ym,7) ;
-//						if ( centre )
-//						{
-//            	DO_SQUARE(xm,ym,5) ;
-//						}
+
         }
+
 #ifdef TELEMETRY
-    }
-    else {
-        lcd_putsnAtt(0, 0, g_model.name, sizeof(g_model.name), BSS|INVERS);
+    
+    
+     {
+        lcd_putsnAtt(TRIMBAR_WIDTH, 0, g_model.name, sizeof(g_model.name), BSS|INVERS);
         uint8_t att = (g_vbat100mV < g_eeGeneral.vBatWarn ? BLINK : 0);
         putsVBat(14*FW,0,att);
 					displayTimer( 18*FW+3, 0, 0, 0 ) ;
     }
 #endif
-
+    
+#ifdef USE_MULTIPLE_MAIN_WINDOWS
     if(view<e_inputs1)
 		{
-#if defined(CPUM128) || defined(CPUM2561)
-			if ( inputs_subview > 1 )
-			{
-				inputs_subview = 0 ;
-			}
-	    lcd_hlineStip(46, 33, 36, 0x55 ) ;
-  	  lcd_hlineStip(46, 34, 36, 0x55 ) ;
-    	lcd_hlineStip(46 + inputs_subview * 18, 33, 18, 0xAA ) ;
-	    lcd_hlineStip(46 + inputs_subview * 18, 34, 18, 0xAA ) ;
-#endif			
+		
         for(uint8_t i=0; i<8; i++)
         {
             uint8_t x0,y0;
-#if defined(CPUM128) || defined(CPUM2561)
-						uint8_t chan = 8 * inputs_subview + i ;
-			      int16_t val = g_chans512[chan];
-#else
+
             int16_t val = g_chans512[i];
-#endif
             switch(view)
             {
             case e_outputValues:
@@ -7119,33 +6797,43 @@ const static prog_uint8_t APM xt[4] = {128*1/4+2, 4, 128-4, 128*3/4-2};
             }
         }
     }
+#endif
 #ifdef TELEMETRY
-    else if (view == e_telemetry) {
+
+#ifdef USE_MULTIPLE_MAIN_WINDOWS
+    else 
+ #endif
+
+    
+    if (view == e_telemetry) 
+    {
       int16_t value;
       {
         uint8_t x0; //, blink;
-          dispSignalQality(7 * FH);
+          dispSignalQality(6 * FH);
 
+
+#ifdef  USE_MULTIPLE_MAIN_WINDOWS
         if (tview == TEL_PAGE_1) {
-          x0 = 3 * FW;
-          dispInVExVDbl(3 * FH);
-          // Fuel Gauge
-          lcd_puts_Pleft(1 * FH, PSTR(STR_FUEL));
-          int16_t FuelPer = get_telemetry_value(g_model.FuelSource - 1); // Fuel gauge value
-          if (FuelPer > g_model.FuelMax)
-            FuelPer = g_model.FuelMax;
-          if (FuelPer < g_model.FuelMin)
-            FuelPer = g_model.FuelMin;
-          FuelPer = ((FuelPer - g_model.FuelMin) * 100) / (g_model.FuelMax - g_model.FuelMin);
-          lcd_hbar(25, 9, 80, 6, (uint8_t)FuelPer);
-          lcd_outdez(127 - FW, 1 * FH, FuelPer);
-          lcd_putc(Lcd_lastPos, 1 * FH, '%');
+                x0 = 3 * FW;
+                dispInVExVDbl(3 * FH);
+                // Fuel Gauge
+                lcd_puts_Pleft(1 * FH, PSTR(STR_FUEL));
+                int16_t FuelPer = get_telemetry_value(g_model.FuelSource - 1); // Fuel gauge value
+                if (FuelPer > g_model.FuelMax)
+                  FuelPer = g_model.FuelMax;
+                if (FuelPer < g_model.FuelMin)
+                  FuelPer = g_model.FuelMin;
+                FuelPer = ((FuelPer - g_model.FuelMin) * 100) / (g_model.FuelMax - g_model.FuelMin);
+                lcd_hbar(25, 9, 80, 6, (uint8_t)FuelPer);
+                lcd_outdez(127 - FW, 1 * FH, FuelPer);
+                lcd_putc(Lcd_lastPos, 1 * FH, '%');
  
 
-      lcd_puts_Pleft( 5 * FH, PSTR("Tmp"));
-      putsTelemValue( 3*FW, 4 * FH, (int16_t)AFHDS2A_tel_data[FST_IDX_TEM], FST_IDX_TEM, DBLSIZE|LEFT|NO_UNIT);
-      lcd_puts_P(11*FW-2, 5*FH, PSTR("RPM"));
-      putsTelemValue( 14*FW - 2, 4*FH, (int16_t)AFHDS2A_tel_data[FST_IDX_RPM], FST_IDX_RPM, DBLSIZE|LEFT|NO_UNIT);
+            lcd_puts_Pleft( 5 * FH, PSTR("Tmp"));
+            putsTelemValue( 3*FW, 4 * FH, (int16_t)AFHDS2A_tel_data[FST_IDX_TEM], FST_IDX_TEM, DBLSIZE|LEFT|NO_UNIT);
+            lcd_puts_P(11*FW-2, 5*FH, PSTR("RPM"));
+            putsTelemValue( 14*FW - 2, 4*FH, (int16_t)AFHDS2A_tel_data[FST_IDX_RPM], FST_IDX_RPM, DBLSIZE|LEFT|NO_UNIT);
 
 
         } else if (tview == TEL_PAGE_2) {
@@ -7163,28 +6851,7 @@ const static prog_uint8_t APM xt[4] = {128*1/4+2, 4, 128-4, 128*3/4-2};
               lcd_puts_Pleft(3 * FH, PSTR("in the development"));
               lcd_puts_Pleft(4 * FH, PSTR("process..."));
 
- //           lcd_outdezAtt(13 * FW, 1 * FH, getTelemetryValue(FR_RPM), DBLSIZE | LEFT);
 
-//            value = getAltbaroWithOffset();
-//            putsTelemetryChannel(0, 4 * FH, TEL_ITEM_BALT, value, DBLSIZE | LEFT, (TELEM_LABEL | TELEM_UNIT_LEFT));
-#ifdef NMEA_EXTRA
-#if (defined(FRSKY) | defined(HUB))												//!!!!!!!!!!!!
-		   	  if (AltMax < getTelemetryValue(FR_GPS_ALT)) AltMax = getTelemetryValue(FR_GPS_ALT) ;		//!!!!!!!!!!!
-			  if (( HomeSave != 0) | ( AltOffset != 0)) 
-			  {
-				lcd_puts_P(11*FW, 3*FH, PSTR("Amax="));
-				lcd_puts_P(11*FW, 4*FH, PSTR("Home="));
-				value = -AltOffset ;
-				AltMaxValue = AltMax - value ;
-				lcd_putc( 15*FW, 3*FH,unit) ;
-				lcd_outdezAtt(16*FW, 3*FH, m_to_ft(AltMaxValue), LEFT) ;		// Max Altitude
-				lcd_outdezAtt(16*FW, 4*FH,m_to_ft(value), LEFT) ;			// Home Altitude
-			  }												//!!!!!!!!!!!
-#endif
-#else
-				//					lcd_puts_P(12*FW, 4*FH, PSTR("Amax="));
-			//						putsTelemetryChannel( 17*FW, 4*FH, TEL_ITEM_BALT, FrskyHubMaxMin.hubMax[FR_ALT_BARO] + AltOffset, LEFT, 0 ) ;
-#endif
           }
                                                                 //dispInVExVDbl( 6*FH ) ;
 			//					lcd_xlabel_decimal( 3*FW, 7*FH, FrskyHubData[FR_RXRSI_COPY], LEFT, Str_RXeq ) ;
@@ -7195,394 +6862,37 @@ const static prog_uint8_t APM xt[4] = {128*1/4+2, 4, 128-4, 128*3/4-2};
               lcd_puts_Pleft(2 * FH, PSTR("Telemetry page-4"));
               lcd_puts_Pleft(3 * FH, PSTR("in the development"));
               lcd_puts_Pleft(4 * FH, PSTR("process..."));
-
-//          uint8_t blink = BLINK | LEADING0;
-//          uint16_t mspeed;
-//          if (frskyUsrStreaming) {
-//            blink = LEADING0;
-//          }
-
-//          lcd_puts_Pleft(2 * FH, PSTR(STR_LAT_EQ "\037" STR_LON_EQ "\037" STR_ALT_MAX "\037" STR_SPD_KTS_MAX "\037V1=\007V2=\016V3=\037V4=\007V5=\016V6="));
-
-////          lcd_outdezNAtt(8 * FW, 2 * FH, (uint16_t)getTelemetryValue(FR_GPS_LAT), blink, -5);
-//          lcd_putc(8 * FW, 2 * FH, '.');
-////          lcd_outdezNAtt(12 * FW, 2 * FH, (uint16_t)getTelemetryValue(FR_GPS_LATd), blink, -4);
-
-////          lcd_outdezNAtt(8 * FW, 3 * FH, (uint16_t)getTelemetryValue(FR_GPS_LONG), blink, -5);
-//          lcd_putc(8 * FW, 3 * FH, '.');
-////          lcd_outdezNAtt(12 * FW, 3 * FH, (uint16_t)getTelemetryValue(FR_GPS_LONGd), blink, -4);
-
-////          lcd_outdez(20 * FW, 4 * FH, FrskyHubMaxMin.hubMax[FR_GPS_ALT]);
-////          lcd_outdez(20 * FW, 3 * FH, FrskyHubData[FR_COURSE]);
-
-////          mspeed = FrskyHubMaxMin.hubMax[FR_GPS_SPEED];
-//          /*
-//                if ( g_model.FrSkyImperial )
-//								{
-//									lcd_puts_Pleft( 5*FH, PSTR(STR_11_MPH)) ;
-//									mspeed = ( mspeed * 589 ) >> 9 ;
-//								}
-//*/
-//          lcd_outdezAtt(20 * FW, 5 * FH, mspeed, blink & ~LEADING0);
-//          //                lcd_outdezAtt(20*FW, 5*FH, MaxGpsSpeed, blink );
-//          if (frskyUsrStreaming) {
-//#ifdef NMEA_EXTRA
-//#if (defined(FRSKY) | defined(HUB))												//!!!!!!!!!!!!!!
-//			if (AltMax < FrskyHubData[FR_GPS_ALT]) AltMax = FrskyHubData[FR_GPS_ALT] ;		//!!!!!!!!!!!!!!
-//			lcd_outdez(20*FW, 4*FH, AltMax ) ;								//!!!!!!!!!!!!!!
-//#endif
-//#endif
-////								lcd_outdez(8 * FW, 4*FH, getTelemetryValue(FR_GPS_ALT) ) ;
-////								mspeed = getTelemetryValue(FR_GPS_SPEED) ;
-///*
-//                if ( g_model.FrSkyImperial )
-//								{
-//									mspeed = ( mspeed * 589 ) >> 9 ;
-//								}
-//*/
-//                lcd_outdez(8*FW, 5*FH, mspeed );		// Speed
-////                lcd_outdezAtt(8*FW, 5*FH, FrskyHubData[FR_GPS_SPEED], 0);
-                
-//								{
-//									uint8_t x, y ;
-//									x = 6*FW ;
-//									y = 6*FH ;
-//									uint8_t max = 6;//FrskyBattCells ;
-//									if ( max > 6 )
-//									{
-//										max = 6 ;
-//									}
-//	      					for ( uint8_t k=0 ; k<max ; k++ )
-//									{
-//										uint8_t blink= PREC2 ;
-//										if ( k == 3 )
-//										{
-//											x = 6*FW ;
-//											y = 7*FH ;
-//										}
-//#if VOLT_THRESHOLD
-//										if ((FrskyVolts[k] < g_model.frSkyVoltThreshold))
-//										{
-//										  blink = BLINK | PREC2 ;
-//										}
-//#endif
-////  									lcd_outdezNAtt( x, y, (uint16_t)FrskyVolts[k] * 2 , blink, 4 ) ;
-//										x += 7*FW ;
-//										if ( k == 5 )		// Max 6 cells displayable
-//										{
-//											break ;											
-//										}
-//	      					}
-//								}
-//								//              lcd_putsAtt(6, 2*FH, PSTR("To Be Done"), DBLSIZE);
-//							}
         }
-#if defined(CPUM128) || defined(CPUM2561)
-        else if (tview == TEL_PAGE_4) {
-						 if ( g_model.telemetryProtocol == TELEMETRY_ARDUPILOT )
-						 {
-								// Mavlink over FrSky
-								uint8_t attr = 0 ;
-								lcd_putsAtt(  0 * FW, 0 * FH, PSTR("          "), 0 ); // clear inversed model name from screen
-								// line 0, left - Battary remaining
-								uint8_t batt =  FrskyHubData[FR_FUEL] ;
-								if ( batt < 20 ) { attr = BLINK ; } else {attr = 0 ;}
-								lcd_hbar( 01, 1, 10, 5, batt ) ;
-								lcd_rect( 11, 2, 2, 3 ) ;
-								if (batt > 99) batt = 99 ;
-								lcd_outdezAtt ( 4*FW,   0*FH, batt, attr ) ;
-								lcd_putcAtt	  ( 4*FW+1, 0*FH, '%',  attr ) ;
-								// line 0, V, volt bat
- 				        attr = PREC1 ;
- 				        lcd_outdezAtt( 9 * FW+2, 0, FrskyHubData[FR_VOLTS], attr ) ;
-								lcd_putc   ( 9 * FW+3, 0, 'v'); //"v"
-								// line 0, V, volt cpu
-// 				        lcd_outdezAtt( 13 * FW-2, 0, FrskyHubData[FR_VCC], PREC1 ) ;
-//		    				lcd_putc     ( 13 * FW+1, 0, 'v');
-								// line 1 - Flight mode
- 				        uint8_t blink = BLINK;
- 				        if (frskyUsrStreaming) blink = 0 ;
-//								lcd_putsAtt( 15*FW-1, 1*FH, XPSTR("T1="), 0 ) ;
-// 				        lcd_outdezAtt( 20 * FW, 1*FH, FrskyHubData[FR_TEMP1], blink ) ;
-							
-								if (frskyUsrStreaming)
-								{
-									if ( FrskyHubData[FR_BASEMODE] & MAV_MODE_FLAG_SAFETY_ARMED )
-									{
-										lcd_putsAtt(  1 * FW, 1 * FH, PSTR(STR_MAV_ARMED), blink) ;
-									}
-									else
-									{
-										lcd_putsAtt(  0 * FW, 1 * FH, PSTR(STR_MAV_DISARMED), blink) ;
-									}
-								}
-								else
-								{
-									lcd_putsAtt(  0 * FW, 1 * FH, PSTR(STR_MAV_NODATA), BLINK) ; // NO DRV
-								}
 
-//							  lcd_outdez( 15 * FW, 3 * FH, FrskyHubData[FR_BASEMODE] ) ;
-
-								const char *s ;
-								uint8_t i = FrskyHubData[FR_TEMP1] ;
-								if ( i == 1 )
-								{
-									s = PSTR(STR_MAV_FM_1) ;
-								}
-								else if ( i == 2 )
-								{
-									s = PSTR(STR_MAV_FM_2) ;
-								}
-								else if ( i == 3 )
-								{
-									s = PSTR(STR_MAV_FM_3) ;
-								}
-								else if ( i == 4 )
-								{
-									s = PSTR(STR_MAV_FM_4) ;
-								}
-								else if ( i == 5 )
-								{
-									s = PSTR(STR_MAV_FM_5) ;
-								}
-								else if ( i == 6 )
-								{
-									s = PSTR(STR_MAV_FM_6) ;
-								}
-								else if ( i == 7 )
-								{
-									s = PSTR(STR_MAV_FM_7) ;
-								}
-								else if ( i == 8 )
-								{
-									s = PSTR(STR_MAV_FM_8) ;
-								}
-								else if ( i == 9 )
-								{
-									s = PSTR(STR_MAV_FM_9) ;
-								}
-								else
-								{
-									s = PSTR(STR_MAV_FM_0) ;
-								}
-								lcd_putsAtt( 15*FW-1, 1*FH, s, blink ) ;
-
-//		 line 2 - "GPS fix" converted from TEMP2
-								uint8_t gps_fix ;
-								uint8_t gps_sat ;
-								gps_fix = FrskyHubData[FR_TEMP2] / 10 ;
- 				        gps_sat = FrskyHubData[FR_TEMP2] - gps_fix * 10 ;
-								switch ( gps_fix )
-								{
-									case 1: 	lcd_putsAtt( 0 * FW, 2*FH, PSTR(STR_MAV_GPS_NO_FIX), BLINK); break;
-									case 2: 	lcd_puts_P ( 0 * FW, 2*FH, PSTR(STR_MAV_GPS_2DFIX )); break;
-									case 3:
-									case 4: 	lcd_puts_P ( 0 * FW, 2*FH, PSTR(STR_MAV_GPS_3DFIX )); break;
-									default : lcd_putsAtt( 0 * FW, 2*FH, PSTR(STR_MAV_GPS_NO_GPS), INVERS); break;
-								}
-//		line 3 left "SAT"
-								lcd_puts_P( 0 * FW,   3*FH, PSTR(STR_MAV_GPS_SAT_COUNT) ); // sat
-								lcd_outdez( 7 * FW-2, 3*FH, gps_sat ) ;
-
-//		 line 4 left "HDOP"
-                int16_t val;
-								val = FrskyHubData[FR_GPS_HDOP];
-								if (val <= 200)
-								{
-                	attr  = PREC1;
-				   				blink = 0;
-				 				}
-								else
-								{
-                  attr = PREC1 | BLINK;
-				   				blink = BLINK;
-								}
-								lcd_putsAtt( 0 * FW,   4*FH, PSTR(STR_MAV_GPS_HDOP), blink ) ; 
-                lcd_outdezAtt( 7 * FW-2, 4*FH, val, attr ) ; // hdop
-
-//		 line 5 left  "heartbeat"
-								lcd_hbar( 0, 5*FH+1, 40, 4, frskyUsrStreaming ) ; // heartbeat
-//		 line 2 right "Baro Alt"
-								lcd_puts_P( 15 * FW-1, 2*FH, PSTR(STR_MAV_ALT) ) ; // Alt
-								val = get_telemetry_value(TEL_ITEM_BALT) ;
-								attr = 0 ;
-                if ( val < 1000 )
-								{
-                  attr |= PREC1 ;
-                }
-								else
-								{
-                  val /= 10 ;
-                }
-                lcd_outdezAtt( 21 * FW+1, 2*FH, val, attr ) ;
-
-//		 line 3 right "GPS Alt"
-								lcd_puts_P( 15 * FW-1, 3*FH, PSTR(STR_MAV_GALT) ); // GAlt
-								lcd_outdez( 21 * FW+1, 3*FH, get_telemetry_value(TEL_ITEM_GALT) ) ;
-//		 line 4 right "Home Distance"
-								lcd_puts_P( 15 * FW-1, 4*FH, PSTR(STR_MAV_HOME) ); // home
-								lcd_outdez( 21 * FW+1, 4*FH, FrskyHubData[FR_HOME_DIST] ) ;
-//		 line 5 right "Current, Milliampers"
-                lcd_outdezAtt( 20 * FW+1, 5*FH, FrskyHubData[FR_CURRENT], PREC1 ) ;
-								lcd_puts_P( 15 * FW-1, 5*FH, PSTR(STR_MAV_CURRENT) ); // "Cur"
-//								lcd_outdez ( 20 * FW+1, 5*FH,  FrskyHubData[FR_CURRENT])/10;
-		        		lcd_putc   ( 20 * FW+2, 5*FH, 'A');
-//		 line 6 left "Rssi"
-								lcd_puts_P( 0 * FW, 6*FH, PSTR("Rssi") ); // "Rssi"
-								uint8_t rx = FrskyHubData[FR_RXRSI_COPY];
-								if (rx > 100) rx = 100;
-                lcd_outdezAtt( 7 * FW-3, 6*FH, rx, blink);
-//         line 6 right  "Rcq"
-                lcd_puts_P( 15*FW-1, 6*FH, PSTR("Rcq") ); // "Rcq"
-								uint8_t tx = FrskyHubData[FR_TXRSI_COPY];
-								if (tx > 100) tx = 100;
-                lcd_outdezAtt( 21*FW+1, 6*FH, tx, blink);
-
-//		 line 7 
-                lcd_puts_P( 0 * FW, 7*FH, PSTR("Rx") );
-								lcd_hbar( 14, 57, 49, 6, FrskyHubData[FR_RXRSI_COPY] ) ;
-                lcd_puts_P( 19 * FW+1, 7*FH, PSTR("Tx") );
-								lcd_hbar( 65, 57, 49, 6, FrskyHubData[FR_TXRSI_COPY] ) ;
-
-//				 THROTTLE bar, %
-//								lcd_vbar( 0, 1 * FH, 4, 6 * FH - 1, FrskyHubData[FR_RPM] ) ;
-
-								uint8_t x0 = 64 ;
-								uint8_t y0 = 31 ;
-								uint8_t r  = 23 ;
-								uint8_t x ;
-								uint8_t y ;
-								DO_SQUARE( x0, y0, r * 2 + 1 ) ;
-								int16_t hdg = FrskyHubData[FR_COURSE] ;
-								if  ( FrskyHubData[FR_BASEMODE] & MAV_MODE_FLAG_SAFETY_ARMED ) // armed
-								{   // we save head position before arming
-									if ( hdg_home == 0 ) hdg_home = hdg;
-								} else {
-									hdg_home = 0 ;
-								}
-								hdg = hdg - hdg_home + 270 ; // use SIMPLE mode 
-//								lcd_outdez( 12 * FW, 3 * FH, hdg ) ;
-								for (int8_t i = -3 ; i < r ; i += 1 )
-								{
-//#if defined(CPUM128) || defined(CPUM2561)
-//						x = x0 + i * cos ( hdg * PI / 180.0 );
-//						y = y0 + i * sin ( hdg * PI / 180.0 );
-//#else
-									x = x0 + ( i * rcos100 ( hdg ) ) / 100; 
-									y = y0 + ( i * rsin100 ( hdg ) ) / 100;
-//#endif
-									lcd_plot(x, y);
-								}
-
-
-						 }
-						 else
-						 {
-							// Spektrum format screen
-							lcd_puts_Pleft( 0*FH, PSTR("\013tssi")) ;
-							lcd_puts_Pleft( 2*FH, PSTR("Vbat")) ;
-							lcd_puts_Pleft( 2*FH, PSTR("\013RxV")) ;
-							lcd_puts_Pleft( 4*FH, PSTR("AMP\013Temp")) ;
-							lcd_puts_Pleft( 6*FH, PSTR("RPM\021DSM2")) ;
-							
-							lcd_vline( 63, 8, 32 ) ;
-
-              lcd_outdezAtt( 17*FW-2, 0*FH, FrskyHubData[FR_RXRSI_COPY], 0 ) ;
-              lcd_outdezAtt( 61, 1*FH, FrskyHubData[FR_VOLTS], PREC1|DBLSIZE ) ;
-							lcd_outdezAtt( 125, 1*FH, FrskyHubData[FR_RXV], PREC1|DBLSIZE ) ;
-							lcd_outdezAtt( 61, 3*FH, FrskyHubData[FR_CURRENT], PREC1|DBLSIZE ) ;
-              lcd_outdezAtt( 125, 3*FH, FrskyHubData[FR_TEMP1], DBLSIZE ) ;
-              lcd_outdezAtt( 14*FW, 5*FH, FrskyHubData[FR_RPM], DBLSIZE ) ;
-
-							if ( g_model.protocol == PROTO_MULTI )
-							{
-								if ( ( g_model.sub_protocol & 0x3F ) == M_DSM )
-								{
-									if ( (g_model.ppmNCH & 0x60 )== 0x20)
-									{
-										lcd_putc( 20*FW, 6*FH, 'X' ) ;
-									}
-								}
-							}
-//							dsmDisplayABLRFH() ;
-							for ( uint8_t i = 0 ; i < 6 ; i += 1 )
-							{
-								uint16_t value = DsmABLRFH[i] ;
-								lcd_putc( i*3*(FW+1), 7*FH, pgm_read_byte( PSTR("ABLRFH") + i ) ) ;
-								if ( value == 0 )		// 0xFFFF + 1
-								{
-								  lcd_puts_P( (i+1)*3*(FW+1)-2-(2*FW), 7*FH, PSTR("--") ) ;
-								}
-								else
-								{
-									if ( value > 1000 )
-									{
-										value = 1000 ;
-									}
-								  lcd_outdezAtt( (i+1)*3*(FW+1)-1, 7*FH, value - 1, 0 ) ;
-								}
-							}
-						 }
-        }
-#endif
         else // Custom screen
+#endif 
+
         {
-							lcd_vline( 63, 8, 48 ) ;
-#ifdef V2
-							uint8_t *pindex = g_model.CustomDisplayIndex[( tview == 0 ) ? 0 : 1] ;
-              
-							for (uint8_t i=0; i<6; i++)
-							{
-								if ( *pindex )
-								{
-									uint8_t telIndex = *pindex-1 ;
-									putsTelemetryChannel( (i&1)?64:0, (i&0x0E)*FH+2*FH, telIndex, get_telemetry_value(telIndex),
-																							 DBLSIZE, TELEM_LABEL|TELEM_UNIT|TELEM_UNIT_LEFT|TELEM_VALUE_RIGHT ) ;
-								}
-								pindex += 1 ;
-							}
-#else
+              lcd_vline( 63, 8, 48 ) ;
+
               for (uint8_t i=0; i<6; i++)
-							{
-								if ( g_model.CustomDisplayIndex[i] )
-								{
-									putsTelemetryChannel( (i&1)?64:0, (i&0x0E)*FH+2*FH, g_model.CustomDisplayIndex[i]-1, get_telemetry_value(g_model.CustomDisplayIndex[i]-1),
-																							 DBLSIZE, TELEM_LABEL|TELEM_UNIT|TELEM_UNIT_LEFT|TELEM_VALUE_RIGHT ) ;
-								}
-							}
-#endif							 
-							
-//								lcd_puts_Pleft( 7*FH, Str_RXeq ) ;
-//								lcd_hbar( 20, 57, 43, 6, FrskyHubData[FR_RXRSI_COPY] ) ;
-//								putsTxStr( 110, 7*FH ) ;
-//    						lcd_putsAttIdx( 110, 7*FH, Str_TXeq, ( g_model.protocol == PROTO_PXX ), 0 ) ;
-//								lcd_hbar( 65, 57, 43, 6, FrskyHubData[FR_TXRSI_COPY] ) ;
+              {
+                      if ( g_model.CustomDisplayIndex[i] )
+                      {
+                             putsTelemetryChannel(((i&1)?58:0)+TRIMBAR_WIDTH, FH+10+(i/2)*FH,
+                              g_model.CustomDisplayIndex[i]-1, 
+                             get_telemetry_value(g_model.CustomDisplayIndex[i]-1),
+                             0, TELEM_LABEL|TELEM_UNIT|TELEM_UNIT_LEFT|TELEM_VALUE_RIGHT ) ;
+                      }
+              }
+
         }
       }
 
     }
 #endif
+
+#ifdef  USE_MULTIPLE_MAIN_WINDOWS
     else if (view < e_timer2) {
 
         doMainScreenGrphics();
 
-#ifdef XSW_MOD
-        // inputs_subview:
-        //      0             1              2
-        // THR:1 AIL:4  SW1:9  SW4:12  SW7:15 SWA:18
-        // RUD:2 GEA:5  SW2:10 SW5:13  SW8:16 SWB:19
-        // ELE:3 TRN:8  SW3:11 SW6:14  SW9:17 SWC:20
-        uint8_t a = inputs_subview + 1;
-        uint8_t b = 4;
-        int8_t s = -6;  // to get IDx   by skipping PB1=6 & PB2=7
-        if (a > 1) {
-          b = a * 6;    // 12, 18
-          a = b - 3;    // 9, 15
-          s = 0;
-        }
-        switchDisplay( 2*FW-2, a, 0 ) ;
-        switchDisplay( 17*FW-2, b, s ) ;
-#else // !XSW_MOD
+
         uint8_t a = inputs_subview;
         uint8_t b = a + 1;
         if (a != 0)
@@ -7598,20 +6908,16 @@ const static prog_uint8_t APM xt[4] = {128*1/4+2, 4, 128-4, 128*3/4-2};
           switchDisplay(17 * FW - 2, b);
         }
 
-#endif // XSW_MOD
-    } else // New Timer2 display
-    {
-#ifdef SMALL_DBL
-		displayTimer( 27+5*FW, FH*5, 1, DBLSIZE );
-#else
-		displayTimer( 30+5*FW, FH*5, 1, DBLSIZE ) ;
+    } 
 
-#endif // SMALL_DBL
+    else // New Timer2 display
+    {
+
+		displayTimer( 30+5*FW, FH*5, 1, DBLSIZE ) ;
     }
-//extern uint16_t Tval ;
-//lcd_outhex4( 0, 0, Tval ) ;
-//#if defined(CPUM128) || defined(CPUM2561)
-#if 1
+ #endif
+
+
 	if ( PopupData.PopupActive )
 	{
 		uint8_t popaction ;
@@ -7672,7 +6978,7 @@ const static prog_uint8_t APM xt[4] = {128*1/4+2, 4, 128-4, 128*3/4-2};
 #endif	
 		}
 	}
-#endif	
+
 
 	asm("") ;
 }
@@ -9227,56 +8533,6 @@ static void displayIndex( const prog_char *const strings[], uint8_t extra, uint8
 	}
 }
 
-#ifdef XSW_MOD
-#if defined(SERIAL_VOICE) && !defined(REMOVE_FROM_64FRSKY)
-// only shows qualified list element
-static uint8_t checkIndexQualified( uint8_t y, const prog_char * s, uint8_t value, uint8_t edit, uint16_t qmask )
-{
-  uint8_t x = pgm_read_byte(s++) ;
-  uint8_t max = pgm_read_byte(s++) ;
-  // assert(max <= 15);
-  // assert(qmask > 0);
-
-  if (edit) {
-    if ( ( EditColumns == 0 ) || ( s_editMode ) ) {
-      uint8_t qval = 0, maxb = 0;
-      // index of string list to qualified list index
-      for (uint8_t i = 0; i <= max; i++) {
-        if (i == value)
-          qval = maxb;
-        if ((qmask & (1 << i)) != 0) {
-          maxb++;  // count mask bit
-        }
-      }
-      // assert(maxb > 0);
-      qval = checkIncDec( qval, 0, maxb, EditType ) ;   // incDec with qualified list
-      // qualified list index to a string list index
-      for (uint8_t i = 0; i <= max; i++) {
-        if ((qmask & (1 << i)) != 0) {
-          if (qval == 0) {
-            value = i;
-            break;
-          }
-          qval--;
-        }
-      }
-    }
-  }
-  lcd_putsAttIdx( x, y, s, value, edit ? InverseBlink: 0 ) ;
-  return value ;
-}
-
-static void selectSwitchSource(uint8_t xsw, uint8_t y, uint8_t edit, uint16_t qmask)
-{
-  uint8_t prev = getSwitchSource(xsw);
-	uint8_t curr = checkIndexQualified( y, PSTR(FWx17"\016\004NONEPB7 PC0 PC4 PC6 PC7 PG2 PG5 EXT1XPD2XPD3XPD4XPB1XPC0EXT2"), prev, edit, qmask ) ; // max 7 ext switch sources
-	if (curr != prev) {
-    setSwitchSource(xsw, curr);
-    initSwitchSrcPin(curr);
-  }
-}
-#endif
-#endif  // XSW_MOD
 
 void menuProcIndex(uint8_t event)
 {
@@ -9772,18 +9028,7 @@ Str_Hardware
         putc_0_1( x+FW*6, y, tp ) ;
     	}
 
-#ifdef SWITCH_MAPPING
-			if ( g_eeGeneral.switchMapping & USE_PB1 )
-			{
-	    	lcd_puts_Pleft(1*FH,PSTR("\017PB1") ) ;
-				putc_0_1( FW*20, 1*FH, getSwitch00(HSW_Pb1) ) ;
-			}
-			if ( g_eeGeneral.switchMapping & USE_PB2 )
-			{
-	    	lcd_puts_Pleft(2*FH,PSTR("\017PB2") ) ;
-				putc_0_1( FW*20, 2*FH, getSwitch00(HSW_Pb2) ) ;
-			}
-#endif
+
 		}			 
 		break ;
 
@@ -9931,223 +9176,21 @@ Str_Hardware
 		{	
 			TITLEP( Str_Hardware ) ;
 
-#ifdef XSW_MOD
 
-#if defined(CPUM128) || defined(CPUM2561)
-      uint8_t pb7 = 0;
-      if (!parVoiceInstalled())
-        pb7 = 1;
- #ifndef SERIAL_VOICE_ONLY
-  #ifdef FRSKY
-   #define HW_LINES   (5+pb7) // bandGap,TEZr90,FrSky,M'SoundSerial,LVTrimMod(,PB7backlight)
-  #else
-   #define HW_LINES   (4+pb7) // bandGap,TEZr90,M'SoundSerial,LVTrimMod(,PB7backlight)
-  #endif
- #elif defined(FRSKY)
-   #define HW_LINES   (4+pb7) // bandGap,TEZr90,FrSky,LVTrimMod(,PB7backlight)
- #else
-  #define HW_LINES    (3+pb7) // bandGap,TEZr90,LVTrimMod(,PB7backlight)
- #endif
-#else // M64
- #ifdef FRSKY
-  #define HW_LINES    2       // bandGap,TEZr90
- #else
-  #define HW_LINES    1       // bandGap
- #endif
-#endif
 
-#if defined(SERIAL_VOICE) && !defined(REMOVE_FROM_64FRSKY)
- #define HW_EXTRA_LINES 7     // 5 3-pos switches + 2 push buttons
-#else
- #define HW_EXTRA_LINES 0
-#endif
+        #define HW_LINES		1
 
-#if defined(CPUM128) || defined(CPUM2561)
-	  IlinesCount = HW_LINES + HW_EXTRA_LINES + 4;
-#else
-	  IlinesCount = HW_LINES + HW_EXTRA_LINES ;
-#endif
 
-#if HW_EXTRA_LINES
-		if (sub < (HW_LINES + 5)) // 3 page menus (5 3-pos switches)
-    {
-		  displayNext();
-    }
-    if (sub < HW_LINES) 
-#endif
-    {
- 	    uint8_t b;
- 	    b = g_eeGeneral.disableBG ;
- 	    g_eeGeneral.disableBG = offonMenuItem( b, y, PSTR(STR_BANDGAP), sub==subN ) ;
-			
-#ifdef FRSKY
-      uint8_t f;
-  		y += FH ;
-			subN += 1 ;
-			b = g_eeGeneral.TEZr90 ;
-			f = onoffMenuItem( b, y, PSTR(STR_TEZ_R90), sub==subN ) ;
-			if ( b != f )
-			{
-			  g_eeGeneral.TEZr90 = f ;
-				FRSKY_Init( FrskyTelemetryType ) ;
-      }
-#endif
 
-#if defined(CPUM128) || defined(CPUM2561)
-      uint8_t c;
-  		y += FH ;
-			subN += 1 ;
-			b = g_eeGeneral.FrskyPins ;
-			c = onoffMenuItem( b, y, PSTR(STR_FRSKY_MOD), sub==subN ) ;
-			if ( b != c )
-			{
-			  g_eeGeneral.FrskyPins = c ;
-				if ( c )
-				{
-        	unsetSwitchSource(SSW_PC6);
-        	unsetSwitchSource(SSW_PC7);
-			    FRSKY_Init( 0 ) ;
-				}
-        else
-        {
-          FRSKY_disable() ;
-        }
-      }
 
- #ifndef SERIAL_VOICE_ONLY
-  		y += FH ;
-			subN += 1 ;
-			b = g_eeGeneral.MegasoundSerial ;
-			c = onoffMenuItem( b, y, PSTR("M'Sound Serial"), sub==subN ) ;
-			if ( b != c )
-			{
-			  g_eeGeneral.MegasoundSerial = c ;
-        if ( c)
-        {
-          serialVoiceInit();
-        }
-        else
-        {
-          g_eeGeneral.pb7backlight = 0;
-          UCSR1B = 0 ;  // disable Interrupt, TX, RX
-        }
-			}
- #endif
+        #ifndef HW_EXTRA_LINES
+        #define HW_EXTRA_LINES		0
+        #endif
 
-      y += FH ;
-      subN += 1 ;
-      b = g_eeGeneral.LVTrimMod;
-      c = onoffMenuItem( b, y, PSTR("LV Trim Mod"), (sub==subN) ? blink : 0 ) ;
-      if (b != c) {
-        g_eeGeneral.LVTrimMod = c;
-        initLVTrimPin();
-      }
 
-      if (pb7) {
-        y += FH ;
-        subN += 1 ;
-        b = g_eeGeneral.pb7backlight;
-        c = onoffMenuItem( b, y, PSTR("PB7 Backlight"), (sub==subN) ? blink : 0 ) ;
-        if (b != c) {
-          g_eeGeneral.pb7backlight = c;
-          initBacklightPin();
-        }
-      }
-#endif
-    }
-#if HW_EXTRA_LINES
-		else if ( sub < HW_LINES + HW_EXTRA_LINES )
-    {
-     uint16_t qmask = getSwitchSourceMask();
-      if (sub < (HW_LINES + 5)) {
-        subN = HW_LINES;
-        lcd_puts_Pleft( y, PSTR("3-Pos Switches\035THR\035RUD\035ELE\035AIL\035GEA") );
-        for ( uint8_t i = 0 ; i < 5 ; i++ ) {
-          y += FH ;
-          selectSwitchSource(i, y, (sub==subN), qmask);
-          subN += 1 ;
-        }
-      } else {
-        subN = (HW_LINES + 5);
-        lcd_puts_Pleft( y, PSTR("Push Buttons\035PB1\035PB2") );
-        selectSwitchSource(5, y+FH, (sub==subN), qmask);
-        selectSwitchSource(6, y+FH*2, (sub==(subN+1)), qmask);
-			}
-    }
-		else
-		{
-			uint8_t subN = HW_LINES + HW_EXTRA_LINES ;
-
-			uint8_t attr = 0 ;
-			uint16_t db = (g_eeGeneral.stickDeadband & 0x00F0 ) >> 4 ;
-  		if(sub==subN) { attr = blink ; CHECK_INCDEC_H_GENVAR_0( db, 15 ) ; }
-			lcd_xlabel_decimal( 20*FW, y, db, attr, PSTR("Stick LV deadband") ) ;
-			g_eeGeneral.stickDeadband = ( g_eeGeneral.stickDeadband & 0xFF0F ) | ( db << 4 ) ;
-			y += FH ;
- 			subN++;
-
-			attr = 0 ;
-			db = g_eeGeneral.stickDeadband & 0x000F ;
-  		if(sub==subN) { attr = blink ; CHECK_INCDEC_H_GENVAR_0( db, 15 ) ; }
-			lcd_xlabel_decimal( 20*FW, y, db, attr, PSTR("Stick LH deadband") ) ;
-			g_eeGeneral.stickDeadband = ( g_eeGeneral.stickDeadband & 0xFFF0 ) | db ;
- 			y += FH ;
- 			subN++;
-
-			attr = 0 ;
-			db = (g_eeGeneral.stickDeadband & 0x0F00 ) >> 8 ;
-  		if(sub==subN) { attr = blink ; CHECK_INCDEC_H_GENVAR_0( db, 15 ) ; }
-			lcd_xlabel_decimal( 20*FW, y, db, attr, PSTR("Stick RV deadband") ) ;
-			g_eeGeneral.stickDeadband = ( g_eeGeneral.stickDeadband & 0xF0FF ) | ( db << 8 ) ;
- 			y += FH ;
- 			subN++;
-
-			attr = 0 ;
-			db = (g_eeGeneral.stickDeadband & 0xF000 ) >> 12 ;
-  		if(sub==subN) { attr = blink ; CHECK_INCDEC_H_GENVAR_0( db, 15 ) ; }
-			lcd_xlabel_decimal( 20*FW, y, db, attr, PSTR("Stick RH deadband") ) ;
-			g_eeGeneral.stickDeadband = ( g_eeGeneral.stickDeadband & 0x0FFF ) | ( db << 12 ) ;
- 			y += FH ;
- 			subN++;
-
-		}
-#endif
-
-#else // !XSW_MOD
-
-#if defined(CPUM128) || defined(CPUM2561)
-//			IlinesCount = 4 ;
-#define HW_LINES		4
-#else
-#ifdef FRSKY
-#define HW_LINES		2
-#else
-#define HW_LINES		1
-#endif
-#endif
-#ifdef SERIAL_VOICE
- #ifdef SWITCH_MAPPING
-  #ifndef REMOVE_FROM_64FRSKY
-   #define HW_EXTRA_LINES		7
-  #endif
- #endif
-#endif
-#ifndef HW_EXTRA_LINES
-#define HW_EXTRA_LINES		0
-#endif
-
-#if defined(CPUM128) || defined(CPUM2561)
-	IlinesCount = HW_LINES + HW_EXTRA_LINES + 4 ;
-#else
 	IlinesCount = HW_LINES + HW_EXTRA_LINES ;
-#endif
 
-#if HW_EXTRA_LINES
-		if ( sub < HW_LINES )
-		{
-			uint8_t subN = 0 ;
-			displayNext() ;
-#endif
+
 
  	    uint8_t b ;
  	    b = g_eeGeneral.disableBG ;
@@ -10155,187 +9198,12 @@ Str_Hardware
   		y += FH ;
 			subN += 1 ;
 			
-#ifdef FRSKY
-			b = g_eeGeneral.TEZr90 ;
-			uint8_t c ;
-			c = onoffMenuItem( b, y, PSTR(STR_TEZ_R90), sub==subN ) ;
-			g_eeGeneral.TEZr90 = c ;
-			if ( b != c )
-			{
-				FRSKY_Init( FrskyTelemetryType ) ;
-			}
-  		y += FH ;
-			subN += 1 ;
-#endif			
+	
 
-#if defined(CPUM128) || defined(CPUM2561)
-			b = g_eeGeneral.FrskyPins ;
-			c = onoffMenuItem( b, y, PSTR(STR_FRSKY_MOD), sub==subN ) ;
-			g_eeGeneral.FrskyPins = c ;
-			if ( b != c )
-			{
-				if ( c )
-				{
-					FRSKY_Init( 0 ) ;
-				}
-				else
-				{
-					FRSKY_disable() ;
-				}
-			}
-  		y += FH ;
-			subN += 1 ;
- #endif
 
-#if defined(CPUM128) || defined(CPUM2561)
- #ifndef SERIAL_VOICE_ONLY
-  #ifndef FRSKY			
-			uint8_t c ;
-  #endif
-			b = g_eeGeneral.MegasoundSerial ;
-			c = onoffMenuItem( b, y, PSTR("M'Sound Serial"), sub==subN ) ;
-			g_eeGeneral.MegasoundSerial = c ;
-			if ( b != c )
-			{
-				if ( c )
-				{
-					serialVoiceInit() ;
-				}
-				else
-				{
-					UCSR1B = 0 ; // disable Interrupt, TX, RX
-				}
-			}
-  		y += FH ;
-			subN += 1 ;
- #endif
-#endif
 
-#if HW_EXTRA_LINES
-		}
-		else if ( sub < HW_LINES + HW_EXTRA_LINES )
-		{
-			uint8_t subN = HW_LINES ;
-#endif
 
-#ifdef SERIAL_VOICE
-#ifdef SWITCH_MAPPING
- #ifndef REMOVE_FROM_64FRSKY
-  		lcd_puts_Pleft( y, PSTR("ELE switch\037AIL switch\037PB1 switch\037PB2 switch\037PG2 Input\037PB7 Input\037L-WR Input"));
-			uint8_t i ;
-			for ( i = 0 ; i < 4 ; i += 1 )
-			{
-				uint8_t sm = g_eeGeneral.switchMapping ;
-				uint8_t mask ;
-				uint8_t value ;
-				switch ( i )
-				{
-					case 1 :
-						mask = USE_AIL_3POS ;
-						value = g_eeGeneral.ail2source ;
-					break ;
-					case 2 :
-						mask = USE_PB1 ;
-						value = g_eeGeneral.pb1source ;
-					break ;
-					case 3 :
-						mask = USE_PB2 ;
-						value = g_eeGeneral.pb2source ;
-					break ;
-					default :    
-						mask = USE_ELE_3POS ;
-						value = g_eeGeneral.ele2source ;
-					break ;
-				}
-				
-				value = checkIndexed( y, PSTR(FWx17"\007\004NONEEXT1EXT2PC0 PG2 PB7 PG5 L-WR"), value, (sub==subN) ) ;
 
-				g_eeGeneral.switchMapping = sm & ~(mask) ;
-				if ( value )
-				{
-					g_eeGeneral.switchMapping |= mask ;
-				} 
-				if ( sm != g_eeGeneral.switchMapping )
-				{
-					createSwitchMapping() ;
-				}
-				switch ( i )
-				{
-					case 1 :
-						g_eeGeneral.ail2source = value ;
-					break ;
-					case 2 :
-						g_eeGeneral.pb1source = value ;
-					break ;
-					case 3 :
-						g_eeGeneral.pb2source = value ;
-					break ;
-					default :    
-						g_eeGeneral.ele2source = value ;
-					break ;
-				}
-				y += FH ;
-				subN += 1 ;
-			}
-
-  		uint8_t attr = (sub==subN) ? blink : 0 ;
-			g_eeGeneral.pg2Input = onoffItem( g_eeGeneral.pg2Input, y, attr ) ;
-			y += FH ;
-			subN += 1 ;
-  		
-			attr = (sub==subN) ? blink : 0 ;
-			g_eeGeneral.pb7Input = onoffItem( g_eeGeneral.pb7Input, y, attr ) ;
-
-			y += FH ;
-			subN += 1 ;
-  		
-			attr = (sub==subN) ? blink : 0 ;
-			g_eeGeneral.lcd_wrInput = onoffItem( g_eeGeneral.lcd_wrInput, y, attr ) ;
-
-  #endif
- #endif
- #endif
-#if HW_EXTRA_LINES
-		}
-		else
-		{
-			uint8_t subN = HW_LINES + HW_EXTRA_LINES ;
-
-			uint8_t attr = 0 ;
-			uint8_t db = g_eeGeneral.stickDeadband & 0x000F ;
-  		if(sub==subN) { attr = blink ; CHECK_INCDEC_H_MODELVAR_0( db, 15 ) ; }
-			lcd_xlabel_decimal( 20*FW, y, db, attr, PSTR("Stick LV deadband") ) ;
-			g_eeGeneral.stickDeadband = ( g_eeGeneral.stickDeadband & 0xFFF0 ) | db ;
-			y += FH ;
- 			subN++;
-
-			attr = 0 ;
-			db = (g_eeGeneral.stickDeadband & 0x00F0 ) >> 4 ;
-  		if(sub==subN) { attr = blink ; CHECK_INCDEC_H_MODELVAR_0( db, 15 ) ; }
-			lcd_xlabel_decimal( 20*FW, y, db, attr, PSTR("Stick LH deadband") ) ;
-			g_eeGeneral.stickDeadband = ( g_eeGeneral.stickDeadband & 0xFF0F ) | ( db << 4 ) ;
- 			y += FH ;
- 			subN++;
-
-			attr = 0 ;
-			db = (g_eeGeneral.stickDeadband & 0x0F00 ) >> 8 ;
-  		if(sub==subN) { attr = blink ; CHECK_INCDEC_H_MODELVAR_0( db, 15 ) ; }
-			lcd_xlabel_decimal( 20*FW, y, db, attr, PSTR("Stick RV deadband") ) ;
-			g_eeGeneral.stickDeadband = ( g_eeGeneral.stickDeadband & 0xF0FF ) | ( db << 8 ) ;
- 			y += FH ;
- 			subN++;
-
-			attr = 0 ;
-			db = (g_eeGeneral.stickDeadband & 0xF000 ) >> 12 ;
-  		if(sub==subN) { attr = blink ; CHECK_INCDEC_H_MODELVAR_0( db, 15 ) ; }
-			lcd_xlabel_decimal( 20*FW, y, db, attr, PSTR("Stick RH deadband") ) ;
-			g_eeGeneral.stickDeadband = ( g_eeGeneral.stickDeadband & 0x0FFF ) | ( db << 12 ) ;
- 			y += FH ;
- 			subN++;
-
-		}
-#endif
-#endif  // XSW_MOD
     }
 		break ;
 
@@ -11662,7 +10530,7 @@ Str_Protocol
 			lcd_outdez( 14*FW, 1*FH,y512*25/((signed) RESXu/4) );
 	
 			int8_t xv = (x512 * WCHART + RESX/2) / RESX + XD ;
-  		int8_t yv = Y0 - (y512 * WCHART + RESX/2) / RESX ;
+                        int8_t yv = Y0 - (y512 * WCHART + RESX/2) / RESX ;
 
 			lcd_vline( xv, yv-3, 7 ) ;
 			lcd_hline( xv-3, yv, 7 ) ;

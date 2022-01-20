@@ -19,6 +19,49 @@
 #include "er9x.h"
 #define SPEAKER_OFF  Buzzer_ClrVal();//PORTE &= ~(1 << OUT_E_BUZZER) // speaker output 'low'
 
+
+
+void DoSum(uint8_t* Str, uint8_t len)
+{
+	uint16_t xorsum = 0;
+	uint8_t i;
+
+	for (i = 0; i < len; i++)
+	{
+		xorsum = xorsum + Str[i];
+	}
+	xorsum = 0 - xorsum;
+	*(Str + i) = (uint8_t)(xorsum >> 8);
+	*(Str + i + 1) = (uint8_t)(xorsum & 0x00ff);
+
+	
+}
+
+uint8_t play_cmd_buf[] = {
+0x7E,0xFF ,0x06 ,0x12 ,
+0x00 ,0x00 ,0x01 ,0xFE ,
+0xE8 ,0xEF };
+
+int Uart_SendCMD(uint8_t CMD, uint8_t feedback, uint16_t dat)
+{
+	//DWORD numWritten = 0;
+	//DWORD readsize;
+
+	char buffer[10];
+	play_cmd_buf[2] = 0x06;    //
+	play_cmd_buf[3] = CMD;     //Ö¸
+	play_cmd_buf[4] = feedback;//Ç·Òª
+	play_cmd_buf[5] = (uint8_t)(dat >> 8);//datah
+	play_cmd_buf[6] = (uint8_t)(dat);     //datal
+	DoSum(&play_cmd_buf[1], 6);        //Ð£
+        sendSerialVoiceData(play_cmd_buf,10);
+	return 1;
+}
+
+
+#define playMP3VoiceFile(x) Uart_SendCMD(0x12, 0, x)
+ 
+
 static void HAPTIC_ON()
 {
 #ifdef XSW_MOD
@@ -388,7 +431,7 @@ void audioVoiceDefevent( uint8_t e, uint8_t v)
 	}
 	else
 	{
-    audioDefevent( e ) ;
+                audioDefevent( e ) ;
 	}
 }
 
@@ -403,7 +446,7 @@ void voice_numeric( int16_t value, uint8_t num_decimals, uint8_t units_index )
 
 	if ( units_index > 127 )
 	{
-		putVoiceQueue( units_index ) ;
+		putVoiceQueue( units_index ) ;  //? WHAT ?
 	}
 
 	if ( value < 0 )
@@ -432,24 +475,26 @@ void voice_numeric( int16_t value, uint8_t num_decimals, uint8_t units_index )
 			xr = div( qr.quot, 10 ) ;
 			if ( xr.quot < 21 )
 			{
-				putVoiceQueue( xr.quot + 110 ) ;
+				putVoiceQueue( xr.quot + 110 ) ; //0111 To 0119 â€ THOUSANDS From One Thousand To Nine 
+                                                                 //0120 To 0130-TEN THOUSAND to TWENTY THOUSAND
 			}
 			else
 			{
-				putVoiceQueueUpper( xr.quot + 140 ) ;
-				putVoiceQueue( V_THOUSAND ) ;
+				putVoiceQueueUpper( xr.quot + 140 ) ; //0400 To 0499 â€Numbers from â€œZeroâ€to â€œNinety Nineâ€
+				putVoiceQueue( V_THOUSAND ) ; 
 			}
 			qr.quot = xr.rem ;
 		}
-		if ( qr.quot )
+                else if ( qr.quot )
 		{
-			putVoiceQueue( qr.quot + 100 ) ;
+			putVoiceQueue( qr.quot + 100 ) ; //0101 To 0109 â€ HUNDREDS From One Hundred To Nine Hundred
 		}
+
 		if ( flag == 0 )
 		{
 			if ( qr.rem )
 			{
-				putVoiceQueueUpper( qr.rem + 140 ) ;
+				putVoiceQueueUpper( qr.rem + 140 ) ;//0400 To 0499 â€Numbers from â€œZeroâ€to â€œNinety Nineâ€
 			}
 		}
 		else
@@ -457,13 +502,13 @@ void voice_numeric( int16_t value, uint8_t num_decimals, uint8_t units_index )
 			if ( qr.rem )
 			{
 				qr.rem -= qr.rem % 10 ;
-				putVoiceQueueUpper( qr.rem + 140 ) ;
+				putVoiceQueueUpper( qr.rem + 140 ) ; //0400 To 0499 â€Numbers from â€œZeroâ€to â€œNinety Nineâ€
 			}
 		}
 	}
 	else
 	{
-		putVoiceQueueUpper( qr.rem + 140 ) ;
+		putVoiceQueueUpper( qr.rem + 140 ) ; //0400 To 0499 â€Numbers from â€œZeroâ€to â€œNinety Nineâ€
 	}
 
 	if ( num_decimals )
@@ -471,12 +516,12 @@ void voice_numeric( int16_t value, uint8_t num_decimals, uint8_t units_index )
 		if ( num_decimals == 2 )
 		{
 			qr = div( decimals, 10 ) ;
-			putVoiceQueue( qr.quot + 6 ) ;		// Point x
-			putVoiceQueueUpper( qr.rem + 140 ) ;
+			putVoiceQueue( qr.quot + 6 ) ;		// Point x 0006- Point zero  to  0015- Point nine
+			putVoiceQueueUpper( qr.rem + 140 ) ;  //0400 To 0499 â€Numbers from â€œZeroâ€to â€œNinety Nineâ€
 		}
 		else
 		{
-			putVoiceQueue( decimals + 6 ) ;		// Point x
+			putVoiceQueue( decimals + 6 ) ;		// Point x 0006- Point zero  to  0015- Point nine
 		}
 	}
 
@@ -484,12 +529,136 @@ void voice_numeric( int16_t value, uint8_t num_decimals, uint8_t units_index )
 	{
 		putVoiceQueue( units_index ) ;
 	}
-	asm("") ;
+
 }
 
-//struct t_voice *voiceaddress()
-//{
-//	return &Voice ;
-//}
+void play_voice(int category, int value,int nfrac,int unit)
+{
+	playMP3VoiceFile(category);
+        voice_numeric(value,nfrac,unit);
+}
 
 
+void putVoiceQueueUpper( uint8_t value )
+{
+	putVoiceQueueLong( value + 260 ) ;
+}
+
+
+void putVoiceQueue( uint8_t value )
+{
+	putVoiceQueueLong( value ) ;
+}
+
+void setVolume( uint8_t value )
+{
+        CurrentVolume = value ;
+      
+        value = imap(value,0,7,0,30);
+       // value = 6;
+
+
+        Uart_SendCMD(0x06,0,value);
+
+	//putVoiceQueueLong( value + 0xFFF0 ) ;
+//	putVoiceQueueLong( value | VQ_VOLUME ) ;
+}
+
+void putVoiceQueueLong( uint16_t value )
+{
+	struct t_voice *vptr ;
+	vptr = &Voice ;
+	FORCE_INDIRECT(vptr) ;
+
+	if ( vptr->VoiceQueueCount < VOICE_Q_LENGTH )
+	{
+		vptr->VoiceQueue[vptr->VoiceQueueInIndex++] = value ;
+		if (vptr->VoiceQueueInIndex > ( VOICE_Q_LENGTH - 1 ) )
+		{
+			vptr->VoiceQueueInIndex = 0 ;
+		}
+		vptr->VoiceQueueCount += 1 ;
+	}
+}
+
+void on_voice_cb(uint8_t *buf, uint8_t dat)
+{
+ //static uint8_t cmd_num_recv =0;
+ #if 0  
+      
+    static uint8_t bcmd_hdr_got = 0; 
+    static uint8_t recv_cmd_buf[10];
+    if(!bcmd_hdr_got )
+    {
+      if(dat ==0x7E)
+      {
+         cmd_num_recv =0;
+         bcmd_hdr_got = 1;
+         recv_cmd_buf[cmd_num_recv++] = dat;
+      }
+    }
+    else
+    {
+        if(cmd_num_recv==1 && dat !=0xff)
+        {
+              //malformat packet.
+             bcmd_hdr_got = 0;
+             return ;
+        }
+        recv_cmd_buf[cmd_num_recv++] = dat;
+        if(cmd_num_recv>10)
+        {
+            bcmd_hdr_got = 0;
+            Voice.VoiceState = V_IDLE;
+        }
+    }
+ #else
+  //cmd_num_recv ++;
+  //if(cmd_num_recv==10)
+  //{
+  //  cmd_num_recv = 0;
+    Voice.VoiceState = V_IDLE;
+    Voice.voice_process();
+  //}
+ #endif
+ 
+}
+
+
+void t_voice::voice_process(void)
+{
+	if ( g_eeGeneral.speakerMode & 2 )
+	{
+
+              if ( VoiceState == V_IDLE && VoiceQueueCount )
+              {
+                 
+                    uint8_t t = VoiceQueueOutIndex ;
+                    uint16_t lvoiceSerial = VoiceQueue[t] ;
+                    if (++t > ( VOICE_Q_LENGTH - 1 ) )
+                    {
+                            t = 0 ;
+                    }
+                    VoiceQueueOutIndex = t ;
+                    VoiceQueueCount -= 1 ;
+                    if ( SystemOptions & SYS_OPT_MUTE )
+                    {
+                            return ;
+                    }
+                    
+                    playMP3VoiceFile(lvoiceSerial);
+           
+              }
+              else if ( VoiceState == V_STARTUP )
+              {
+                      if ( g_blinkTmr10ms > 60 )					// Give module 1.4 secs to initialise
+                      {
+                              VoiceState = V_IDLE ;
+                              setVolume(2);
+                      }
+              }
+      
+	}
+
+
+}

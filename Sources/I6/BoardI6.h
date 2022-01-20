@@ -55,7 +55,7 @@ extern "C" {
 #define SWD_PORT_MASK 0x10U            /*!< Mask of the allocated pin from the port */
 #define SWD_GetVal() ((FPTD->PDIR & SWD_PORT_MASK)? 1 : 0 )
 
-#define Buzzer_PORT_MASK 0x1000U       /*!< Mask of the allocated pin from the port */
+#define Buzzer_PORT_MASK 0x1000U       /*!< Mask of the allocated pin from the port */  //pa12
 
 #define RF0_PORT_MASK 0x80U            /*!< Mask of the allocated pin from the port */
 #define RF1_PORT_MASK 0x08U            /*!< Mask of the allocated pin from the port */
@@ -85,6 +85,8 @@ void TPM2_IRQHandler(void);
 void UART2_IRQHandler(void);
 void UART0_IRQHandler(void);
 void DMA0_IRQHandler();
+void DMA1_IRQHandler();
+void DMA2_IRQHandler();
 #ifdef __cplusplus
 }  /* extern "C" */
 #endif 
