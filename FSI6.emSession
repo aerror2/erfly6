@@ -1,10 +1,11 @@
 <!DOCTYPE CrossStudio_Session_File>
 <session>
  <Bookmarks>
-  <BookmarkItem objectName="" line="6535" column="0" path="E:/AVIA/ERFly6/Sources/menus.cpp" number="1" extra="lcd_putsAttIdx( x, y, Str_Switches, index, /*getSwitch00(index+1) ? INVERS :*/ 0) ;" color="5"/>
   <BookmarkItem objectName="" line="7571" column="0" path="E:/AVIA/ERFly6/Sources/menus.cpp" number="2" extra="switchDisplay( 2*FW-2, a ) ;" color="5"/>
+  <BookmarkItem objectName="" line="6535" column="0" path="E:/AVIA/ERFly6/Sources/menus.cpp" number="1" extra="lcd_putsAttIdx( x, y, Str_Switches, index, /*getSwitch00(index+1) ? INVERS :*/ 0) ;" color="5"/>
  </Bookmarks>
  <Breakpoints groups="Breakpoints" active_group="Breakpoints">
+  <BreakpointListItem trigger="" line="13" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="2" filename="Sources/I6/BoardI6.cpp" useHWbreakpoint="false"/>
   <BreakpointListItem trigger="" line="6564" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="Sources/menus.cpp" useHWbreakpoint="false"/>
  </Breakpoints>
  <ExecutionProfileWindow/>
@@ -77,24 +78,28 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="30" y="428" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/drivers.cpp" selected="0" top="489" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="27" y="1513" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/I6/BoardI6.cpp" selected="0" top="1497" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="2" y="4867" useTextEdit="1" openedFrom="E:/src/repo/ERFly6/drivers/fsl_uart_dma.c" useBinaryEdit="0" left="0" path="CMSIS_4/CMSIS/Include/MKL16Z4.h" selected="0" top="4847" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="55" y="628" useTextEdit="1" openedFrom="E:/src/repo/ERFly6/drivers/fsl_lpsci.c" useBinaryEdit="0" left="0" path="drivers/fsl_lpsci.h" selected="0" top="583" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="42" y="638" useTextEdit="1" openedFrom="E:/src/repo/ERFly6/drivers/fsl_lpsci.h" useBinaryEdit="0" left="0" path="drivers/fsl_lpsci.c" selected="0" top="597" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="57" y="551" useTextEdit="1" openedFrom="E:/src/repo/ERFly6/drivers/fsl_lpsci.c" useBinaryEdit="0" left="0" path="drivers/fsl_clock.h" selected="0" top="520" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="8" y="186" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="drivers/fsl_common.h" selected="0" top="140" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="22" y="193" useTextEdit="1" openedFrom="E:/src/repo/ERFly6/Sources/crossfire/crossfire.cpp" useBinaryEdit="0" left="0" path="Sources/crossfire/crossfire.h" selected="1" top="189" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="17" y="4" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/main.cpp" selected="0" top="0" codecName=""/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="39" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Kinetis_KL/Source/MKL16Z4_Vectors.s" selected="0" top="9" codecName=""/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="21" y="99" useTextEdit="1" openedFrom="E:/src/repo/ERFly6/Sources/crossfire/crossfire.cpp" useBinaryEdit="0" left="0" path="Sources/iface_a7105.h" selected="0" top="54" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="67" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="drivers/fsl_uart_dma.c" selected="0" top="53" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="8" y="23" useTextEdit="1" openedFrom="E:/src/repo/ERFly6/Sources/menus.cpp" useBinaryEdit="0" left="0" path="Sources/lcd.h" selected="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="33" y="6889" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/menus.cpp" selected="0" top="6842" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/I6/BoardI6.h" selected="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/crossfire/crossfire.cpp" selected="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/crossfire/elrsV2.cpp" selected="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/crossfire/crc_crsf.cpp" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="31" y="565" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/crossfire/elrsV2.cpp" selected="0" top="136" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="18" y="287" useTextEdit="1" openedFrom="/Volumes/p1t2/receiver/repo/ERFly6/Sources/crossfire/elrsV2.cpp" useBinaryEdit="0" left="0" path="Sources/lcd.cpp" selected="0" top="270" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="7" y="348" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/crossfire/crossfire.cpp" selected="0" top="345" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="61" y="66" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Kinetis_KL/CMSIS/Device/Source/system_MKL16Z4.c" selected="0" top="30" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Kinetis_KL/CMSIS/Device/Include/MKL16Z4.h" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="26" y="11" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/stamp.cpp" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="16" y="17" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/I6/BoardI6.h" selected="1" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/audio.cpp" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/crossfire/crossfire.h" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/AFHDS2A_a7105.cpp" selected="0" top="21" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/lcd.h" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/s9xsplash.lbm" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/pers.cpp" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="57" y="8789" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/menus.cpp" selected="0" top="8768" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/file.cpp" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/I6/BoardI6.cpp" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/AFHDS.cpp" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/LoRa/common.cpp" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/audio.h" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/en.h" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/er9x.cpp" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/drivers.cpp" selected="0" top="0" codecName="Default"/>
  </Files>
- <ARMCrossStudioWindow activeProject="FSI6" fileDialogDefaultFilter="*" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="E:/AVIA/ERFly6/I6/SEGGER_THUMB_Startup.s&#xa;E:/AVIA/ERFly6/Sources/I6/SEGGER_THUMB_Startup.s" fileDialogInitialDirectory="E:/src/repo/ERFly6/drivers" debugSearchPath="" autoConnectCapabilities="3199"/>
+ <ARMCrossStudioWindow activeProject="FSI6" fileDialogDefaultFilter="*" autoConnectTarget="J-Link" buildConfiguration="Release" sessionSettings="" debugSearchFileMap="E:/AVIA/ERFly6/I6/SEGGER_THUMB_Startup.s&#xa;E:/AVIA/ERFly6/Sources/I6/SEGGER_THUMB_Startup.s" fileDialogInitialDirectory="E:/src/repo/ERFly6/drivers" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>

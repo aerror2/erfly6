@@ -581,45 +581,56 @@ void putVoiceQueueLong( uint16_t value )
 	}
 }
 
-void on_voice_cb(uint8_t *buf, uint8_t dat)
+static uint8_t wait_fin_count = 0;
+void on_voice_cb(uint8_t *buf, uint8_t len)
 {
- //static uint8_t cmd_num_recv =0;
+   // static uint8_t cmd_num_recv =0;
  #if 0  
-      
-    static uint8_t bcmd_hdr_got = 0; 
-    static uint8_t recv_cmd_buf[10];
-    if(!bcmd_hdr_got )
-    {
-      if(dat ==0x7E)
-      {
-         cmd_num_recv =0;
-         bcmd_hdr_got = 1;
-         recv_cmd_buf[cmd_num_recv++] = dat;
-      }
-    }
-    else
-    {
-        if(cmd_num_recv==1 && dat !=0xff)
+   
+   for(int i =0;i < len ; i++)
+   {   
+        uint8_t dat = buf[i];
+     
+        static uint8_t bcmd_hdr_got = 0; 
+        static uint8_t recv_cmd_buf[10];
+        if(!bcmd_hdr_got )
         {
-              //malformat packet.
-             bcmd_hdr_got = 0;
-             return ;
+          if(dat ==0x7E)
+          {
+             cmd_num_recv =0;
+             bcmd_hdr_got = 1;
+             recv_cmd_buf[cmd_num_recv++] = dat;
+          }
         }
-        recv_cmd_buf[cmd_num_recv++] = dat;
-        if(cmd_num_recv>10)
+        else
         {
-            bcmd_hdr_got = 0;
-            Voice.VoiceState = V_IDLE;
+            if(cmd_num_recv==1 && dat !=0xff)
+            {
+                  //malformat packet.
+                 bcmd_hdr_got = 0;
+                 return ;
+            }
+            recv_cmd_buf[cmd_num_recv++] = dat;
+            if(cmd_num_recv==10)
+            {
+                bcmd_hdr_got = 0;
+                  if(recv_cmd_buf[3]==0x3D ||  recv_cmd_buf[3] == 0x40)
+                  {
+                       Voice.VoiceState = VST_FIN_WAIT;
+                  }
+            }
         }
     }
  #else
-  //cmd_num_recv ++;
-  //if(cmd_num_recv==10)
-  //{
-  //  cmd_num_recv = 0;
-    Voice.VoiceState = V_IDLE;
-    Voice.voice_process();
-  //}
+ // cmd_num_recv +=len;
+  //7E FF 06 3D
+  //if(cmd_num_recv==10 && buf[2] ==6 &&  (buf[3]==0x3D ||  buf[3] == 0x40))
+  {
+    //cmd_num_recv = 0;
+    if(VST_WAITING == Voice.VoiceState)
+       Voice.VoiceState = VST_FIN_WAIT;
+       wait_fin_count =0;
+  }
  #endif
  
 }
@@ -627,10 +638,10 @@ void on_voice_cb(uint8_t *buf, uint8_t dat)
 
 void t_voice::voice_process(void)
 {
-	if ( g_eeGeneral.speakerMode & 2 )
+	if ( g_eeGeneral.speakerMode  )
 	{
 
-              if ( VoiceState == V_IDLE && VoiceQueueCount )
+              if ( VoiceState == VST_IDLE && VoiceQueueCount )
               {
                  
                     uint8_t t = VoiceQueueOutIndex ;
@@ -647,14 +658,20 @@ void t_voice::voice_process(void)
                     }
                     
                     playMP3VoiceFile(lvoiceSerial);
+                    VoiceState = VST_WAITING;
            
               }
-              else if ( VoiceState == V_STARTUP )
+              else if(VoiceState == VST_FIN_WAIT)
+              {
+                  if(wait_fin_count++ ==3)
+                     Voice.VoiceState = VST_IDLE;
+              }
+              else if ( VoiceState == VST_STARTUP )
               {
                       if ( g_blinkTmr10ms > 60 )					// Give module 1.4 secs to initialise
                       {
-                              VoiceState = V_IDLE ;
-                              setVolume(2);
+                              VoiceState = VST_IDLE ;
+                            //  setVolume(2);
                       }
               }
       

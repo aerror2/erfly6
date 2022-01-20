@@ -8552,116 +8552,118 @@ void menuProcIndex(uint8_t event)
 	switch ( MenuControl.SubmenuIndex )
 	{
 		case M_INDEX :
-  		TITLEP(Str_Radio_Setup);
+                        TITLEP(Str_Radio_Setup);
 			IlinesCount = ( SystemOptions & SYS_OPT_HARDWARE_EDIT ) ? 11 : 10 ;
 			sub += 1 ;
 
-static const prog_char *const n_Strings[11] = {
-Str_Display,
-Str_AudioHaptic,
-Str_Alarms,
-Str_General,
-Str_Controls,
-Str_Calibration,
-Str_Trainer,
-Str_Version,
-Str_DiagSwtch,
-Str_DiagAna,
-Str_Hardware
-} ;	
+                        static const prog_char *const n_Strings[11] = {
+                        Str_Display,
+                        Str_AudioHaptic,
+                        Str_Alarms,
+                        Str_General,
+                        Str_Controls,
+                        Str_Calibration,
+                        Str_Trainer,
+                        Str_Version,
+                        Str_DiagSwtch,
+                        Str_DiagAna,
+                        Str_Hardware
+                        } ;	
 
 			displayIndex( n_Strings, IlinesCount - 7, 7, sub ) ;
 		break ;
 	
 		case M_DISPLAY :
 		{	
-      TITLEP( Str_Display ) ;
-#ifdef XSW_MOD
- #if defined(CPUM128) || defined(CPUM2561)
-  #define ROTATE_SCREEN  1
- #else
-  #define ROTATE_SCREEN  0
- #endif
- #ifndef MINIMISE_CODE    
-			IlinesCount = 6 + ROTATE_SCREEN;
- #else
-			IlinesCount = 5 ;
- #endif
-#else
-			IlinesCount = 6 ;
-#endif
-  		uint8_t attr ;
-//			y = FH ;
-			attr = (sub==subN) ? blink : 0 ;
-			lcd_xlabel_decimal( PARAM_OFS+3*FW-2, y, g_eeGeneral.contrast, attr, PSTR(STR_CONTRAST) ) ;
-      if ( attr )
-			{
-				CHECK_INCDEC_H_GENVAR( g_eeGeneral.contrast, LCD_MINCONTRAST, LCD_MAXCONTRAST) ;
-				lcdSetContrast() ;
-			}
-			y += FH ;
-			subN += 1 ;
+                    TITLEP( Str_Display ) ;
+                    #ifdef XSW_MOD
+                    #if defined(CPUM128) || defined(CPUM2561)
+                    #define ROTATE_SCREEN  1
+                    #else
+                    #define ROTATE_SCREEN  0
+                    #endif
+                    #ifndef MINIMISE_CODE    
+                    IlinesCount = 6 + ROTATE_SCREEN;
+                    #else
+                    IlinesCount = 5 ;
+                    #endif
+                    #else
+                    IlinesCount = 6 ;
+                    #endif
+                    uint8_t attr ;
+                    //			y = FH ;
+                    attr = (sub==subN) ? blink : 0 ;
+                    lcd_xlabel_decimal( PARAM_OFS+3*FW-2, y, g_eeGeneral.contrast, attr, PSTR(STR_CONTRAST) ) ;
+                    if ( attr )
+                    {
+                            CHECK_INCDEC_H_GENVAR( g_eeGeneral.contrast, LCD_MINCONTRAST, LCD_MAXCONTRAST) ;
+                            lcdSetContrast() ;
+                    }
+                    y += FH ;
+                    subN += 1 ;
 
-			attr = 0 ;
-#ifndef MINIMISE_CODE    
-      lcd_puts_Pleft( y,PSTR(STR_LIGHT_SWITCH "\037" STR_LIGHT_INVERT "\037" STR_LIGHT_AFTER "\037" STR_LIGHT_STICK "\037" STR_FLASH_ON_BEEP
-#else
-      lcd_puts_Pleft( y,PSTR(STR_LIGHT_SWITCH "\037" STR_LIGHT_INVERT "\037" STR_LIGHT_AFTER "\037" STR_LIGHT_STICK
-#endif
-#if ROTATE_SCREEN
-        "\037" STR_ROTATE
-#endif
-      ));
-      if(sub==subN) { attr = blink ; CHECK_INCDEC_GENERALSWITCH( g_eeGeneral.lightSw, -MaxSwitchIndex, MaxSwitchIndex );}
-      putsDrSwitches(PARAM_OFS-FW,y,g_eeGeneral.lightSw,attr);
-			y += FH ;
-			subN += 1 ;
+                    attr = 0 ;
+                    #ifndef MINIMISE_CODE    
+                    lcd_puts_Pleft( y,PSTR(STR_LIGHT_SWITCH "\037" STR_LIGHT_INVERT "\037" STR_LIGHT_AFTER "\037" STR_LIGHT_STICK "\037" STR_FLASH_ON_BEEP
+                    #else
+                    lcd_puts_Pleft( y,PSTR(STR_LIGHT_SWITCH "\037" STR_LIGHT_INVERT "\037" STR_LIGHT_AFTER "\037" STR_LIGHT_STICK
+                    #endif
+                    #if ROTATE_SCREEN
+                    "\037" STR_ROTATE
+                    #endif
+                    ));
+                    if(sub==subN) { attr = blink ; CHECK_INCDEC_GENERALSWITCH( g_eeGeneral.lightSw, -MaxSwitchIndex, MaxSwitchIndex );}
+                    putsDrSwitches(PARAM_OFS-FW,y,g_eeGeneral.lightSw,attr);
+                    y += FH ;
+                    subN += 1 ;
 
-      g_eeGeneral.blightinv = onoffItem( g_eeGeneral.blightinv, y, sub==subN ) ;
-			y += FH ;
-			subN += 1 ;
+                    g_eeGeneral.blightinv = onoffItem( g_eeGeneral.blightinv, y, sub==subN ) ;
+                    y += FH ;
+                    subN += 1 ;
 
-			for ( uint8_t i = 0 ; i < 2 ; i += 1 )
-			{
-				uint8_t b ;
-				b = ( i == 0 ) ? g_eeGeneral.lightAutoOff : g_eeGeneral.lightOnStickMove ;
+                    for ( uint8_t i = 0 ; i < 2 ; i += 1 )
+                    {
+                            uint8_t b ;
+                            b = ( i == 0 ) ? g_eeGeneral.lightAutoOff : g_eeGeneral.lightOnStickMove ;
 
-  			uint8_t attr = 0 ;
-        if(sub==subN) { attr = blink ; CHECK_INCDEC_H_GENVAR_0( b, 600/5);}
-				putsOffDecimal( PARAM_OFS, y, b*5, attr ) ;
-        if(b)
-				{
-         lcd_putc(PARAM_OFS+3*FW, y, 's');
-        }
-				if ( i == 0 )
-				{
-					g_eeGeneral.lightAutoOff = b ;
-				}
-				else
-				{
-					g_eeGeneral.lightOnStickMove = b ;
-				}
-				y += FH ;
-				subN += 1 ;
-			}
-      
-#ifndef MINIMISE_CODE    
-			g_eeGeneral.flashBeep = onoffItem( g_eeGeneral.flashBeep, y, sub==subN ) ;
-#endif
-#if ROTATE_SCREEN
-#ifndef MINIMISE_CODE    
-			y += FH ;
-			subN += 1 ;
-#endif
+                            uint8_t attr = 0 ;
+                            if(sub==subN) { attr = blink ; CHECK_INCDEC_H_GENVAR_0( b, 600/5);}
+                                    putsOffDecimal( PARAM_OFS, y, b*5, attr ) ;
+                            if(b)
+                            {
+                                lcd_putc(PARAM_OFS+3*FW, y, 's');
+                            }
 
-      uint8_t b = g_eeGeneral.rotateScreen;
-      uint8_t c = onoffItem( b, y, sub==subN ) ;
-      if (b != c)
-			{
-        g_eeGeneral.rotateScreen = c;
-        lcdSetOrientation();
-      }
-#endif
+                            if ( i == 0 )
+                            {
+                                    g_eeGeneral.lightAutoOff = b ;
+                            }
+                            else
+                            {
+                                    g_eeGeneral.lightOnStickMove = b ;
+                            }
+                            y += FH ;
+                            subN += 1 ;
+                    }
+
+                    #ifndef MINIMISE_CODE    
+                    g_eeGeneral.flashBeep = onoffItem( g_eeGeneral.flashBeep, y, sub==subN ) ;
+                    #endif
+                   
+                    #if ROTATE_SCREEN
+                    #ifndef MINIMISE_CODE    
+                    y += FH ;
+                    subN += 1 ;
+                    #endif
+
+                    uint8_t b = g_eeGeneral.rotateScreen;
+                    uint8_t c = onoffItem( b, y, sub==subN ) ;
+                    if (b != c)
+                    {
+                    g_eeGeneral.rotateScreen = c;
+                    lcdSetOrientation();
+                    }
+                    #endif
 		}
 		break ;
 		
@@ -8674,14 +8676,19 @@ Str_Hardware
 			IlinesCount = 5 ;
 #endif
 		
-      uint8_t b ;
-			uint8_t attr = LEFT ;
-      lcd_puts_Pleft( y,PSTR(STR_VOLUME "\037" STR_BEEPER "\037" STR_SOUND_MODE "\037" STR_SPEAKER_PITCH));
-      b = g_eeGeneral.volume+(NUM_VOL_LEVELS-1) ;
-			if(sub==subN) { attr = blink | LEFT ; CHECK_INCDEC_H_GENVAR_0( b, NUM_VOL_LEVELS-1 ); }
-      lcd_outdezAtt(PARAM_OFS, y, b, attr);
-			g_eeGeneral.volume = (int8_t)b-(NUM_VOL_LEVELS-1) ;
-  		y += FH ;
+                        uint8_t b ;
+                        uint8_t attr = LEFT ;
+                        lcd_puts_Pleft( y,PSTR(STR_VOLUME "\037" STR_BEEPER "\037" STR_SOUND_MODE "\037" STR_SPEAKER_PITCH));
+                        b = g_eeGeneral.volume+(NUM_VOL_LEVELS-1) ;
+                        if(sub==subN) { 
+                            attr = blink | LEFT ; 
+                            CHECK_INCDEC_H_GENVAR_0( b, NUM_VOL_LEVELS-1 );
+                         }
+                        lcd_outdezAtt(PARAM_OFS, y, b, attr);
+                      	g_eeGeneral.volume = (int8_t)b-(NUM_VOL_LEVELS-1) ;
+
+
+                        y += FH ;
 			subN += 1 ;
 
 			g_eeGeneral.beeperVal = checkIndexed( y, PSTR(FWx14 "\006" STR_BEEP_MODES), g_eeGeneral.beeperVal, (sub==subN) ) ;
@@ -8689,7 +8696,7 @@ Str_Hardware
 			subN += 1 ;
 
 //			attr = 0 ;
-      b = g_eeGeneral.speakerMode ;
+                        b = g_eeGeneral.speakerMode ;
 			if ( b > 3 )
 			{
 				b = 4 ;					
@@ -8701,31 +8708,31 @@ Str_Hardware
 
   		
 			attr = LEFT ;
-      if(sub==subN)
+                         if(sub==subN)
 			{
 				attr = blink | LEFT ;
-        CHECK_INCDEC_H_GENVAR( g_eeGeneral.speakerPitch, 1, 100);
-      }
-      lcd_outdezAtt(PARAM_OFS,y,g_eeGeneral.speakerPitch,attr);
-  		y += FH ;
+                                CHECK_INCDEC_H_GENVAR( g_eeGeneral.speakerPitch, 1, 100);
+                        }
+                        lcd_outdezAtt(PARAM_OFS,y,g_eeGeneral.speakerPitch,attr);
+                    	y += FH ;
 			subN += 1 ;
 
-  		attr = LEFT ;
-      if(sub==subN)
+                        attr = LEFT ;
+                        if(sub==subN)
 			{
 				attr = blink | LEFT ;
-        CHECK_INCDEC_H_GENVAR_0( g_eeGeneral.hapticStrength, 5);
-#ifdef XSW_MOD
-        initHapticPin();
-#endif
-      }
+                                CHECK_INCDEC_H_GENVAR_0( g_eeGeneral.hapticStrength, 5);
+                        #ifdef XSW_MOD
+                                initHapticPin();
+                        #endif
+                        }
 			lcd_xlabel_decimal( PARAM_OFS, y, g_eeGeneral.hapticStrength, attr, PSTR(STR_HAPTICSTRENGTH) ) ;
-  		y += FH ;
+                        y += FH ;
 			subN += 1 ;
 		 
 #ifdef GLOBAL_COUNTDOWN
-      g_eeGeneral.minuteBeep = onoffMenuItem( g_eeGeneral.minuteBeep, y, Str_minute_Beep, sub==subN ) ;
-  		y += FH ;
+                        g_eeGeneral.minuteBeep = onoffMenuItem( g_eeGeneral.minuteBeep, y, Str_minute_Beep, sub==subN ) ;
+                        y += FH ;
 			subN += 1 ;
 #endif
 

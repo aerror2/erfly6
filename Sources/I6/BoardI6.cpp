@@ -984,6 +984,7 @@ void submit_and_start_dma_transfer(DMA_Type * base, int channel, uint32_t src, u
     base->DMA[channel].DCR |= DMA_DCR_EINT(true);
     
     base->DMA[channel].DCR |= DMA_DCR_ERQ_MASK;   
+
 }
 
 void start_lpsci_DMA_receive()
@@ -1402,10 +1403,14 @@ else
 
 voice_serial_read_cb_t g_voice_cb = 0;
 
-
-#if USE_DMA_UART
-
 uint8_t voice_uart_recv_buf[10];
+uint8_t voice_rx_idx = 0;
+
+
+
+#if 0
+
+
 
 
 void process_voice_read_dma_data()
@@ -1465,8 +1470,10 @@ void  serialVoiceInit(voice_serial_read_cb_t cb)
        DMAMUX_SetSource(DMAMUX0,VOICE_DMA_RX_CH,kDmaRequestMux0UART2Rx);
        DMAMUX_SetSource(DMAMUX0,VOICE_DMA_TX_CH,kDmaRequestMux0UART2Tx);
 
-       DMAMUX_EnablePeriodTrigger(DMAMUX0,VOICE_DMA_RX_CH);
-       DMAMUX_DisablePeriodTrigger(DMAMUX0,VOICE_DMA_RX_CH);
+         DMAMUX_DisablePeriodTrigger(DMAMUX0,VOICE_DMA_RX_CH);
+       DMAMUX_DisablePeriodTrigger(DMAMUX0,VOICE_DMA_TX_CH);
+     
+
        DMAMUX_EnableChannel(DMAMUX0,VOICE_DMA_RX_CH);
        DMAMUX_EnableChannel(DMAMUX0,VOICE_DMA_TX_CH);
 
@@ -1476,7 +1483,7 @@ void  serialVoiceInit(voice_serial_read_cb_t cb)
        NVIC_EnableIRQ(DMA1_IRQn);
        NVIC_EnableIRQ(DMA2_IRQn);
 
-       start_uart_dma_receive();
+     
    }
 }
 
@@ -1489,14 +1496,20 @@ void DMA1_IRQHandler()
     /* Disable interrupt. */
     DMA_DisableInterrupts(DMA0, VOICE_DMA_TX_CH);
 
-  
+   
 }
 
 
 void DMA2_IRQHandler()
 {
   
+
+    /* Stop transfer. */
+    //DMA0->DMA[VOICE_DMA_RX_CH].DCR &= ~DMA_DCR_ERQ_MASK;
+
+
     DMA0->DMA[VOICE_DMA_RX_CH].DSR_BCR |= DMA_DSR_BCR_DONE(true);
+
        /* Disable LPSCI RX DMA. */
     UART_EnableRxDMA(UART2, false);
       /* Disable interrupt. */
@@ -1504,17 +1517,21 @@ void DMA2_IRQHandler()
     process_voice_read_dma_data();
 
     //DO IT AGAIN
-    start_uart_dma_receive();
+    //start_uart_dma_receive();
 }
 
 void sendSerialVoiceData(uint8_t *buf, uint32_t len)
 {
      submit_and_start_dma_transfer(DMA0,VOICE_DMA_TX_CH,(uint32_t)buf, (uint32_t)&UART2->D,len,1,0);
      UART_EnableTxDMA(UART2,true);
+      start_uart_dma_receive();
 }
 
 
 #else
+
+uint8_t voice_uart_send_buf[10];
+uint8_t voice_tx_idx = 0;
 void  serialVoiceInit(voice_serial_read_cb_t cb)
 {
 
@@ -1541,10 +1558,13 @@ void  serialVoiceInit(voice_serial_read_cb_t cb)
         UART2->BDH= temp |  UART_BDH_SBR(((sbr & 0x1F00) >> 8));
         UART2->BDL = (uint8_t)(sbr & UART_BDL_SBR_MASK);
 
-        /* Enable receiver and transmitter, and enable receive */
-        UART2->C2 |= (UART_C2_TE_MASK|UART_C2_RE_MASK|UART_C2_RIE_MASK);
-    
+      
+      
         NVIC_EnableIRQ(UART2_IRQn);
+          /* Enable receiver and transmitter, and enable receive */
+        UART2->C2 |= (UART_C2_TE_MASK|UART_C2_RE_MASK|UART_C2_RIE_MASK);
+
+        UART2->C2 |= UART_C2_RIE_MASK;
     }
 
 }
@@ -1565,6 +1585,12 @@ void stopSerialVoice( void )
 
 void sendSerialVoiceData(uint8_t *buf, uint32_t len)
 {
+
+
+    memcpy(voice_uart_send_buf,buf,10);
+    voice_tx_idx = 0;
+    UART2->C2 |= UART_C2_TIE_MASK;
+
     //for(int i=0;i<len;i++)
     //{
     //  while(!(UART2->S1&UART_S1_TDRE_MASK));
@@ -1592,7 +1618,7 @@ bool uart2_clear_error()
     if(  UART2->S1 & UART_S1_FE_MASK  )
     {
         UART2->S1  |= UART_S1_FE_MASK;
-      //   has_error = true ;
+         has_error = true ;
     }
 
    if(  UART2->S1 & UART_S1_PF_MASK  )
@@ -1618,7 +1644,23 @@ void UART2_IRQHandler(void)
     if(UART2->S1 & UART_S1_RDRF_MASK)
     {
         uint8_t dat = UART2->D;
-        if(g_voice_cb) g_voice_cb(dat);
+        voice_uart_recv_buf[voice_rx_idx++] = dat;
+        if(voice_rx_idx==10)
+        {
+             voice_rx_idx = 0;
+            if(g_voice_cb) g_voice_cb(voice_uart_recv_buf,10);
+        }
+    }
+    else if(UART2->S1 & UART_S1_TDRE_MASK)
+    {
+         if(voice_tx_idx < 10)
+         {
+            UART2->D = voice_uart_send_buf[voice_tx_idx++];
+         }
+         else{
+            UART2->C2 &=  ~UART_C2_TIE_MASK;
+         }
+       
     }
 }
 

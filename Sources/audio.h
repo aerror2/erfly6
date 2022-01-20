@@ -207,9 +207,10 @@ void audioEvent( uint8_t e, uint16_t f ) ;
 #define VOICE_Q_LENGTH		16
 
 // Voice states
-#define V_STARTUP			  0
-#define V_IDLE				  1
-#define V_WAITING			  2
+#define VST_STARTUP			  0
+#define VST_IDLE				  1
+#define VST_WAITING                           2
+#define VST_FIN_WAIT                           3
 
 struct t_voice
 {
