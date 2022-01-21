@@ -1,8 +1,8 @@
 <!DOCTYPE CrossStudio_Session_File>
 <session>
  <Bookmarks>
-  <BookmarkItem objectName="" line="6535" column="0" path="E:/AVIA/ERFly6/Sources/menus.cpp" number="1" extra="lcd_putsAttIdx( x, y, Str_Switches, index, /*getSwitch00(index+1) ? INVERS :*/ 0) ;" color="5"/>
   <BookmarkItem objectName="" line="7571" column="0" path="E:/AVIA/ERFly6/Sources/menus.cpp" number="2" extra="switchDisplay( 2*FW-2, a ) ;" color="5"/>
+  <BookmarkItem objectName="" line="6535" column="0" path="E:/AVIA/ERFly6/Sources/menus.cpp" number="1" extra="lcd_putsAttIdx( x, y, Str_Switches, index, /*getSwitch00(index+1) ? INVERS :*/ 0) ;" color="5"/>
  </Bookmarks>
  <Breakpoints groups="Breakpoints" active_group="Breakpoints">
   <BreakpointListItem trigger="" line="13" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="Sources/I6/BoardI6.cpp" useHWbreakpoint="false"/>
@@ -79,9 +79,10 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="33" y="3462" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/er9x.cpp" selected="1" top="3431" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="10" y="3454" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/er9x.cpp" selected="0" top="3431" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="5" y="295" useTextEdit="1" openedFrom="/Volumes/p1t2/receiver/repo/ERFly6/Sources/er9x.cpp" useBinaryEdit="0" left="0" path="Sources/I6/BoardI6.cpp" selected="0" top="276" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="5" y="82" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/hal.h" selected="0" top="26" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="23" y="9" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/stamp.cpp" selected="1" top="0" codecName="Default"/>
  </Files>
- <ARMCrossStudioWindow activeProject="FSI6" fileDialogDefaultFilter="*" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="E:/AVIA/ERFly6/I6/SEGGER_THUMB_Startup.s&#xa;E:/AVIA/ERFly6/Sources/I6/SEGGER_THUMB_Startup.s" fileDialogInitialDirectory="E:/src/repo/ERFly6/drivers" debugSearchPath="" autoConnectCapabilities="3199"/>
+ <ARMCrossStudioWindow activeProject="FSI6" fileDialogDefaultFilter="*" autoConnectTarget="J-Link" buildConfiguration="Release" sessionSettings="" debugSearchFileMap="E:/AVIA/ERFly6/I6/SEGGER_THUMB_Startup.s&#xa;E:/AVIA/ERFly6/Sources/I6/SEGGER_THUMB_Startup.s" fileDialogInitialDirectory="E:/src/repo/ERFly6/drivers" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>
