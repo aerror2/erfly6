@@ -663,7 +663,7 @@ void t_voice::voice_process(void)
               }
               else if(VoiceState == VST_FIN_WAIT)
               {
-                  if(wait_fin_count++ ==3)
+                  if(wait_fin_count++ ==1)
                      Voice.VoiceState = VST_IDLE;
               }
               else if ( VoiceState == VST_STARTUP )

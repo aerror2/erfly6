@@ -3165,7 +3165,7 @@ static void perMain()
             if((s_batCheck == 0) && (g_vbat100mV < g_eeGeneral.vBatWarn) /*&& (g_vbat100mV>49)*/)
             {
 
-               audioVoiceDefevent(AU_TX_BATTERY_LOW, V_BATTERY_LOW);
+                 audioVoiceDefevent(AU_TX_BATTERY_LOW, V_BATTERY_LOW);
                 voice_numeric(g_vbat100mV,1, V_VOLTS);
                 #ifndef MINIMISE_CODE
                 if (g_eeGeneral.flashBeep)

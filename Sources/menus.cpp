@@ -431,6 +431,12 @@ void voice_telem_item( uint8_t indexIn )
 		putVoiceQueue( V_NOTELEM ) ;
 		spoken = 1 ;
 	}
+
+          if(indexIn >0 &&  indexIn < FST_IDX_S8a)
+        {
+            num_decimals =AFHDS2A_tel[indexIn].prec;
+        }
+
 	int8_t index = pgm_read_byte( &TelemIndex[indexIn] ) ;
 
   switch (index)
@@ -470,6 +476,8 @@ void voice_telem_item( uint8_t indexIn )
 		case V_GVAR6 :
 		case V_GVAR7 :
 			value = g_model.gvars[index-V_GVAR1].gvar ;
+
+                      
 		break ;
 
 
@@ -8686,7 +8694,6 @@ void menuProcIndex(uint8_t event)
                          }
                         lcd_outdezAtt(PARAM_OFS, y, b, attr);
                       	g_eeGeneral.volume = (int8_t)b-(NUM_VOL_LEVELS-1) ;
-
 
                         y += FH ;
 			subN += 1 ;
