@@ -36,6 +36,8 @@ Here is the manual for flashing firmware from Kotello : https://github.com/aerro
 
 ## Contents below work with the latest firmware only. 
 
+Join the telegram group if you want to access the latest firmware or need some help: https://t.me/ERFly6
+
 ## How to connect the ELRS TX  and the VoiceModule
    It is very simple to  connect ELRS TX, there is no hardware modification. Just:
    1. connect the SPORT and  GROUND WIRE to your ELRX TX, like the picture below. 
