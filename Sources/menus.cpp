@@ -2096,7 +2096,7 @@ void menuProcTelemetry(uint8_t event) {
     displayNext();
     } else
     /*-------------Page 2 Custom disp-------------------------------------*/
-    if ((sub > 5) & (sub < 12)) {
+    if ((sub > 5) & (sub < 14)) {
       uint8_t *pindex = g_model.CustomDisplayIndex;
       subN = 6;
       lcd_puts_Pleft(FH, PSTR(STR_CUSTOM_DISP));
