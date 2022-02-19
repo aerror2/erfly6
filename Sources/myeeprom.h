@@ -1,7 +1,7 @@
 /*
  * myeeprom.h
  *
- *  Created on: 01 рту. 2019 у.
+ *  Created on: 01 . 2019 .
  *      Author: KOSTYA
  */
 
@@ -570,7 +570,7 @@ typedef struct t_V2Protocol
 } __attribute__((packed)) V2Protocol ;
 
 
-
+#define CUSTOM_DISPLAY_TEL_NUMBER  8
 
 PACK(typedef struct t_ModelData {
 			char name[MODEL_NAME_LEN]; // 10 must be first for eeLoadModelName
@@ -651,7 +651,7 @@ PACK(typedef struct t_ModelData {
 			uint8_t switchWarningStates;
 #endif
 			uint8_t sub_trim_limit;
-			uint8_t CustomDisplayIndex[6];
+			uint8_t CustomDisplayIndex[CUSTOM_DISPLAY_TEL_NUMBER];
 			GvarData gvars[MAX_GVARS];
 			PhaseData phaseData[MAX_MODES];
 			VarioData varioData;

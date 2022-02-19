@@ -204,6 +204,7 @@ typedef  uint8_t event_t;
  extern int32_t g_elrs_update_rate;
   extern int32_t        g_elrs_lag ;
 
+//#define  HIGH_UART
 
 #define MIN_REFRESH_RATE      1750 /* us */
 #define MAX_REFRESH_RATE     50000 /* us */
@@ -212,7 +213,7 @@ typedef  uint8_t event_t;
 
 
 #define CROSSFIRE_CHANNELS_COUNT        16
-#define  HIGH_UART
+
 #ifdef  HIGH_UART 
 #define CROSSFIRE_BAUDRATE       400000
 #define CROSSFIRE_PERIOD         5 /* us; 250 Hz */

@@ -1153,7 +1153,7 @@ void DMA0_IRQHandler()
      
         /* Disable LPSCI TX DMA. */
         LPSCI_EnableTxDMA(UART0, false);
-
+       
         /* Disable interrupt. */
         DMA_DisableInterrupts(DMA0, TX_DMA_CHANNEL);
 
@@ -1167,8 +1167,10 @@ void DMA0_IRQHandler()
         DMA_DisableInterrupts(DMA0, TX_DMA_CHANNEL);
         process_read_dma_data();
     }
-     
-     start_lpsci_DMA_receive();
+    
+    LPSCI_EnableTx(UART0,false);
+    LPSCI_EnableRx(UART0,false);
+    start_lpsci_DMA_receive();
 
 }
 void shutdown_crsf_serial_port()
@@ -1176,13 +1178,24 @@ void shutdown_crsf_serial_port()
   if(  g_crsf_read_callback != NULL)
   {
      g_crsf_read_callback = NULL;
-     //UART0->C4 &= ~UART_C4_TDMAS_MASK;
-     //UART0->C2 &= ~UART_C2_TIE_MASK;
-     //DMA0->DMA[TX_DMA_CHANNEL].DCR &= ~DMA_DCR_EINT_MASK;
-     //NVIC_DisableIRQ(DMA0_IRQn);
-     //SIM->SCGC7 &= ~SIM_SCGC7_DMA_MASK;//DISABLE DMA
-     //SIM->SCGC6 &= ~SIM_SCGC6_DMAMUX_MASK; //DISABLE DMA MUX
-     //SIM->SCGC4 &=~SIM_SCGC4_UART0_MASK;
+     
+      DMA0->DMA[TX_DMA_CHANNEL].DCR &= ~DMA_DCR_ERQ_MASK;
+    /* clear all status bit */
+      DMA0->DMA[TX_DMA_CHANNEL].DSR_BCR |= DMA_DSR_BCR_DONE(true);
+     /* Disable interrupt. */
+      DMA_DisableInterrupts(DMA0, TX_DMA_CHANNEL);
+
+      LPSCI_EnableTxDMA(UART0, false);
+      LPSCI_EnableRxDMA(UART0, false);
+
+      LPSCI_EnableTx(UART0,false);
+      LPSCI_EnableRx(UART0,false);
+
+      DMA0->DMA[TX_DMA_CHANNEL].DCR &= ~DMA_DCR_EINT_MASK;
+      NVIC_DisableIRQ(DMA0_IRQn);
+      SIM->SCGC7 &= ~SIM_SCGC7_DMA_MASK;//DISABLE DMA
+      SIM->SCGC6 &= ~SIM_SCGC6_DMAMUX_MASK; //DISABLE DMA MUX
+      SIM->SCGC4 &=~SIM_SCGC4_UART0_MASK;
   }
 }
 

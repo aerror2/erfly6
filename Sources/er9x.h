@@ -696,7 +696,7 @@ uint8_t IS_EXPO_THROTTLE( uint8_t x ) ;
 #define PROTO_AFHDS2A    1
 #define PROTO_AFHDS      2
 #define PROTO_ELRS2      3
-//#define PROTO_ELRS1      4
+#define PROTO_ELRS1      4
 
 /*
 #define PROTO_PXX        1

@@ -317,7 +317,7 @@ bool checkCrossfireTelemetryFrameCRC() {
 
 
 bool getCrossfireTelemetryValue(uint8_t index, int32_t &value, int N) {
-  bool result = false;
+  bool result = true;
   uint8_t *byte = &telemetryRxBuffer[index];
   value = (*byte & 0x80) ? -1 : 0;
   for (uint8_t i = 0; i < N; i++) {

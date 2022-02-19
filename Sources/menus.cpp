@@ -832,6 +832,8 @@ enum MainViews {
     e_outputBars,
     e_inputs1,
     e_timer2,
+#else
+    e_inputs1,
 #endif
 #ifdef TELEMETRY // (defined(FRSKY) | defined(HUB))
     e_telemetry,
@@ -2098,7 +2100,7 @@ void menuProcTelemetry(uint8_t event) {
       uint8_t *pindex = g_model.CustomDisplayIndex;
       subN = 6;
       lcd_puts_Pleft(FH, PSTR(STR_CUSTOM_DISP));
-      for (uint8_t j = 0; j < 6; j++) {
+      for (uint8_t j = 0; j < CUSTOM_DISPLAY_TEL_NUMBER; j++) {
         attr = 0;
         if (sub == subN) {
           attr = InverseBlink;
@@ -6533,7 +6535,7 @@ void menuProc0(uint8_t event)
         break;
     case EVT_KEY_BREAK(KEY_RIGHT):
 
-#ifdef USE_MULTIPLE_MAIN_WINDOWS
+
         if(view == e_inputs1)
         {
                 int8_t x ;
@@ -6542,7 +6544,8 @@ void menuProc0(uint8_t event)
                 if ( ++x > 2 ) x = 0 ;
                 inputs_subview = x ;
         }	
-#endif
+
+
 #ifdef TELEMETRY
         if(view == e_telemetry)
 	{
@@ -6556,18 +6559,17 @@ void menuProc0(uint8_t event)
         break;
     case EVT_KEY_BREAK(KEY_LEFT):
 
-    
-#ifdef USE_MULTIPLE_MAIN_WINDOWS
-        if(view == e_inputs1)
-				{
-					int8_t x ;
-					x = inputs_subview ;
 
-					if ( --x < 0 ) x = 2 ;
- 
-					inputs_subview = x ;
-				}	
- #endif
+        if(view == e_inputs1)
+        {
+                int8_t x ;
+                x = inputs_subview ;
+
+                if ( --x < 0 ) x = 2 ;
+
+                inputs_subview = x ;
+        }	
+
 
 
 #ifdef TELEMETRY
@@ -6755,7 +6757,7 @@ const static prog_uint8_t APM xt[4] = {128*1/4+2, 4, 128-4, 128*3/4-2};
 
 #ifdef TELEMETRY
     
-    
+     if (view == e_telemetry) 
      {
         lcd_putsnAtt(TRIMBAR_WIDTH, 0, g_model.name, sizeof(g_model.name), BSS|INVERS);
         uint8_t att = (g_vbat100mV < g_eeGeneral.vBatWarn ? BLINK : 0);
@@ -6878,11 +6880,11 @@ const static prog_uint8_t APM xt[4] = {128*1/4+2, 4, 128-4, 128*3/4-2};
         {
               lcd_vline( 63, 8, 48 ) ;
 
-              for (uint8_t i=0; i<6; i++)
+              for (uint8_t i=0; i<CUSTOM_DISPLAY_TEL_NUMBER; i++)
               {
                       if ( g_model.CustomDisplayIndex[i] )
                       {
-                             putsTelemetryChannel(((i&1)?58:0)+TRIMBAR_WIDTH, FH+10+(i/2)*FH,
+                             putsTelemetryChannel(((i&1)?58:0)+TRIMBAR_WIDTH, FH +(i/2)*FH,
                               g_model.CustomDisplayIndex[i]-1, 
                              get_telemetry_value(g_model.CustomDisplayIndex[i]-1),
                              0, TELEM_LABEL|TELEM_UNIT|TELEM_UNIT_LEFT|TELEM_VALUE_RIGHT ) ;
@@ -6922,6 +6924,27 @@ const static prog_uint8_t APM xt[4] = {128*1/4+2, 4, 128-4, 128*3/4-2};
     {
 
 		displayTimer( 30+5*FW, FH*5, 1, DBLSIZE ) ;
+    }
+ #else 
+    if(view == e_inputs1)
+    {
+         doMainScreenGrphics();
+
+
+        uint8_t a = inputs_subview;
+        uint8_t b = a + 1;
+        if (a != 0)
+          a = a * 6 + 3; // 0, 9, 15
+        switchDisplay(2 * FW - 2, a);
+        if (a == 0) {
+          lcd_puts_P(17 * FW - 2, FH * 5, "sC");
+          displayOneSwitch3Pos(17 * FW + 2 * FW, FH * 5, 7);
+          lcd_puts_P(17 * FW - 2, FH * 6, "ID");
+          displayOneSwitch3Pos(17 * FW + 2 * FW, FH * 6, 4);
+        } else {
+          b *= 6; // 6, 12, 18
+          switchDisplay(17 * FW - 2, b);
+        }
     }
  #endif
 
