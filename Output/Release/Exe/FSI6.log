@@ -12824,19 +12824,19 @@
 ***                                                                                 ***
 ***************************************************************************************
 
-  Load REL relocations for .debug_aranges (system_MKL16Z4.o)
   Load REL relocations for .debug_aranges (Kinetis_KL_Startup.o)
   Load REL relocations for .debug_aranges (MKL16Z4_Vectors.o)
   Load REL relocations for .debug_aranges (SEGGER_THUMB_Startup.o)
+  Load REL relocations for .debug_aranges (system_MKL16Z4.o)
   Load REL relocations for .debug_frame (system_MKL16Z4.o)
-  Load REL relocations for .debug_info (system_MKL16Z4.o)
   Load REL relocations for .debug_info (Kinetis_KL_Startup.o)
   Load REL relocations for .debug_info (MKL16Z4_Vectors.o)
   Load REL relocations for .debug_info (SEGGER_THUMB_Startup.o)
-  Load REL relocations for .debug_line (system_MKL16Z4.o)
+  Load REL relocations for .debug_info (system_MKL16Z4.o)
   Load REL relocations for .debug_line (Kinetis_KL_Startup.o)
   Load REL relocations for .debug_line (MKL16Z4_Vectors.o)
   Load REL relocations for .debug_line (SEGGER_THUMB_Startup.o)
+  Load REL relocations for .debug_line (system_MKL16Z4.o)
   Load REL relocations for .debug_loc (system_MKL16Z4.o)
   Load REL relocations for .debug_pubnames (system_MKL16Z4.o)
   Load REL relocations for .debug_pubtypes (system_MKL16Z4.o)

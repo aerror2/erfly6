@@ -292,12 +292,11 @@ FST_IDX_S8a, // TX_RF_POWER_INDEX,
  FST_IDX_YAW,// ATTITUDE_YAW_INDEX,
  FST_IDX_FLIGHT_MODE,// FLIGHT_MODE_INDEX,
  FST_IDX_VERTICAL_SPEED,// VERTICAL_SPEED_INDEX,
- // UNKNOWN_INDEX,
  };
 
 void processCrossfireTelemetryValue(uint8_t index, int32_t value) {
   int tidx = 0;
-   if(index < UNKNOWN_INDEX && (tidx =idx_to_afhds2a[index]) !=0xff)
+   if(index < sizeof(idx_to_afhds2a) && (tidx =idx_to_afhds2a[index]) !=0xff)
    {
         AFHDS2A_tel_data[tidx] = value;
        AFHDS2A_tel_status |= 1<<tidx;

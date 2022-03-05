@@ -673,13 +673,15 @@ if (AFHDS2A_tel_status & ((uint64_t)1<< channel)){
   }
   lcd_outdezNAtt(x, y, val, att, dig);
 } else{ 
-if( !(att & LEFT)){  
-if(att & DBLSIZE)
-x -= 6 * FW;
-else
-x -= 3 * FW;
-} else x+=FW;
-lcd_putsAtt(x, y, "---", att);
+    if( !(att & LEFT)){  
+      if(att & DBLSIZE)
+        x -= 6 * FW;
+      else
+        x -= 3 * FW;
+    } 
+    else
+       x+=FW;
+    lcd_putsAtt(x, y, "---", att);
 }
   return 0;
 }
