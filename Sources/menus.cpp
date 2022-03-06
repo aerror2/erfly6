@@ -2095,23 +2095,31 @@ void menuProcTelemetry(uint8_t event) {
      lcd_outdezAtt(17 * FW, y, g_model.FuelMax, attr);
     displayNext();
     } else
-    /*-------------Page 2 Custom disp-------------------------------------*/
-    if ((sub > 5) & (sub < 14)) {
-      uint8_t *pindex = g_model.CustomDisplayIndex;
-      subN = 6;
-      lcd_puts_Pleft(FH, PSTR(STR_CUSTOM_DISP));
-      for (uint8_t j = 0; j < CUSTOM_DISPLAY_TEL_NUMBER; j++) {
-        attr = 0;
-        if (sub == subN) {
-          attr = InverseBlink;
-          CHECK_INCDEC_H_MODELVAR_0(*pindex, NUM_TELEM_ITEMS);
+    {
+      /*-------------Page 2 Custom disp-------------------------------------*/
+      if ((sub > 5) & (sub < 14)) {
+
+        uint8_t *pindex = g_model.CustomDisplayIndex;
+        subN = 6;
+        if(sub>=12) 
+        {
+            pindex += sub-11;
+            subN += sub-11;
         }
-        putsAttIdxTelemItems(0, j * FH + 2 * FH, *pindex, attr);
-        pindex += 1;
-        subN++;
-      }
-      displayNext();
-    } 
+        lcd_puts_Pleft(FH, PSTR(STR_CUSTOM_DISP));
+        for (uint8_t j = 0; j < 6; j++) {
+          attr = 0;
+          if (sub == subN) {
+            attr = InverseBlink;
+            CHECK_INCDEC_H_MODELVAR_0(*pindex, NUM_TELEM_ITEMS);
+          }
+          putsAttIdxTelemItems(0, j * FH + 2 * FH, *pindex, attr);
+          pindex += 1;
+          subN++;
+        }
+        displayNext();
+      } 
+    }
     #ifdef VARIO
     else
       /*-------------Page 3 Vario-------------------------------------------*/
@@ -6475,7 +6483,7 @@ void dispSignalQality( uint8_t y){
 
       lcd_puts_P(2+FW, y, PSTR("Err"));
       putsTelemValue(8 * FW, y, (int16_t)AFHDS2A_tel_data[FST_IDX_ERR], FST_IDX_ERR, NO_UNIT);
-      lcd_puts_P(FW * 13, y, PSTR("SNR"));
+      lcd_puts_P(FW * 11, y, PSTR("SNR"));
       putsTelemValue( FW * 20, y, (int16_t)AFHDS2A_tel_data[FST_IDX_SNR], FST_IDX_SNR, NO_UNIT);
 }
 
@@ -6884,7 +6892,7 @@ const static prog_uint8_t APM xt[4] = {128*1/4+2, 4, 128-4, 128*3/4-2};
               {
                       if ( g_model.CustomDisplayIndex[i] )
                       {
-                             putsTelemetryChannel(((i&1)?58:0)+TRIMBAR_WIDTH, FH +(i/2)*FH,
+                             putsTelemetryChannel(((i&1)?58:0)+TRIMBAR_WIDTH, FH+8 +(i/2)*FH,
                               g_model.CustomDisplayIndex[i]-1, 
                              get_telemetry_value(g_model.CustomDisplayIndex[i]-1),
                              0, TELEM_LABEL|TELEM_UNIT|TELEM_UNIT_LEFT|TELEM_VALUE_RIGHT ) ;

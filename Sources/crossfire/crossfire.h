@@ -278,5 +278,6 @@ void crsf_shutdown();
 void crsf_action();
 //uint32_t crsf_current_period();
 void resetElrsMenuVariables();
+void processCrossfireTelemetryValue(uint8_t index, int32_t value) ;
 
 #endif // _CROSSFIRE_H_

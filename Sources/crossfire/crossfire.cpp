@@ -296,10 +296,10 @@ FST_IDX_S8a, // TX_RF_POWER_INDEX,
 
 void processCrossfireTelemetryValue(uint8_t index, int32_t value) {
   int tidx = 0;
-   if(index < sizeof(idx_to_afhds2a) && (tidx =idx_to_afhds2a[index]) !=0xff)
+   if(index < UNKNOWN_INDEX && (tidx =idx_to_afhds2a[index]) !=0xff)
    {
         AFHDS2A_tel_data[tidx] = value;
-       AFHDS2A_tel_status |= 1<<tidx;
+       AFHDS2A_tel_status |= ((uint64_t)1<<tidx);
    }
   //const CrossfireSensor &sensor = crossfireSensors[index];
   //setTelemetryValue(TELEM_PROTO_CROSSFIRE, sensor.id, 0, sensor.subId, value, sensor.unit, sensor.precision);
@@ -316,7 +316,7 @@ bool checkCrossfireTelemetryFrameCRC() {
 
 
 bool getCrossfireTelemetryValue(uint8_t index, int32_t &value, int N) {
-  bool result = true;
+  bool result = false;
   uint8_t *byte = &telemetryRxBuffer[index];
   value = (*byte & 0x80) ? -1 : 0;
   for (uint8_t i = 0; i < N; i++) {

@@ -72,7 +72,12 @@
 
  int32_t AFHDS2A_tel_data[43];
  uint64_t AFHDS2A_tel_status = 0;
- uint8_t AFHDS2A_tel_res_cnt[43] = {0};
+//int32_t AFHDS2A_tel_statuses[2]={0,0};
+//#define  SET_TEL_STATUS(x) do{ if(x<32) AFHDS2A_tel_statuses[0]|=1<<x; else AFHDS2A_tel_statuses[1]|=1<<(x-32);}while(0);
+//#define  CLR_TEL_STATUS(x) do{ if(x<32) AFHDS2A_tel_statuses[0]&=~(1<<x); else AFHDS2A_tel_statuses[1]&=~(1<<(x-32);}while(0));
+//inline  bool IS_TEL_STATUS_SET(int  x) {if(x<32) return AFHDS2A_tel_statuses[0]&(1<<x); else return AFHDS2A_tel_statuses[1] &1<<(x-32);}
+
+uint8_t AFHDS2A_tel_res_cnt[43] = {0};
  
  int16_t AltOffset;
  int16_t GAltOffset;
