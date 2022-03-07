@@ -1168,8 +1168,8 @@ void DMA0_IRQHandler()
         process_read_dma_data();
     }
     
-    LPSCI_EnableTx(UART0,false);
-    LPSCI_EnableRx(UART0,false);
+    //LPSCI_EnableTx(UART0,false);
+    //LPSCI_EnableRx(UART0,false);
     start_lpsci_DMA_receive();
 
 }
