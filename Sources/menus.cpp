@@ -10287,7 +10287,7 @@ Str_Protocol
       	if(sub==subN)
 				{
 #ifdef XSW_MOD
-          lcd_rect( 9*FW-1, y-1, 12*FW+2, 9 ) ;
+          lcd_rect( 9*FW-1, y-1, 12*FW+2, 9 ) ; b 
 #else
 					lcd_rect( 11*FW-1, y-1, 9*FW+2, 9 ) ;
 #endif
