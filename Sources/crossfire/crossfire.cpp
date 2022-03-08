@@ -378,9 +378,9 @@ void processCrossfireTelemetryFrame() {
 
     case GPS_ID:
       if (getCrossfireTelemetryValue(3, value,4))
-        processCrossfireTelemetryValue(GPS_LATITUDE_INDEX, value / 10);
+        processCrossfireTelemetryValue(GPS_LATITUDE_INDEX, value / 100000);
       if (getCrossfireTelemetryValue(7, value,4))
-        processCrossfireTelemetryValue(GPS_LONGITUDE_INDEX, value / 10);
+        processCrossfireTelemetryValue(GPS_LONGITUDE_INDEX, value / 100000);
       if (getCrossfireTelemetryValue(11, value,2))
         processCrossfireTelemetryValue(GPS_GROUND_SPEED_INDEX, value);
       if (getCrossfireTelemetryValue(13, value,2))
