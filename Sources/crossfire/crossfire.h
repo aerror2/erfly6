@@ -62,8 +62,8 @@ extern uint8_t outputTelemetryBufferTrigger;
 extern uint8_t telemetryProtocol;
 extern uint32_t telemetryErrors;
 
-
-int setTelemetryValue(TelemetryProtocol protocol, uint16_t id, uint8_t subId, uint8_t instance, int32_t value, uint32_t unit, uint32_t prec);
+void processCrossfireTelemetryValue(uint8_t index, int32_t value);
+//int setTelemetryValue(TelemetryProtocol protocol, uint16_t id, uint8_t subId, uint8_t instance, int32_t value, uint32_t unit, uint32_t prec);
 
 inline void telemetryOutputPushByte(uint8_t byte)
 {

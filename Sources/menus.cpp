@@ -574,7 +574,7 @@ int16_t convertTelemConstant( uint8_t channelin, int8_t value)
 }
 
 
-int16_t get_telemetry_value( uint8_t channelIn )
+int32_t get_telemetry_value( uint8_t channelIn )
 {
 	int8_t channel = TelemIndex[channelIn];
   if ( channel == TMOK )
@@ -616,7 +616,7 @@ int16_t get_telemetry_value( uint8_t channelIn )
 		//return getTelemetryValue(channel) * 2 ;
 
 		default :
-        return (int16_t)AFHDS2A_tel_data[channel];
+        return AFHDS2A_tel_data[channel];
 
 //		return getTelemetryValue(channel) ;
 #else
@@ -723,14 +723,14 @@ uint8_t putsTelemetryChannel(uint8_t x, uint8_t y, int8_t channel, int32_t val, 
 #ifdef TELEMETRY
   if ((channel >= 0) & (channel <= FST_IDX_S8a)) {
 
-    unit = putsTelemValue((style & TELEM_VALUE_RIGHT) ? xbase + 50 : x - fieldW, y, val, channel, att | NO_UNIT /*|blink*/);
+    unit = putsTelemValue((style & TELEM_VALUE_RIGHT) ? xbase + 54 : x - fieldW, y, val, channel, att | NO_UNIT /*|blink*/);
     displayed = 1;
   }
 
 #endif
 
   if (!displayed) {
-    lcd_outdezAtt((style & TELEM_VALUE_RIGHT) ? xbase + 50 : x, y, val, att);
+    lcd_outdezAtt((style & TELEM_VALUE_RIGHT) ? xbase + 54 : x, y, val, att);
   }
   if (style & (TELEM_UNIT | TELEM_UNIT_LEFT)) {
     if (style & TELEM_UNIT_LEFT) {
@@ -6825,7 +6825,7 @@ const static prog_uint8_t APM xt[4] = {128*1/4+2, 4, 128-4, 128*3/4-2};
     
     if (view == e_telemetry) 
     {
-      int16_t value;
+    //  int32_t value;
       {
         uint8_t x0; //, blink;
           dispSignalQality(6 * FH);
@@ -6837,7 +6837,7 @@ const static prog_uint8_t APM xt[4] = {128*1/4+2, 4, 128-4, 128*3/4-2};
                 dispInVExVDbl(3 * FH);
                 // Fuel Gauge
                 lcd_puts_Pleft(1 * FH, PSTR(STR_FUEL));
-                int16_t FuelPer = get_telemetry_value(g_model.FuelSource - 1); // Fuel gauge value
+                int32_t FuelPer = get_telemetry_value(g_model.FuelSource - 1); // Fuel gauge value
                 if (FuelPer > g_model.FuelMax)
                   FuelPer = g_model.FuelMax;
                 if (FuelPer < g_model.FuelMin)
@@ -6887,7 +6887,7 @@ const static prog_uint8_t APM xt[4] = {128*1/4+2, 4, 128-4, 128*3/4-2};
 
         {
               lcd_vline( 63, 8, 48 ) ;
-
+             //  processCrossfireTelemetryValue(GPS_LATITUDE_INDEX, 11312345);
               for (uint8_t i=0; i<CUSTOM_DISPLAY_TEL_NUMBER; i++)
               {
                       if ( g_model.CustomDisplayIndex[i] )

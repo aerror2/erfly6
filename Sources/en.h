@@ -118,7 +118,7 @@
 // menus.cpp
 // ***********
 //#define STR_TELEM_ITEMS   "\004----A1= A2= RSSITSSITim1Tim2Alt GaltGspdT1= T2= RPM FUELMah1Mah2CvltBattAmpsMah CtotFasVAccXAccYAccZVspdGvr1Gvr2Gvr3Gvr4Gvr5Gvr6Gvr7FwatRxV Hdg A3= A4= SC1 SC2 SC3 SC4 TmOK"
-#define STR_TELEM_ITEMS	   "\004----SNR Noi.RSSIErr.TSSIInV TempRPM ExV CellCurrFuelThroHeadRoC CoG GPS AccXAccYAccZRollPit.Yaw VspeGSpeDistArm.ModePresOdo1Odo2Spe TX_VLat Lon GAltAlt AltMS85 S86 S87 S88 S89 S8A TmOkGvr1Gvr2Gvr3Gvr4Gvr5Gvr6Gvr7SC1 SC2 SC3 SC4 Tim1Tim2"
+#define STR_TELEM_ITEMS	   "\004----SNR Noi.RSSIErr.TSSIInV TempRPM ExV CellCurrFuelThroHeadRoC CoG GPS AccXAccYAccZRollPit.Yaw VspeGSpeDistArm.ModePresOdo1Odo2Spe TX_VLa  Lo  GAltAlt AltMS85 S86 S87 S88 S89 S8A TmOkGvr1Gvr2Gvr3Gvr4Gvr5Gvr6Gvr7SC1 SC2 SC3 SC4 Tim1Tim2"
 #define STR_TELEM_SHORT    "\004----TIM1TIM2BATTGvr1Gvr2Gvr3Gvr4Gvr5Gvr6Gvr7"
 #define STR_GV             "GV"
 #define STR_OFF_ON         "OFFON "

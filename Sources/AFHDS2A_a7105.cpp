@@ -58,8 +58,8 @@
      {FST_TYPE_TX_V,4,2},
 
 //4 byte sensors
-     {FST_TYPE_GPS_LAT,10,6},
-     {FST_TYPE_GPS_LON,10,6},
+     {FST_TYPE_GPS_LAT,8,5},
+     {FST_TYPE_GPS_LON,8,5},
      {FST_TYPE_GPS_ALT,8,2},
      {FST_TYPE_ALT,8,2},
      {FST_TYPE_ALT_MAX,8,2},
@@ -199,6 +199,10 @@ static void processFlySkySensor(const uint8_t *packet, uint8_t type) {
      break;
    case FST_IDX_ALT:
      AFHDS2A_tel_data[tel_index] += AltOffset;
+     break;
+   case FST_IDX_GPS_LAT:
+   case FST_IDX_GPS_LON:
+     AFHDS2A_tel_data[tel_index] /= 10; //6 DIGITS TO 5
      break;
    case FST_IDX_GPS_ALT:
      AFHDS2A_tel_data[tel_index] += GAltOffset;

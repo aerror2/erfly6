@@ -993,7 +993,7 @@ void putsDrSwitches(uint8_t x,uint8_t y,int8_t swtch,uint8_t att);
 void putsMomentDrSwitches(uint8_t x,uint8_t y,int8_t swtch,uint8_t att);
 void putsTmrMode(uint8_t x, uint8_t y, uint8_t attr, uint8_t type);
 
-extern int16_t get_telemetry_value( uint8_t channel ) ;
+extern int32_t get_telemetry_value( uint8_t channel ) ;
 
 //extern uint8_t  s_timerState;
 #define TMR_OFF     0
