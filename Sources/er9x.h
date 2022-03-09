@@ -1193,7 +1193,7 @@ void putsTime(uint8_t x,uint8_t y,int16_t tme,uint8_t att,uint8_t att2);
 
 #ifdef TELEMETRY
 void putsTelemetry(uint8_t x, uint8_t y, uint8_t val, uint8_t unit, uint8_t att);
-uint8_t putsTelemValue(uint8_t x, uint8_t y, int32_t val, uint8_t channel, uint8_t att, uint8_t dig = 5) ;
+uint8_t putsTelemValue(uint8_t x, uint8_t y, int32_t val, uint8_t channel, uint8_t att) ;
 uint16_t scale_telem_value( uint16_t val, uint8_t channel, uint8_t *p_att ) ;
 
 #endif

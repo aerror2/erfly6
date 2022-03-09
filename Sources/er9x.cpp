@@ -659,19 +659,23 @@ uint8_t Unit ;
 //	return value ;
 //}
 
-uint8_t putsTelemValue(uint8_t x, uint8_t y, int32_t val, uint8_t channel, uint8_t att, uint8_t dig) {
+uint8_t putsTelemValue(uint8_t x, uint8_t y, int32_t val, uint8_t channel, uint8_t att) {
 
 if (AFHDS2A_tel_status & ((uint64_t)1<< channel)){ 
-
-  switch (AFHDS2A_tel[channel].prec) {
-  case 1:
-    att |= PREC1;
-    break;
-  case 2:
-    att |= PREC2;
-    break;
-  }
-  lcd_outdezNAtt(x, y, val, att, dig);
+  //uint8_t 8 
+  //switch (AFHDS2A_tel[channel].prec) {
+  //case 1:
+  //  att |= PREC1;
+  //  break;
+  //case 2:
+  //  att |= PREC2;
+  //  break;
+  //case 6:
+  //  att |= PREC2;
+  //  dig =8;
+  //break;
+  //}
+  lcd_outdezNAtt(x, y, val, att, AFHDS2A_tel[channel].dig,AFHDS2A_tel[channel].prec);
 } else{ 
     if( !(att & LEFT)){  
       if(att & DBLSIZE)

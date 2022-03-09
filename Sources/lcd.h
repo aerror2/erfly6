@@ -1,7 +1,7 @@
 /*
  * lcd.h
  *
- *  Created on: 31 ию 2019 
+ *  Created on: 31  2019 
  *      Author: KOSTYA
  */
 
@@ -51,6 +51,8 @@ extern uint8_t Lcd_lastPos;
 extern uint8_t plotType ;
 extern uint8_t DisplayBuf[DISPLAY_W*DISPLAY_H/8];
 
+#define PREC(n) ((n&0x20) ? ((n&0x10) ? 2 : 1) : 0)
+
 extern void delay_us(uint32_t val);
 extern uint8_t lcd_putcAtt(uint8_t x,uint8_t y,const char d,uint8_t mode);
 extern unsigned char lcd_putsAtt(unsigned char x,unsigned char y,const char * s,unsigned char mode);
@@ -64,7 +66,7 @@ extern void lcd_putsn_P(unsigned char x,unsigned char y,const char * s,unsigned 
 extern void lcd_outhex4(unsigned char x,unsigned char y,uint16_t val);
 extern void lcd_outdezAtt(unsigned char x,unsigned char y,int16_t val,uint8_t mode);
 extern void lcd_2_digits( uint8_t x, uint8_t y, uint8_t value, uint8_t attr ) ;
-uint8_t lcd_outdezNAtt(uint8_t x,uint8_t y,int32_t val,uint8_t mode,int8_t len);
+uint8_t lcd_outdezNAtt(uint8_t x,uint8_t y,int32_t val,uint8_t mode,int8_t len,uint8_t prec);
 extern void lcd_outdez(unsigned char x,unsigned char y,int16_t val);
 
 extern void lcd_hbar( uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t percent ) ;

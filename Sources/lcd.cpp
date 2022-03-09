@@ -1,7 +1,7 @@
 /*
  * lcd.cpp
  *
- *  Created on: 31 июля 2019 г.
+ *  Created on: 31  2019 .
  *      Author: KOSTYA
  */
 #include "lcd.h"
@@ -445,13 +445,14 @@ unsigned char lcd_putsAtt(unsigned char x, unsigned char y, const char *s, unsig
 /*---------------------------------------------------------------------------*/
 	void lcd_2_digits( uint8_t x, uint8_t y, uint8_t value, uint8_t attr )
 	{
-		lcd_outdezNAtt( x, y, value, attr + LEADING0, 2 ) ;
+                uint8_t prec     = PREC(attr);
+		lcd_outdezNAtt( x, y, value, attr + LEADING0, 2, prec ) ;
 	}
 /*---------------------------------------------------------------------------*/
-#define PREC(n) ((n&0x20) ? ((n&0x10) ? 2 : 1) : 0)
-        uint8_t lcd_outdezNAtt(uint8_t x, uint8_t y, int32_t val, uint8_t mode, int8_t len) {
+
+        uint8_t lcd_outdezNAtt(uint8_t x, uint8_t y, int32_t val, uint8_t mode, int8_t len, uint8_t prec) {
           uint8_t fw       = FWNUM;
-          uint8_t prec     = PREC(mode);
+         
           uint8_t negative = 0;
           uint8_t xn       = 0;
           uint8_t ln       = 2;
@@ -491,22 +492,70 @@ unsigned char lcd_putsAtt(unsigned char x, unsigned char y, const char *s, unsig
             if (negative) {
               x += fw;
             }
+
+            if (val >= 1000000)
+              x += fw;
+
+            if (val >= 1000000)
+              x += fw;
+
+
+            if (val >= 100000)
+              x += fw;
+
+            if (val >= 10000)
+              x += fw;
+
+            if (val >= 1000)
+              x += fw;
+
             if (val >= 1000)
               x += fw;
             if (val >= 100)
               x += fw;
             if (val >= 10)
               x += fw;
-            if (prec) {
-              if (prec == 2) {
-                if (val < 100) {
-                  x += fw;
-                }
+         
+
+              switch(prec)
+              {
+                case 1:
+                if (val < 10) x+=fw;
+                break;
+                case 2:
+                 if (val < 100) x+=fw;
+                break;
+                case 3:
+                if (val < 1000) x+=fw;
+                break;
+                case 4:
+                if (val < 10000) x+=fw;
+                break;
+                case 5:
+                 if (val < 100000) x+=fw;
+                break;
+                case 6:
+                 if (val < 1000000) x+=fw;
+                break;
+                case 7:
+                 if (val < 10000000) x+=fw;
+                break;
+                case 8:
+                 if (val < 100000000) x+=fw;
+                break;
+                case 9:
+                  if (val < 100000000) x+=fw;
+                break;
               }
-              if (val < 10) {
-                x += fw;
-              }
-            }
+              //if (prec == 2) {
+              //  if (val < 100) {
+              //    x += fw;
+              //  }
+              //}
+              //if (val < 10) {
+              //  x += fw;
+              //}
+            
           } else {
             x -= xinc;
           }
@@ -547,14 +596,15 @@ unsigned char lcd_putsAtt(unsigned char x, unsigned char y, const char *s, unsig
             }
             val = qr.quot;
             if (!val) {
-              if (prec) {
-                if (prec == 2) {
-                  if (i > 1) {
-                    prec = 0;
-                  }
-                } else {
-                  prec = 0;
-                }
+              if (prec && i>=prec) {
+                prec = 0;
+                //if (prec == 2) {
+                //  if (i > 1) {
+                //    prec = 0;
+                //  }
+                //} else {
+                //  prec = 0;
+                //}
               } else if (mode & LEADING0) {
                 if (fullwidth == 0) {
                   mode -= LEADING0;
@@ -581,7 +631,8 @@ unsigned char lcd_putsAtt(unsigned char x, unsigned char y, const char *s, unsig
 /*---------------------------------------------------------------------------*/
 void lcd_outdezAtt( uint8_t x, uint8_t y, int16_t val, uint8_t mode )
 {
-  lcd_outdezNAtt( x,y,val,mode,5);
+  uint8_t prec     = PREC(mode);
+  lcd_outdezNAtt( x,y,val,mode,5,prec);
 }
 /*---------------------------------------------------------------------------*/
 

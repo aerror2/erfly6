@@ -318,43 +318,15 @@ bool checkCrossfireTelemetryFrameCRC() {
 bool getCrossfireTelemetryValue(uint8_t index, int32_t &value, int N) {
   bool result = false;
   uint8_t *byte = &telemetryRxBuffer[index];
-   uint8_t *dst =(uint8_t *)&value;
-  value = 0;
-  if(N==1)
-    *dst  = *byte;
-  else if(N==2)
-  {
-    dst[1] = byte[0];
-    dst[0] = byte[1];
+  value = (*byte & 0x80) ? -1 : 0;
+  for (uint8_t i = 0; i < N; i++) {
+    value <<= 8;
+    if (*byte != 0xff) {
+      result = true;
+    }
+    value += *byte++;
   }
-  else if(N==3)
-  {
-    dst[2] = byte[0];
-    dst[1] = byte[1];
-    dst[0] = byte[2];
-  }
-  else 
-  {
-      dst[3] = byte[0];
-     dst[2] = byte[1];
-    dst[1] = byte[2];
-    dst[0] = byte[3];
-  }
-  return  true;
-  //for(uint8_t i = 0;i<N;i++)
-  //{
-  //  dst[N-1-i] = *byte;
-  //  byte++;
-  //}
-  //value = 0;  
-  //for (uint8_t i = 0; i < N; i++) {
-  //  value <<= 8;
-  //  if (*byte != 0xff) {
-  //    result = true;
-  //  }
-  //  value += *byte++;
-  //}
-  //return result;
+  return result;
 }
 
 
@@ -378,9 +350,9 @@ void processCrossfireTelemetryFrame() {
 
     case GPS_ID:
       if (getCrossfireTelemetryValue(3, value,4))
-        processCrossfireTelemetryValue(GPS_LATITUDE_INDEX, value / 100000);
+        processCrossfireTelemetryValue(GPS_LATITUDE_INDEX, value / 10);
       if (getCrossfireTelemetryValue(7, value,4))
-        processCrossfireTelemetryValue(GPS_LONGITUDE_INDEX, value / 100000);
+        processCrossfireTelemetryValue(GPS_LONGITUDE_INDEX, value / 10);
       if (getCrossfireTelemetryValue(11, value,2))
         processCrossfireTelemetryValue(GPS_GROUND_SPEED_INDEX, value);
       if (getCrossfireTelemetryValue(13, value,2))
