@@ -493,22 +493,6 @@ unsigned char lcd_putsAtt(unsigned char x, unsigned char y, const char *s, unsig
               x += fw;
             }
 
-            if (val >= 1000000)
-              x += fw;
-
-            if (val >= 1000000)
-              x += fw;
-
-
-            if (val >= 100000)
-              x += fw;
-
-            if (val >= 10000)
-              x += fw;
-
-            if (val >= 1000)
-              x += fw;
-
             if (val >= 1000)
               x += fw;
             if (val >= 100)
@@ -517,53 +501,26 @@ unsigned char lcd_putsAtt(unsigned char x, unsigned char y, const char *s, unsig
               x += fw;
          
 
-              switch(prec)
-              {
-                case 1:
-                if (val < 10) x+=fw;
-                break;
-                case 2:
-                 if (val < 100) x+=fw;
-                break;
-                case 3:
-                if (val < 1000) x+=fw;
-                break;
-                case 4:
-                if (val < 10000) x+=fw;
-                break;
-                case 5:
-                 if (val < 100000) x+=fw;
-                break;
-                case 6:
-                 if (val < 1000000) x+=fw;
-                break;
-                case 7:
-                 if (val < 10000000) x+=fw;
-                break;
-                case 8:
-                 if (val < 100000000) x+=fw;
-                break;
-                case 9:
-                  if (val < 100000000) x+=fw;
-                break;
+           if(prec)
+           {
+              if (prec == 2) {
+                if (val < 100) {
+                  x += fw;
+                }
               }
-              //if (prec == 2) {
-              //  if (val < 100) {
-              //    x += fw;
-              //  }
-              //}
-              //if (val < 10) {
-              //  x += fw;
-              //}
+              if (val < 10) {
+                x += fw;
+              }
+           }
             
           } else {
             x -= xinc;
           }
           Lcd_lastPos += x;
 
-          if (prec == 2) {
-            mode -= LEADING0;    // Can't have PREC2 and LEADING0
-          }
+          //if (prec > 1) {
+          //  mode -= LEADING0;    // Can't have PREC2 and LEADING0
+          //}
 
           for (uint8_t i = 1; i <= len; i++) {
             div_t qr;
@@ -596,8 +553,11 @@ unsigned char lcd_putsAtt(unsigned char x, unsigned char y, const char *s, unsig
             }
             val = qr.quot;
             if (!val) {
-              if (prec && i>=prec) {
-                prec = 0;
+              if (prec) {
+               if (i > prec-1)
+               {
+                  prec = 0;
+               } 
                 //if (prec == 2) {
                 //  if (i > 1) {
                 //    prec = 0;

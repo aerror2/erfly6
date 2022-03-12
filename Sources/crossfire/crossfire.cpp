@@ -415,11 +415,11 @@ void processCrossfireTelemetryFrame() {
 
     case ATTITUDE_ID:
       if (getCrossfireTelemetryValue(3, value,2))
-        processCrossfireTelemetryValue(ATTITUDE_PITCH_INDEX, value / 10);
+        processCrossfireTelemetryValue(ATTITUDE_PITCH_INDEX, value );
       if (getCrossfireTelemetryValue(5, value,2))
-        processCrossfireTelemetryValue(ATTITUDE_ROLL_INDEX, value / 10);
+        processCrossfireTelemetryValue(ATTITUDE_ROLL_INDEX, value );
       if (getCrossfireTelemetryValue(7, value,2))
-        processCrossfireTelemetryValue(ATTITUDE_YAW_INDEX, value / 10);
+        processCrossfireTelemetryValue(ATTITUDE_YAW_INDEX, value );
       break;
 
     case FLIGHT_MODE_ID: {

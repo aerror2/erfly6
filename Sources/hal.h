@@ -129,7 +129,7 @@ void LCD_DATA(uint8_t Data);
 #define USE_DMA_UART  1
 
 /******************************************************************************/
-/*                           Radio control                                    */
+/*                            Radio control                                    */
 /******************************************************************************/
 void SPI_RADIO_SendBlock(uint8_t *BufferPtr, uint16_t Size);
 void SPI_RADIO_ReceiveBlock(uint8_t *BufferPtr, uint16_t Size);
