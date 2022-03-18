@@ -6482,7 +6482,7 @@ void dispInVExVDbl( uint8_t y )
 void dispSignalQality( uint8_t y){
 
       lcd_puts_P(2+FW, y, PSTR("Err"));
-      putsTelemValue(8 * FW, y, (int16_t)AFHDS2A_tel_data[FST_IDX_ERR], FST_IDX_ERR, NO_UNIT);
+      putsTelemValue(10 * FW, y, (int16_t)AFHDS2A_tel_data[FST_IDX_ERR], FST_IDX_ERR, NO_UNIT);
       lcd_puts_P(FW * 11, y, PSTR("SNR"));
       putsTelemValue( FW * 20, y, (int16_t)AFHDS2A_tel_data[FST_IDX_SNR], FST_IDX_SNR, NO_UNIT);
 }
