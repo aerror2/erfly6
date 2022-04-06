@@ -1,8 +1,8 @@
 <!DOCTYPE CrossStudio_Session_File>
 <session>
  <Bookmarks>
-  <BookmarkItem objectName="" line="7571" column="0" path="E:/AVIA/ERFly6/Sources/menus.cpp" number="2" extra="switchDisplay( 2*FW-2, a ) ;" color="5"/>
   <BookmarkItem objectName="" line="6535" column="0" path="E:/AVIA/ERFly6/Sources/menus.cpp" number="1" extra="lcd_putsAttIdx( x, y, Str_Switches, index, /*getSwitch00(index+1) ? INVERS :*/ 0) ;" color="5"/>
+  <BookmarkItem objectName="" line="7571" column="0" path="E:/AVIA/ERFly6/Sources/menus.cpp" number="2" extra="switchDisplay( 2*FW-2, a ) ;" color="5"/>
  </Bookmarks>
  <Breakpoints groups="Breakpoints" active_group="Breakpoints">
   <BreakpointListItem trigger="" line="13" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="Sources/I6/BoardI6.cpp" useHWbreakpoint="false"/>
@@ -78,12 +78,17 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="23" y="128" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/hal.h" selected="0" top="111" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/en.h" selected="0" top="60" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="205" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/crossfire/crossfire.h" selected="1" top="189" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="27" y="520" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/lcd.cpp" selected="0" top="545" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="49" y="420" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/crossfire/crossfire.cpp" selected="0" top="394" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="24" y="46" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/AFHDS2A_a7105.cpp" selected="0" top="21" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="35" y="289" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/crossfire/crossfire.cpp" selected="0" top="246" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="23" y="6499" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/menus.cpp" selected="0" top="6481" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="16" y="52" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/er9x.h" selected="0" top="52" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="46" y="501" useTextEdit="1" openedFrom="/Volumes/p1t2/receiver/erfly6git/Sources/er9x.cpp" useBinaryEdit="0" left="0" path="Sources/I6/BoardI6.cpp" selected="1" top="487" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="8" y="18" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/I6/BoardI6.h" selected="0" top="9" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="11" y="653" useTextEdit="1" openedFrom="/Volumes/p1t2/receiver/erfly6git/Sources/menus.cpp" useBinaryEdit="0" left="0" path="Sources/myeeprom.h" selected="0" top="653" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/menus.h" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="9" y="3181" useTextEdit="1" openedFrom="/Volumes/p1t2/receiver/erfly6git/Sources/I6/BoardI6.cpp" useBinaryEdit="0" left="0" path="Sources/er9x.cpp" selected="0" top="3160" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="157" y="90" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/en.h" selected="0" top="36" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="5" y="82" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/hal.h" selected="0" top="39" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="90" y="210" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Sources/templates.cpp" selected="0" top="155" codecName="Default"/>
  </Files>
  <ARMCrossStudioWindow activeProject="FSI6" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Release" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>

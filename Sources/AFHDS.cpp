@@ -3,7 +3,7 @@
 
 /*---------------------------------------------------------------------------*/
 void ActionAFHDS(void) {
-#ifndef PROTO_ELRS1
+
   RadioActive = true;
   A7105_AdjustLOBaseFreq();
   packet[0] = IS_BIND_IN_PROGRESS ? 0xaa : 0x55;
@@ -22,7 +22,7 @@ void ActionAFHDS(void) {
   if (hopping_frequency_no % 16)
     A7105_AntSwitch();
   RadioActive = false;
-  #endif
+
 }
 /*---------------------------------------------------------------------------*/
 const uint8_t AFHDS_tx_channels[8][4] = {
