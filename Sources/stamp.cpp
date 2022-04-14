@@ -4,10 +4,10 @@
 #define STR2(s) #s
 #define DEFNUMSTR(s)  STR2(s)
 
-#define DATE_STR "20.01.2022"
+#define DATE_STR "14.04.2022"
 #define TIME_STR "23:15:02"
 #define SUB_VERS  10
-#define SVN_VERS "1.0.7"
+#define SVN_VERS "1.0.8"
 #define MOD_VERS "FlySky-I6 Base"
 #define AUTOR    "Kotello,Aerror"
 
