@@ -32,7 +32,7 @@ Here is the manual for flashing firmware from Kotello : https://github.com/aerro
 1. PPM
 2. AFDHS
 3. AFDHS2A
-4. CROSSFIRE FOR ELRS TX 2.0
+4. CROSSFIRE FOR ELRS TX 2.0 and 1.x
 
 ## Contents below work with the latest firmware only. 
 
