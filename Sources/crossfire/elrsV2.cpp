@@ -24,12 +24,12 @@ struct FieldProps {
   uint16_t valuesOffset;   
   uint8_t nameLength;     
   uint8_t parent;
-  uint8_t type : 4;       
-  uint8_t value : 4; 
-  uint8_t valueMax:4;       
-  uint8_t id : 8;         
-  uint8_t hidden : 1;     
-  uint8_t spare : 2;     
+  uint8_t id;
+  uint8_t type; // using full byte saves flash
+  uint8_t value : 4;
+  uint8_t valueMax:4;
+//  uint8_t hidden : 1; // not used anyway
+//  uint8_t spare : 3;
 } PACKED;
 
 uint8_t badPkt=0;
@@ -48,7 +48,7 @@ uint8_t curFieldChunk =0;
 uint8_t curNumSelection = 0;
 static uint32_t fieldTimeout= 0;
 static uint32_t linkstatTimeout = 0;
-uint8_t fieldData[72]; 
+uint8_t fieldData[72]; // ExpressLRS 2.3+ requires 144b for naive solution
 uint8_t fieldDataLen = 0;
 int8_t expectedChunks = -1;
 uint8_t statusComplete = 0; 
@@ -172,17 +172,17 @@ void parseParameterInfoMessage(uint8_t* data, uint8_t length)
     field->id = curfieldId;
     uint8_t parent = fieldData[0]; 
     uint8_t type = fieldData[1] & 0x7F;
-    uint8_t hidden = (fieldData[1] & 0x80) ? 1 : 0; 
+//    uint8_t hidden = (fieldData[1] & 0x80) ? 1 : 0;
     uint8_t offset;
     if (field->nameLength != 0) { 
-      if (field->parent != parent || field->type != type || field->hidden != hidden) {
+      if (field->parent != parent || field->type != type/* || field->hidden != hidden*/) {
         fieldDataLen = 0; 
         return; 
       }
     }
     field->parent = parent;
     field->type = type;
-    field->hidden = hidden;
+//    field->hidden = hidden;
     offset = strlen((char*)&fieldData[2]) + 1 + 2; 
     if (field->nameLength == 0) {  
       field->nameLength = offset - 3;

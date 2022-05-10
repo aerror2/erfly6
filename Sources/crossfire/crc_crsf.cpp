@@ -20,21 +20,6 @@
 
 #include "crc_crsf.h"
 
-static const unsigned short * crc16tab[] = {
-  crc16tab_1021,
-  crc16tab_1189
-};
-
-uint16_t crc16(uint8_t index, const uint8_t * buf, uint32_t len, uint16_t start)
-{
-  uint16_t crc = start;
-  const unsigned short * tab = crc16tab[index];
-  for (uint32_t i=0; i<len; i++) {
-    crc = (crc<<8) ^ tab[((crc>>8) ^ *buf++) & 0x00FF];
-  }
-  return crc;
-}
-
 // CRC8 implementation with polynom = x^8+x^7+x^6+x^4+x^2+1 (0xD5)
 const unsigned char crc8tab[256] = {
   0x00, 0xD5, 0x7F, 0xAA, 0xFE, 0x2B, 0x81, 0x54,
