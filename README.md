@@ -3,7 +3,7 @@
 
 1. crossfire for ELRS TX for FSI6
 2. SPI for 127X for implement ELRS TX embeded for FSI6
-3.A voice Module Driven by UART 
+3. A voice Module Driven by UART 
 
 
 
